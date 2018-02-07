@@ -13,7 +13,7 @@ class Kernel extends BaseKernel
 {
     use MicroKernelTrait;
 
-    const CONFIG_EXTS = '.{php,xml,yaml,yml}';
+    protected const CONFIG_EXTS = '.{php,xml,yaml,yml}';
 
     public function getCacheDir()
     {
@@ -27,6 +27,7 @@ class Kernel extends BaseKernel
 
     public function registerBundles()
     {
+        /** @var array[] $contents */
         $contents = require $this->getProjectDir() . '/config/bundles.php';
         foreach ($contents as $class => $envs) {
             if (isset($envs['all']) || isset($envs[$this->environment])) {
