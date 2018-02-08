@@ -1,0 +1,68 @@
+@import '../variables';
+@import '../functions';
+
+$spacer: spacer() !default;
+
+.hidden {
+    //noinspection Stylelint
+    display: none !important;
+}
+
+.visuallyhidden {
+    border: 0;
+    clip: rect(0 0 0 0);
+    clip-path: inset(50%);
+    height: 1px;
+    margin: -1px;
+    overflow: hidden;
+    padding: 0;
+    position: absolute;
+    width: 1px;
+    white-space: nowrap;
+
+    &.focusable {
+        &:active,
+        &:focus {
+            clip: auto;
+            clip-path: none;
+            height: auto;
+            margin: 0;
+            overflow: visible;
+            position: static;
+            width: auto;
+            white-space: inherit;
+        }
+    }
+}
+
+.invisible {
+    visibility: hidden;
+}
+
+.clearfix {
+    &::after {
+        clear: both;
+    }
+
+    &::before,
+    &::after {
+        content: ' ';
+        display: table;
+    }
+}
+
+.table-container {
+    max-width: 100%;
+    margin-bottom: $spacer;
+    overflow-x: scroll;
+
+    table:last-child {
+        margin-bottom: 0;
+    }
+}
+
+td {
+    &.numeric {
+        text-align: right;
+    }
+}

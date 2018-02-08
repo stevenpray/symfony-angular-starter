@@ -1,0 +1,65 @@
+$base-font-size: 16px !default;
+$colors: () !default;
+$font-sizes: () !default;
+$scale-ratio: 1.5 !default;
+$transition-duration: 300ms !default;
+$transition-timing: linear !default;
+
+@function strip-unit($number) {
+    @return $number / ($number * 0 + 1);
+}
+
+@function rem-to-px($rem) {
+    @return ($rem / 1rem) * ($base-font-size / 1px) + 0px;
+}
+
+@function px-to-rem($px) {
+    @return ($px / $base-font-size) + 0rem;
+}
+
+@function px-to-vw($px, $width) {
+    @return ($px / $width) * 100vw;
+}
+
+@function em-to-percent($em) {
+    @return ($em / 1em) * 100%;
+}
+
+@function rem-to-percent($rem) {
+    @return ($rem / 1rem) * 100%;
+}
+
+@function spacer($multiple: 1, $px-round: true) {
+    $spacer: px-to-rem($base-font-size) * $scale-ratio * $multiple;
+    @if ($px-round) {
+        $spacer: px-to-rem(round(rem-to-px($spacer)));
+    }
+    @return $spacer;
+}
+
+$colors: () !default;
+@function color($color) {
+    @if map-has-key($colors, $color) {
+        @return map-get($colors, $color);
+    } @else {
+        @error 'Specified color '#{$color}' does not exist in '$colors'.';
+    }
+}
+
+$font-sizes: () !default;
+@function font-size($font-size) {
+    @if map-has-key($font-sizes, $font-size) {
+        @return map-get($font-sizes, $font-size);
+    } @else {
+        @error 'Specified font-size '#{$font-size}' does not exist in '$font-sizes'.';
+    }
+}
+
+@function transition-group($duration: $transition-duration, $timing: $transition-timing, $properties...) {
+    $transitions: ();
+    @each $property in $properties {
+        $transitions: append($transitions, #{$property $duration $timing}, comma);
+    }
+    @return $transitions;
+}
+

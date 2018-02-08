@@ -1,0 +1,69 @@
+@import 'variables';
+@import 'functions';
+
+@mixin fluid-width-size($property, $min-size, $max-size, $min-vw: 480px, $max-vw: 1200px) {
+    $u1: unit($min-vw);
+    $u2: unit($max-vw);
+    $u3: unit($min-size);
+    $u4: unit($max-size);
+
+    @if $u1 == $u2 and $u1 == $u3 and $u1 == $u4 {
+        #{$property}: $min-size;
+
+        @if $min-vw != $max-vw {
+            @media only screen and (min-width: $min-vw) {
+                #{$property}: calc(#{$min-size} + #{strip-unit($max-size - $min-size)} * ((100vw - #{$min-vw}) / #{strip-unit($max-vw - $min-vw)}));
+            }
+        }
+
+        @media only screen and (min-width: $max-vw) {
+            #{$property}: $max-size;
+        }
+    } @else {
+        @error 'Detected mixed units. Please use the same units for all parameters.';
+    }
+}
+
+@mixin input-range-thumb() {
+    height: $input-range-thumb-size;
+    width: $input-range-thumb-size;
+    border: 0;
+    border-radius: ($input-range-thumb-size / 2);
+    background-color: #3a3a3a;
+}
+
+@mixin input-range-track() {
+    width: 100%;
+    height: $input-range-track-height;
+    border: 0;
+    border-radius: ($input-range-track-height / 2);
+    background-color: $border-color;
+}
+
+@mixin backdrop-filter-blur($background-color, $overlayed-color) {
+    $blur-size: 8px;
+    @if alpha($background-color) < 1 {
+        @error 'Specified background-color '#{$background-color}' has an opacity of less than 1.';
+    }
+    @supports ((-webkit-backdrop-filter: blur($blur-size)) or (backdrop-filter: blur($blur-size))) {
+        background-color: transparentize($background-color, 0.25);
+        backdrop-filter: blur($blur-size) grayscale(10%);
+    }
+    @supports (not (-webkit-backdrop-filter: blur($blur-size))) and (not (backdrop-filter: blur($blur-size))) {
+        $colors-lightness-adjust: ((lightness($overlayed-color) - lightness($background-color)) / 4);
+        @if $colors-lightness-adjust > 0% {
+            background-color: transparentize(lighten($background-color, $colors-lightness-adjust), 0.05);
+        } @else {
+            background-color: transparentize(darken($background-color, -$colors-lightness-adjust), 0.05);
+        }
+    }
+}
+
+@mixin button {
+    cursor: pointer;
+    appearance: button;
+    padding: ($input-padding-size + $border-width) max(0, (($line-height  - 1) * 1rem) + $input-padding-size + $border-width);
+    border: 0;
+    line-height: $line-height;
+    background-color: $border-color;
+}
