@@ -40,14 +40,14 @@ Icon
 Network Trash Folder
 Temporary Items
 Thumbs.db
+client/e2e/*.js
+client/e2e/*.map
 composer.phar
 connect.lock
 coverage
 dist
 dist-server
 docker-sync*
-e2e/*.js
-e2e/*.map
 libpeerconnection.log
 node_modules
 npm-debug.log*
