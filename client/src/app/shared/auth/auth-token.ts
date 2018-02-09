@@ -3,9 +3,8 @@ import {AuthUser} from './auth-user';
 export interface AuthTokenDecoded {
     exp: number;
     iat: number;
-    jti: string;
-    user: string;
-    role: number;
+    username: string;
+    roles: number;
 };
 
 export class AuthToken {
@@ -21,7 +20,7 @@ export class AuthToken {
         try {
             this._decoded = JSON.parse(atob(encoded.split('.')[1].replace('-', '+').replace('_', '/')));
             this._encoded = encoded;
-            this._user = new AuthUser(this._decoded.user, this._decoded.role);
+            this._user = new AuthUser(this._decoded.username, this._decoded.roles);
         } catch (error) {
             throw Error('Token is malformed.');
         }

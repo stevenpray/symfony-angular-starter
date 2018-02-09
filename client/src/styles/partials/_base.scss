@@ -7,6 +7,7 @@
     //noinspection CssInvalidPropertyValue
     width: device-width;
 }
+
 // stylelint-enable at-rule-no-vendor-prefix
 
 ::selection {
@@ -151,6 +152,8 @@ a {
     background-color: transparent;
     text-decoration: none;
 
+    &.link,
+    &:link,
     &:visited {
         color: $a-visited-color;
     }

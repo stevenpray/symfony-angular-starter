@@ -9,6 +9,7 @@ App\Entity\User:
         enabled: true
         roles:
             - 'ROLE_USER'
+            - 'ROLE_ADMIN'
 
     user_{1..10}:
         firstname: '<firstName()>'

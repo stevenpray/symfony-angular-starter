@@ -32,6 +32,10 @@ services:
             - { event: prePersist, name: doctrine.event_listener, class: App\Entity\User }
             - { event: preUpdate, name: doctrine.event_listener, class: App\Entity\User }
 
+    App\Security\RolesProvider:
+        arguments:
+            - '@security.role_hierarchy'
+
     App\Swagger\SwaggerDecorator:
         decorates: api_platform.swagger.normalizer.documentation
         arguments:

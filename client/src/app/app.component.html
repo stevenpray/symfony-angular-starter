@@ -4,12 +4,8 @@
         <span class="mat-toolbar-spacer"></span>
         <a mat-button href="{{ environment.urls.api }}/docs">Swagger Docs</a>
         <nav>
-            <ng-container *ngIf="!authenticated; else accountLinks">
-                <a mat-button routerLink="/signin">Sign In</a>
-            </ng-container>
-            <ng-template #accountLinks>
-                <a mat-button (click)="logout()" class="link">Sign Out</a>
-            </ng-template>
+            <a mat-button routerLink="/admin">Admin</a>
+            <a *ngIf="authenticated" mat-button (click)="logout()" class="link">Sign Out</a>
         </nav>
     </mat-toolbar>
 </header>
