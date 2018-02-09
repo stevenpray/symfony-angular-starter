@@ -1,0 +1,11 @@
+<form *ngIf="!completed" [formGroup]="form" (submit)="submit()">
+    <fieldset [disabled]="submitted">
+        <mat-form-field>
+            <input matInput placeholder="Username" formControlName="username" id="username" required spellcheck="false">
+        </mat-form-field>
+        <mat-form-field>
+            <input matInput placeholder="Password" formControlName="password" id="password" type="password" required>
+        </mat-form-field>
+        <button mat-raised-button color="primary" type="submit" [disabled]="!form.valid || submitted">Sign In</button>
+    </fieldset>
+</form>

@@ -3,11 +3,11 @@
 
 @include mat-core();
 
-$candy-app-primary: mat-palette($mat-blue);
-$candy-app-accent: mat-palette($mat-pink, A200, A100, A400);
-$candy-app-warn: mat-palette($mat-red);
-$candy-app-theme: mat-light-theme($candy-app-primary, $candy-app-accent, $candy-app-warn);
-@include angular-material-theme($candy-app-theme);
+$mat-theme-primary: mat-palette($mat-blue);
+$mat-theme-accent: mat-palette($mat-pink, A200, A100, A400);
+$mat-theme-warn: mat-palette($mat-red);
+$mat-theme: mat-light-theme($mat-theme-primary, $mat-theme-accent, $mat-theme-warn);
+@include angular-material-theme($mat-theme);
 
 $mat-typography: mat-typography-config(
     $font-family: '#{$font-family-default}',
@@ -31,9 +31,8 @@ $mat-typography: mat-typography-config(
     font-family: 'Material Icons';
     font-style: normal;
     font-weight: normal;
-    src:
-        url(https://fonts.gstatic.com/s/materialicons/v28/2fcrYFNaTjcS6g4U3t-Y5UEw0lE80llgEseQY3FEmqw.woff2) format('woff2'),
-        url(https://fonts.gstatic.com/s/materialicons/v28/2fcrYFNaTjcS6g4U3t-Y5ewrjPiaoEww8AihgqWRJAo.woff) format('woff');
+    src: url(https://fonts.gstatic.com/s/materialicons/v28/2fcrYFNaTjcS6g4U3t-Y5UEw0lE80llgEseQY3FEmqw.woff2) format('woff2'),
+    url(https://fonts.gstatic.com/s/materialicons/v28/2fcrYFNaTjcS6g4U3t-Y5ewrjPiaoEww8AihgqWRJAo.woff) format('woff');
 }
 
 .material-icons {
@@ -66,10 +65,21 @@ $mat-typography: mat-typography-config(
     }
 }
 
+.mat-placeholder-required {
+    display: none;
+}
+
 .mat-toolbar {
     background-color: transparent;
 
     .mat-toolbar-spacer {
         flex: 1 1 auto;
+    }
+}
+
+.mat-snack-bar-container {
+
+    &.error {
+        background-color: mat-color($mat-theme-warn);
     }
 }
