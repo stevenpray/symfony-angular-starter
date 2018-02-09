@@ -1,9 +1,6 @@
 # Symfony-Angular Starter
 
-A boilerplate project...
-
-* [client](client/README.md)
-* [server](server/README.md)
+Starter project for Symfony RESTful API and Angular SPA.
 
 ## Quick Start
 
