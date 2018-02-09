@@ -1,15 +1,44 @@
 App\Entity\User:
 
-    user_demo:
+    user_super:
+        firstname: '<firstName()>'
+        lastname: '<lastName()>'
+        emailAddress (unique): '<email()>'
+        username: 'super'
+        plainPassword: 'super'
+        enabled: true
+        roles:
+            - 'ROLE_SUPER_ADMIN'
+
+    user_admin:
+        firstname: '<firstName()>'
+        lastname: '<lastName()>'
+        emailAddress (unique): '<email()>'
+        username: 'admin'
+        plainPassword: 'admin'
+        enabled: true
+        roles:
+            - 'ROLE_ADMIN'
+
+    user_user:
+        firstname: '<firstName()>'
+        lastname: '<lastName()>'
+        emailAddress (unique): '<email()>'
+        username: 'user'
+        plainPassword: 'user'
+        enabled: true
+        roles:
+            - 'ROLE_USER'
+
+    user_bighead:
         firstname: 'Nelson'
         lastname: 'Bighetti'
+        emailAddress: 'nelson.bighetti@hooli.xyz'
         username: 'password'
-        emailAddress: 'nelson.bighetti@stanford.edu'
         plainPassword: 'password'
         enabled: true
         roles:
             - 'ROLE_USER'
-            - 'ROLE_ADMIN'
 
     user_{1..10}:
         firstname: '<firstName()>'

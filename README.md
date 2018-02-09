@@ -13,7 +13,10 @@ docker-compose up
 [http://localhost:8000](http://localhost:8000)  
 [http://localhost:8001](http://localhost:8001)
 
-Usename: password  
-Password: password  
-  
+| Username | Password | Roles            |
+|----------|----------|------------------|
+| user     | user     | ROLE_USER        |
+| admin    | admin    | ROLE_ADMIN       |
+| super    | super    | ROLE_SUPER_ADMIN |
+
 `curl -X POST http://localhost:8001/login_check -d username=password -d password=password`

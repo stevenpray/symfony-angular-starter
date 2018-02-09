@@ -12,6 +12,8 @@
         <env name="APP_DEBUG" value="1"/>
         <env name="APP_SECRET" value="s$cretf0rt3st"/>
         <env name="SHELL_VERBOSITY" value="-1"/>
+        <env name="DATABASE_URL" value="pgsql://webapp:webapp@postgres:5432/webapp"/>
+
         <!-- define your env variables for the test env here -->
 
         <!-- ###+ lexik/jwt-authentication-bundle ### -->

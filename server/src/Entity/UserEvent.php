@@ -13,7 +13,11 @@ use Symfony\Component\Serializer\Annotation\Groups;
  * Class UserEvent
  *
  * @package App\Entity
- * @ApiResource()
+ * @ApiResource(
+ *     attributes={"access_control"="is_granted('ROLE_USER')"},
+ *     collectionOperations={"get"={"method"="GET"}},
+ *     itemOperations={"get"={"method"="GET"}}
+ * )
  * @ORM\Entity()
  * @ORM\Table(name="user_events")
  * @ORM\HasLifecycleCallbacks()

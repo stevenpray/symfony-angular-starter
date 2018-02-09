@@ -21,10 +21,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  * Class User
  *
  * @package App\Entity
- * @ApiResource(attributes={
- *    "normalization_context"={"groups"={"read"}},
- *    "denormalization_context"={"groups"={"write"}}
- * })
+ * @ApiResource()
  * @AssertUnique(fields={"username"})
  * @AssertUnique(fields={"emailAddress"})
  * @ORM\Entity()
