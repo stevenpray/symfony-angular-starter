@@ -1,0 +1,21 @@
+App\Entity\User:
+
+    user_demo:
+        firstname: 'Nelson'
+        lastname: 'Bighetti'
+        username: 'password'
+        emailAddress: 'nelson.bighetti@stanford.edu'
+        plainPassword: 'password'
+        enabled: true
+        roles:
+            - 'ROLE_USER'
+
+    user_{1..10}:
+        firstname: '<firstName()>'
+        lastname: '<lastName()>'
+        emailAddress (unique): '<email()>'
+        username (unique): '<username()>'
+        plainPassword: 'Passw0rd!'
+        enabled: true
+        roles:
+            - 'ROLE_USER'

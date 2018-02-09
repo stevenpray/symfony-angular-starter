@@ -1,10 +1,19 @@
 {
     "name": "stevenpray/symfony-angular-starter",
+    "version": "1.0.0",
+    "description": "Starter project for Symfony RESTful API and Angular SPA.",
     "license": "MIT",
     "type": "project",
     "require": {
         "php": "^7.1.3",
         "ext-iconv": "*",
+        "api-platform/core": "^2.1",
+        "doctrine/doctrine-fixtures-bundle": "^3.0",
+        "fresh/doctrine-enum-bundle": "^6.0",
+        "lexik/jwt-authentication-bundle": "^2.4",
+        "nelmio/cors-bundle": "^1.5",
+        "roave/security-advisories": "dev-master",
+        "rollerworks/password-strength-bundle": "^2.0",
         "sensio/framework-extra-bundle": "^5.1",
         "symfony/console": "^4.0",
         "symfony/debug-pack": "^1.0",
@@ -15,19 +24,22 @@
         "symfony/lts": "^4@dev",
         "symfony/monolog-bundle": "^3.1",
         "symfony/orm-pack": "^1.0",
-        "symfony/phpunit-bridge": "^4.0",
         "symfony/process": "^4.0",
         "symfony/security-bundle": "^4.0",
         "symfony/serializer-pack": "^1.0",
         "symfony/swiftmailer-bundle": "^3.1",
+        "symfony/templating": "^4.0",
         "symfony/validator": "^4.0",
         "symfony/web-link": "^4.0",
         "symfony/yaml": "^4.0"
     },
     "require-dev": {
+        "hautelook/alice-bundle": "^2.0",
+        "phpunit/phpunit": "^6.5.6",
         "symfony/browser-kit": "^4.0",
         "symfony/dotenv": "^4.0",
-        "symfony/maker-bundle": "^1.0"
+        "symfony/maker-bundle": "^1.0",
+        "symfony/phpunit-bridge": "^4.0"
     },
     "config": {
         "preferred-install": {
@@ -64,5 +76,10 @@
     },
     "conflict": {
         "symfony/symfony": "*"
+    },
+    "extra": {
+        "symfony": {
+            "allow-contrib": true
+        }
     }
 }

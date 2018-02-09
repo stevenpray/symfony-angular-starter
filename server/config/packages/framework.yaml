@@ -1,19 +1,4 @@
 framework:
-    secret: '%env(APP_SECRET)%'
-    #default_locale: en
-    #csrf_protection: ~
-    #http_method_override: true
-
-    # Enables session support. Note that the session will ONLY be started if you read or write from it.
-    # Remove or comment this section to explicitly disable session support.
-    session:
-        handler_id: ~
-
-    #esi: ~
-    #fragments: ~
-    php_errors:
-        log: true
-
     cache:
         # Put the unique name of your app here: the prefix seed
         # is used to compute stable namespaces for cache keys.
@@ -28,3 +13,34 @@ framework:
 
         # APCu (not recommended with heavy random-write workloads as memory fragmentation can cause perf issues)
         #app: cache.adapter.apcu
+    csrf_protection:
+        enabled: true
+    default_locale: en
+    form: ~
+    fragments: ~
+    http_method_override: true
+    php_errors:
+        log: true
+    request:
+        formats:
+            xml: 'application/xml; charset=UTF-8'
+            csv: 'text/csv'
+    router:
+        strict_requirements: true
+    secret: '%env(APP_SECRET)%'
+    session:
+        cookie_httponly: true
+        cookie_lifetime: 0
+        save_path: '%kernel.project_dir%/var/sessions/%kernel.environment%'
+        name: session
+    templating:
+        engines:
+            - twig
+    translator:
+        enabled: true
+        fallbacks:
+            - en
+    validation:
+        enabled: true
+        enable_annotations: true
+        strict_email: true
