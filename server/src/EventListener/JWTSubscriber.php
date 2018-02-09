@@ -4,7 +4,6 @@ declare(strict_types=1);
 namespace App\EventListener;
 
 use App\Security\RolesProvider;
-use function error_log;
 use Lexik\Bundle\JWTAuthenticationBundle\Event\JWTCreatedEvent;
 use Lexik\Bundle\JWTAuthenticationBundle\Events;
 use ReflectionException;

@@ -45,6 +45,16 @@ class UserListener
     }
 
     /**
+     * @param User $user
+     */
+    protected function encodeUserPassword(User $user): void
+    {
+        $encoded = $this->encoder->encodePassword($user, $user->getPlainPassword());
+        $user->setPassword($encoded);
+        $user->eraseCredentials();
+    }
+
+    /**
      * @param LifecycleEventArgs $args
      */
     public function preUpdate(LifecycleEventArgs $args): void
@@ -57,15 +67,5 @@ class UserListener
         if ($user->getPlainPassword()) {
             $this->encodeUserPassword($user);
         }
-    }
-
-    /**
-     * @param User $user
-     */
-    protected function encodeUserPassword(User $user): void
-    {
-        $encoded = $this->encoder->encodePassword($user, $user->getPlainPassword());
-        $user->setPassword($encoded);
-        $user->eraseCredentials();
     }
 }

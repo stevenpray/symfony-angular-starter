@@ -2,7 +2,7 @@
     <mat-toolbar>
         <a mat-button routerLink="/" rel="home">{{ title }}</a>
         <span class="mat-toolbar-spacer"></span>
-        <a mat-button href="{{ environment.urls.api }}/docs">Swagger Docs</a>
+        <a mat-button href="{{ environment.urls.api }}/docs">Swagger Doc</a>
         <nav>
             <a mat-button routerLink="/admin">Admin</a>
             <a *ngIf="authenticated" mat-button (click)="logout()" class="link">Sign Out</a>

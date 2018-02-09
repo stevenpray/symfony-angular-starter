@@ -7,6 +7,7 @@ use ApiPlatform\Core\Annotation\ApiResource;
 use ApiPlatform\Core\Annotation\ApiSubresource;
 use App\Security\SecureToken;
 use Closure;
+use DateTime;
 use DateTimeInterface;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
@@ -15,10 +16,6 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity as AssertUnique;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
-
-//use App\Model\Behavior\CreateTimestampable;
-//use App\Model\Behavior\DeleteTimestampable;
-//use App\Model\Behavior\UpdateTimestampable;
 
 /**
  * Class User
@@ -232,16 +229,16 @@ class User implements UserInterface
     }
 
     /**
-     * @return string
+     * @param string $role
+     * @return $this
      */
-    public function getSalt(): string
+    public function addRole(string $role)
     {
-        return $this->salt;
-    }
+        if ($this->hasRole($role) === false) {
+            $this->roles[] = strtoupper($role);
+        }
 
-    public function eraseCredentials(): void
-    {
-        $this->plainPassword = null;
+        return $this;
     }
 
     /**
@@ -254,16 +251,16 @@ class User implements UserInterface
     }
 
     /**
-     * @param string $role
-     * @return $this
+     * @return string
      */
-    public function addRole(string $role)
+    public function getSalt(): string
     {
-        if ($this->hasRole($role) === false) {
-            $this->roles[] = strtoupper($role);
-        }
+        return $this->salt;
+    }
 
-        return $this;
+    public function eraseCredentials(): void
+    {
+        $this->plainPassword = null;
     }
 
     /**
