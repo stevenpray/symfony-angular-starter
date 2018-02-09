@@ -47,6 +47,7 @@ connect.lock
 coverage
 dist
 dist-server
+docker-compose.yml
 docker-sync*
 libpeerconnection.log
 node_modules
