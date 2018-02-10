@@ -4,8 +4,10 @@ declare(strict_types=1);
 namespace App;
 
 use Symfony\Bundle\FrameworkBundle\Kernel\MicroKernelTrait;
+use Symfony\Component\Config\Exception\FileLoaderLoadException;
 use Symfony\Component\Config\Loader\LoaderInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
+use Symfony\Component\HttpKernel\Bundle\BundleInterface;
 use Symfony\Component\HttpKernel\Kernel as BaseKernel;
 use Symfony\Component\Routing\RouteCollectionBuilder;
 
@@ -37,13 +39,13 @@ class Kernel extends BaseKernel
     /**
      * @return string
      */
-    public function getLogDir(): string
+    public function getLogDir()
     {
         return $this->getProjectDir().'/var/log';
     }
 
     /**
-     * @return \Generator|\Symfony\Component\HttpKernel\Bundle\BundleInterface[]
+     * @return \Generator|BundleInterface[]
      */
     public function registerBundles()
     {
@@ -76,7 +78,7 @@ class Kernel extends BaseKernel
 
     /**
      * @param RouteCollectionBuilder $routes
-     * @throws \Symfony\Component\Config\Exception\FileLoaderLoadException
+     * @throws FileLoaderLoadException
      */
     protected function configureRoutes(RouteCollectionBuilder $routes)
     {

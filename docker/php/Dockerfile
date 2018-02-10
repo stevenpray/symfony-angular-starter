@@ -49,4 +49,3 @@ RUN apt-get purge --assume-yes --auto-remove \
     --option APT::AutoRemove::RecommendsImportant=false \
     --option APT::AutoRemove::SuggestsImportant=false
 RUN rm -rf /var/lib/apt/lists/*
-

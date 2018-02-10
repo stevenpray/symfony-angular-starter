@@ -51,6 +51,16 @@ class UserEvent extends Event
     protected $user;
 
     /**
+     * UserEvent constructor.
+     *
+     * @param string $type
+     */
+    public function __construct($type = null)
+    {
+        $this->type = $type;
+    }
+
+    /**
      * @return int
      */
     public function getId(): int
@@ -61,7 +71,7 @@ class UserEvent extends Event
     /**
      * @return string
      */
-    public function getType(): string
+    public function getType(): ?string
     {
         return $this->type;
     }
@@ -80,7 +90,7 @@ class UserEvent extends Event
     /**
      * @return User
      */
-    public function getUser(): User
+    public function getUser(): ?User
     {
         return $this->user;
     }

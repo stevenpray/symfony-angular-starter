@@ -255,7 +255,7 @@ class User implements UserInterface
         return $this->salt;
     }
 
-    public function eraseCredentials(): void
+    public function eraseCredentials()
     {
         $this->plainPassword = null;
     }
