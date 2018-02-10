@@ -9,8 +9,13 @@ networks:
 
 services:
 
+    debian:
+        build: ./docker/debian
+
     nginx:
-        image: viaggi/nginx:latest
+        build: ./docker/nginx
+        depends_on:
+            - debian
         entrypoint: docker-entrypoint.sh
         environment:
             APP_ENV: dev
@@ -25,13 +30,15 @@ services:
         networks:
             - network
         volumes:
-            - ./docker/entrypoint/nginx.sh:/usr/local/bin/docker-entrypoint.sh
-            - ./docker/etc/nginx:/etc/nginx:rw
+            - ./docker/nginx/docker-entrypoint.sh:/usr/local/bin/docker-entrypoint.sh
+            - ./docker/nginx/etc:/etc/nginx
             - ./client:/srv/client:ro
             - ./server:/srv/server:rw
 
     node:
-        image: viaggi/node:latest
+        build: ./docker/node
+        depends_on:
+            - debian
         entrypoint: docker-entrypoint.sh
         environment:
             APP_ENV: dev
@@ -43,11 +50,13 @@ services:
         ports:
             - "4200:4200"
         volumes:
-            - ./docker/entrypoint/node.sh:/usr/local/bin/docker-entrypoint.sh
+            - ./docker/node/docker-entrypoint.sh:/usr/local/bin/docker-entrypoint.sh
             - ./client:/srv/client:rw
 
     php:
-        image: viaggi/php:latest
+        build: ./docker/php
+        depends_on:
+            - debian
         entrypoint: docker-entrypoint.sh
         environment:
             APP_ENV: dev
@@ -64,8 +73,8 @@ services:
         ports:
             - "9000:9000"
         volumes:
-            - ./docker/entrypoint/php.sh:/usr/local/bin/docker-entrypoint.sh
-            - ./docker/etc/php:/etc/php/7.2:ro
+            - ./docker/php/docker-entrypoint.sh:/usr/local/bin/docker-entrypoint.sh
+            - ./docker/php/etc:/etc/php/7.2:rw
             - ./server:/srv/server:rw
 
     postgres:

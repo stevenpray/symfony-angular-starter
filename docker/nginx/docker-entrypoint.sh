@@ -7,10 +7,8 @@ cd /etc/nginx/sites-enabled
 ln -fs ../sites-available/${APP_ENV} .
 
 if [ "$APP_ENV" != "prod" ]; then
-    ln -sf /dev/stdout /var/log/nginx/access.log
-    ln -sf /dev/stderr /var/log/nginx/error.log
-
-    ln -fs ../sites-available/dev .
+    ln -fs /dev/stdout /var/log/nginx/access.log
+    ln -fs /dev/stderr /var/log/nginx/error.log
 
     dockerize -wait tcp://node:"${ANGULAR_PORT}" -timeout 600s
 fi
