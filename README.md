@@ -13,10 +13,11 @@ docker-compose up
 [http://localhost:8000](http://localhost:8000)  
 [http://localhost:8001](http://localhost:8001)
 
-| Username | Password | Roles            |
-|----------|----------|------------------|
-| user     | user     | ROLE_USER        |
-| admin    | admin    | ROLE_ADMIN       |
-| super    | super    | ROLE_SUPER_ADMIN |
+| Username | Password | Roles              |
+|----------|----------|--------------------|
+| user     | user     | `ROLE_USER`        |
+| admin    | admin    | `ROLE_ADMIN`       |
+| super    | super    | `ROLE_SUPER_ADMIN` |
 
-`curl -X POST http://localhost:8001/login_check -d username=password -d password=password`
+Obtain a token for API access:  
+`curl -X POST http://localhost:8001/login_check -d username=admin -d password=admin`
