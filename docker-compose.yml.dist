@@ -17,10 +17,8 @@ services:
         depends_on:
             - debian
         entrypoint: docker-entrypoint.sh
-        environment:
-            APP_ENV: dev
-            ANGULAR_PORT: 4200
-            PHP_FPM_PORT: 9000
+        env_file:
+            - .env
         ports:
             - "8000:8000"
             - "8001:8001"
@@ -40,11 +38,8 @@ services:
         depends_on:
             - debian
         entrypoint: docker-entrypoint.sh
-        environment:
-            APP_ENV: dev
-            ANGULAR_DIR: /srv/client
-            ANGULAR_ENV: dev
-            ANGULAR_PORT: 4200
+        env_file:
+            - .env
         networks:
             - network
         ports:
@@ -58,12 +53,8 @@ services:
         depends_on:
             - debian
         entrypoint: docker-entrypoint.sh
-        environment:
-            APP_ENV: dev
-            DATABASE_HOST: postgres
-            DATABASE_PORT: 5432
-            SYMFONY_DIR: /srv/server
-            XDEBUG_CONFIG: idekey= remote_host=
+        env_file:
+            - .env
         depends_on:
             - postgres
         links:
@@ -75,13 +66,12 @@ services:
         volumes:
             - ./docker/php/docker-entrypoint.sh:/usr/local/bin/docker-entrypoint.sh
             - ./docker/php/etc:/etc/php/7.2:rw
-            - ./server:/srv/server:rw
+            - ./server:/srv/server:cached
 
     postgres:
         image: postgres:9.6.3
-        environment:
-            POSTGRES_PASSWORD: webapp
-            POSTGRES_USER: webapp
+        env_file:
+            - .env
         networks:
             - network
         ports:
