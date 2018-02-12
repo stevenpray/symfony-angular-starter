@@ -1,5 +1,7 @@
 dist: trusty
+
 matrix:
+
     include:
         -
             language: node_js
@@ -10,6 +12,7 @@ matrix:
             install: yarn install
             script:
                 - npm run lint
+
         -
             language: php
             php: 7.2
@@ -21,9 +24,9 @@ matrix:
                 - APP_SECRET=s$cretf0rt3st
                 - CORS_ALLOW_ORIGIN="^https?://localhost:?[0-9]*$"
                 - DATABASE_URL=pgsql://postgres@localhost:5432/postgres
-                - JWT_PRIVATE_KEY_PATH=config/jwt/private.pem"
-                - JWT_PUBLIC_KEY_PATH=config/jwt/public.pem"
-                - JWT_PASSPHRASE=6caf469adc8be6001f92c944681cc48c"
+                - JWT_PRIVATE_KEY_PATH=config/jwt/private.pem
+                - JWT_PUBLIC_KEY_PATH=config/jwt/public.pem
+                - JWT_PASSPHRASE=6caf469adc8be6001f92c944681cc48c
             before_install: cd server
             install: composer install
             before_script:
