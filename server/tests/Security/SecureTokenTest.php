@@ -38,7 +38,7 @@ class SecureTokenTest extends TestCase
     }
 
     /**
-     * @return array
+     * @return array[]
      */
     public function provideTokenLengths(): array
     {

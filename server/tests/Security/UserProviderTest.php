@@ -126,7 +126,7 @@ class UserProviderTest extends TestCase
     }
 
     /**
-     * @return array
+     * @return array[]
      */
     public function provideUserIds(): array
     {
@@ -137,7 +137,7 @@ class UserProviderTest extends TestCase
     }
 
     /**
-     * @return array
+     * @return array[]
      */
     public function provideUsernames(): array
     {
