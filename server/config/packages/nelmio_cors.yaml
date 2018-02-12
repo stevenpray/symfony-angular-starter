@@ -11,7 +11,7 @@ nelmio_cors:
             - PATCH
             - DELETE
         allow_origin:
-            - "%env(CORS_ALLOW_ORIGIN)%"
+            - '%env(CORS_ALLOW_ORIGIN)%'
         expose_headers:
             - Link
         max_age: 3600

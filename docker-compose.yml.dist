@@ -1,4 +1,4 @@
-version: "3"
+version: '3'
 
 services:
 
@@ -13,8 +13,8 @@ services:
             - php
         entrypoint: docker-entrypoint.sh
         ports:
-            - "8000:8000"
-            - "8001:8001"
+            - '8000:8000'
+            - '8001:8001'
         links:
             - node
             - php
@@ -54,4 +54,4 @@ services:
     postgres:
         image: postgres:9.6.3
         ports:
-            - "5432:5432"
+            - '5432:5432'
