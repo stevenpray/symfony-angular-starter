@@ -177,7 +177,7 @@ class User implements UserInterface
      * @param string $username
      * @return $this
      */
-    public function setUsername(string $username)
+    public function setUsername(string $username): self
     {
         $this->username = strtolower($username);
 
@@ -196,7 +196,7 @@ class User implements UserInterface
      * @param null|string $password
      * @return $this
      */
-    public function setPassword(?string $password)
+    public function setPassword(?string $password): self
     {
         $this->password = $password;
 
@@ -215,7 +215,7 @@ class User implements UserInterface
      * @param string[] $roles
      * @return $this
      */
-    public function setRoles(array $roles)
+    public function setRoles(array $roles): self
     {
         $this->roles = [];
         foreach ($roles as $role) {
@@ -229,7 +229,7 @@ class User implements UserInterface
      * @param string $role
      * @return $this
      */
-    public function addRole(string $role)
+    public function addRole(string $role): self
     {
         if ($this->hasRole($role) === false) {
             $this->roles[] = strtoupper($role);
@@ -255,7 +255,7 @@ class User implements UserInterface
         return $this->salt;
     }
 
-    public function eraseCredentials()
+    public function eraseCredentials(): void
     {
         $this->plainPassword = null;
     }
@@ -264,7 +264,7 @@ class User implements UserInterface
      * @param string $role
      * @return $this
      */
-    public function removeRole(string $role)
+    public function removeRole(string $role): self
     {
         if (false !== $key = array_search(strtoupper($role), $this->roles, true)) {
             unset($this->roles[$key]);
@@ -286,7 +286,7 @@ class User implements UserInterface
      * @param string $password
      * @return $this
      */
-    public function setPlainPassword(string $password)
+    public function setPlainPassword(string $password): self
     {
         $this->plainPassword = $password;
         $this->setPassword(null);
@@ -306,7 +306,7 @@ class User implements UserInterface
      * @param null|string $confirmationToken
      * @return $this
      */
-    public function setConfirmationToken(?string $confirmationToken)
+    public function setConfirmationToken(?string $confirmationToken): self
     {
         if ($confirmationToken === null) {
             $this->confirmationCreatedAt = null;
@@ -332,7 +332,7 @@ class User implements UserInterface
      * @param bool $boolean
      * @return $this
      */
-    public function setEnabled(bool $boolean)
+    public function setEnabled(bool $boolean): self
     {
         $this->enabled = $boolean;
 
@@ -351,7 +351,7 @@ class User implements UserInterface
      * @param bool $locked
      * @return $this
      */
-    public function setLocked(bool $locked)
+    public function setLocked(bool $locked): self
     {
         $this->locked = $locked;
 
@@ -370,7 +370,7 @@ class User implements UserInterface
      * @param DateTimeInterface|null $date
      * @return $this
      */
-    public function setConfirmationCreatedAt(?DateTimeInterface $date)
+    public function setConfirmationCreatedAt(?DateTimeInterface $date): self
     {
         $this->confirmationCreatedAt = $date;
 
@@ -389,7 +389,7 @@ class User implements UserInterface
      * @param string $emailAddress
      * @return $this
      */
-    public function setEmailAddress(string $emailAddress)
+    public function setEmailAddress(string $emailAddress): self
     {
         if ($emailAddress) {
             $emailAddress = strtolower($emailAddress);
@@ -419,7 +419,7 @@ class User implements UserInterface
      * @param string $firstname
      * @return $this
      */
-    public function setFirstname(string $firstname)
+    public function setFirstname(string $firstname): self
     {
         $this->firstname = $firstname;
 
@@ -438,7 +438,7 @@ class User implements UserInterface
      * @param string $lastname
      * @return $this
      */
-    public function setLastname(string $lastname)
+    public function setLastname(string $lastname): self
     {
         $this->lastname = $lastname;
 
@@ -463,7 +463,7 @@ class User implements UserInterface
      * @param UserEvent[] $events
      * @return $this
      */
-    public function setUserEvents(array $events)
+    public function setUserEvents(array $events): self
     {
         foreach ($events as $event) {
             $this->addUserEvent($event);
@@ -476,7 +476,7 @@ class User implements UserInterface
      * @param UserEvent $event
      * @return $this
      */
-    public function addUserEvent(UserEvent $event)
+    public function addUserEvent(UserEvent $event): self
     {
         $this->userEvents->add($event);
         if ($event->getUser() !== $this) {

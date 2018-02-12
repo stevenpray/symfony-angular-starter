@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace App\EventListener;
 
 use App\Security\RolesProvider;
+use Doctrine\ORM\EntityManagerInterface;
 use Lexik\Bundle\JWTAuthenticationBundle\Event\JWTCreatedEvent;
 use Lexik\Bundle\JWTAuthenticationBundle\Events;
 use ReflectionException;
@@ -22,13 +23,20 @@ class JWTSubscriber implements EventSubscriberInterface
     protected $rolesProvider;
 
     /**
+     * @var EntityManagerInterface
+     */
+    protected $em;
+
+    /**
      * JWTSubscriber constructor.
      *
      * @param RolesProvider $rolesProvider
+     * @param EntityManagerInterface $em
      */
-    public function __construct(RolesProvider $rolesProvider)
+    public function __construct(RolesProvider $rolesProvider, EntityManagerInterface $em)
     {
         $this->rolesProvider = $rolesProvider;
+        $this->em = $em;
     }
 
     /**

@@ -74,7 +74,7 @@ class RolesProvider
             },
             $roles
         );
-        $roles = array_keys(array_count_values($roles));
+        $roles = array_values(array_unique($roles));
 
         return $roles;
     }

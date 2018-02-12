@@ -1,18 +1,20 @@
 <?php
 declare(strict_types=1);
 
-namespace App\EventListener\Doctrine;
+namespace App\EventListener;
 
 use App\Entity\User;
 use Doctrine\ORM\Event\LifecycleEventArgs;
+use Doctrine\ORM\Events;
+use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 /**
- * Class UserListener
+ * Class UserSubscriber
  *
- * @package App\EventListener\Doctrine
+ * @package App\EventListener
  */
-class UserListener
+class UserSubscriber implements EventSubscriberInterface
 {
     /**
      * @var UserPasswordEncoderInterface
@@ -20,7 +22,18 @@ class UserListener
     protected $encoder;
 
     /**
-     * UserListener constructor.
+     * {@inheritdoc}
+     */
+    public static function getSubscribedEvents(): array
+    {
+        return [
+            Events::prePersist => 'onPrePersist',
+            Events::preUpdate  => 'onPreUpdate',
+        ];
+    }
+
+    /**
+     * UserSubscriber constructor.
      *
      * @param UserPasswordEncoderInterface $encoder
      */
@@ -32,13 +45,28 @@ class UserListener
     /**
      * @param LifecycleEventArgs $args
      */
-    public function prePersist(LifecycleEventArgs $args): void
+    public function onPrePersist(LifecycleEventArgs $args): void
     {
         $user = $args->getEntity();
         if (!$user instanceof User) {
             return;
         }
         /** @var User $user */
+        if ($user->getPlainPassword()) {
+            $this->encodeUserPassword($user);
+        }
+    }
+
+    /**
+     * @param LifecycleEventArgs $args
+     */
+    public function onPreUpdate(LifecycleEventArgs $args): void
+    {
+        /** @var User $user */
+        $user = $args->getEntity();
+        if (!$user instanceof User) {
+            return;
+        }
         if ($user->getPlainPassword()) {
             $this->encodeUserPassword($user);
         }
@@ -52,20 +80,5 @@ class UserListener
         $encoded = $this->encoder->encodePassword($user, $user->getPlainPassword());
         $user->setPassword($encoded);
         $user->eraseCredentials();
-    }
-
-    /**
-     * @param LifecycleEventArgs $args
-     */
-    public function preUpdate(LifecycleEventArgs $args): void
-    {
-        /** @var User $user */
-        $user = $args->getEntity();
-        if (!$user instanceof User) {
-            return;
-        }
-        if ($user->getPlainPassword()) {
-            $this->encodeUserPassword($user);
-        }
     }
 }

@@ -60,7 +60,7 @@ class UserProvider implements UserProviderInterface
     /**
      * {@inheritdoc}
      */
-    public function refreshUser(UserInterface $user): void
+    public function refreshUser(UserInterface $user)
     {
         // Throwing this exception is proper to make things stateless.
         throw new UnsupportedUserException('Refresh not supported.');

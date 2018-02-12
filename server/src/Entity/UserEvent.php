@@ -80,7 +80,7 @@ class UserEvent extends Event
      * @param string $type
      * @return $this
      */
-    public function setType($type)
+    public function setType($type): self
     {
         $this->type = $type;
 
@@ -99,7 +99,7 @@ class UserEvent extends Event
      * @param User $user
      * @return $this
      */
-    public function setUser(User $user)
+    public function setUser(User $user): self
     {
         $this->user = $user;
         if ($user->hasUserEvent($this) === false) {
