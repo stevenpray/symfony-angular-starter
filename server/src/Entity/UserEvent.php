@@ -76,6 +76,14 @@ class UserEvent extends Event
     }
 
     /**
+     * @return DateTime
+     */
+    public function getCreatedAt():? DateTime
+    {
+        return $this->createdAt;
+    }
+
+    /**
      * @return string
      */
     public function getType(): ?string
