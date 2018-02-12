@@ -1,0 +1,12 @@
+matrix:
+    include:
+        -
+            language: php
+            php: 7.2.0
+            before_install: cd server
+            install: composer install
+            script: vendor/bin/phpunit
+#        -
+#            language: node_js
+#            node_js: 8.9.4
+

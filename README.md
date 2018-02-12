@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/stevenpray/symfony-angular-starter.svg?branch=master)](https://travis-ci.org/stevenpray/symfony-angular-starter)
+
 # Symfony-Angular Starter
 
 Starter project for Symfony RESTful API and Angular SPA.
