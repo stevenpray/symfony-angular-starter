@@ -1,9 +1,9 @@
+import {animate, query, style, transition, trigger} from '@angular/animations';
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {RouterOutlet} from '@angular/router';
-import {animate, query, style, transition, trigger} from '@angular/animations';
+import {Subscription} from 'rxjs/Subscription';
 import {environment} from '../environments/environment';
 import {AuthService} from './shared/auth';
-import {Subscription} from 'rxjs/Subscription';
 
 @Component({
     selector: 'app-root',

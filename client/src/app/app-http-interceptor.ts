@@ -3,9 +3,9 @@ import {HttpHandler} from '@angular/common/http/src/backend';
 import {HttpRequest} from '@angular/common/http/src/request';
 import {HttpEvent} from '@angular/common/http/src/response';
 import {Injectable} from '@angular/core';
+import {Observable} from 'rxjs/Observable';
 import {ActivityService} from './shared/activity';
 import {NotificationService} from './shared/notification';
-import {Observable} from 'rxjs/Observable';
 
 @Injectable()
 export class AppHttpInterceptorService implements HttpInterceptor {

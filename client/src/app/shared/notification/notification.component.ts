@@ -1,7 +1,5 @@
 import {Component, Input, OnDestroy, OnInit} from '@angular/core';
-import {
-    MatSnackBar, MatSnackBarConfig, MatSnackBarRef, SimpleSnackBar,
-} from '@angular/material';
+import {MatSnackBar, MatSnackBarConfig, MatSnackBarRef, SimpleSnackBar,} from '@angular/material';
 import {Howl} from 'howler';
 import {Subscription} from 'rxjs/Subscription';
 import {NotificationService} from './notification.service';
