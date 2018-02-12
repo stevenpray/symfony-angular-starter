@@ -1,4 +1,4 @@
-import {HttpClient, HttpErrorResponse, HttpHeaders, HttpParams, HttpResponse,} from '@angular/common/http';
+import {HttpClient, HttpErrorResponse, HttpHeaders, HttpParams, HttpResponse} from '@angular/common/http';
 import {Inject, Injectable} from '@angular/core';
 import {Router, RouterStateSnapshot} from '@angular/router';
 import * as debug from 'debug';

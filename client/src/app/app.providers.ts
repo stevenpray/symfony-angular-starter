@@ -1,4 +1,4 @@
-import {MetaLoader, MetaSettings, MetaStaticLoader, PageTitlePositioning,} from '@ngx-meta/core';
+import {MetaLoader, MetaSettings, MetaStaticLoader, PageTitlePositioning} from '@ngx-meta/core';
 import {environment} from '../environments/environment';
 
 export function appMetaProviderFactory(): MetaLoader {
