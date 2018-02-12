@@ -54,4 +54,4 @@ services:
     postgres:
         image: postgres:9.6.3
         ports:
-            - '5432:5432'
+            - '54321:5432'
