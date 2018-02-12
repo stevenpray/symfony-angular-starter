@@ -10,9 +10,9 @@ doctrine:
         driver: pdo_pgsql
         server_version: '9.6'
         charset: UTF8
+        url: '%env(DATABASE_URL)%'
         types:
             user_event_type: App\DBAL\Types\UserEventType
-        url: '%env(DATABASE_URL)%'
     orm:
         auto_generate_proxy_classes: '%kernel.debug%'
         auto_mapping: true
