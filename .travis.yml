@@ -3,13 +3,16 @@ dist: trusty
 matrix:
 
     include:
+
         -
             language: node_js
             node_js: 8
             env:
                 - NODE_ENV=development
-            before_install: cd client
-            install: yarn install
+            before_install:
+                - cd client
+            install:
+                - yarn install
             script:
                 - npm run lint
 
@@ -27,10 +30,27 @@ matrix:
                 - JWT_PRIVATE_KEY_PATH=config/jwt/private.pem
                 - JWT_PUBLIC_KEY_PATH=config/jwt/public.pem
                 - JWT_PASSPHRASE=6caf469adc8be6001f92c944681cc48c
-            before_install: cd server
-            install: composer install
+            before_install:
+                - cd server
+            install:
+                - composer install
             before_script:
                 - bin/console doctrine:schema:create -vv --no-interaction
                 - bin/console hautelook:fixtures:load -vv --no-interaction
                 - bin/console cache:warmup
-            script: vendor/bin/phpunit
+            script:
+                - vendor/bin/phpunit
+
+        -
+            language: generic
+            services:
+                - docker
+            env:
+                - COMPOSE_FILE=docker-compose.yml.dist
+            before_script:
+                - docker-compose build
+            script:
+                - docker-compose ps | grep -q symfonyangularstarter_debian
+                - docker-compose ps | grep -q symfonyangularstarter_nginx
+                - docker-compose ps | grep -q symfonyangularstarter_node
+                - docker-compose ps | grep -q symfonyangularstarter_php
