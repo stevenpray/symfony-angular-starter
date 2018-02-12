@@ -16,6 +16,7 @@ use Symfony\Component\Security\Core\Exception\UsernameNotFoundException;
  * Class UserProviderTest
  *
  * @package App\Tests\Security
+ * @covers \App\Security\UserProvider
  */
 class UserProviderTest extends TestCase
 {

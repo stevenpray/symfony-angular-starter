@@ -12,6 +12,7 @@ use Symfony\Component\Security\Core\Role\RoleHierarchy;
  * Class RolesProviderTest
  *
  * @package App\Tests\Security
+ * @covers \App\Security\RolesProvider
  */
 class RolesProviderTest extends TestCase
 {

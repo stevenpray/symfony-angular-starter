@@ -13,6 +13,7 @@ use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
  * Class SwaggerDecoratorTest
  *
  * @package App\Tests\Swagger
+ * @covers \App\Swagger\SwaggerDecorator
  */
 class SwaggerDecoratorTest extends TestCase
 {
