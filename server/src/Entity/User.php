@@ -11,9 +11,11 @@ use DateTime;
 use DateTimeInterface;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
+use Gedmo\Mapping\Annotation as Gedmo;
+use Gedmo\SoftDeleteable\Traits\SoftDeleteable;
 use Rollerworks\Component\PasswordStrength\Validator\Constraints\PasswordRequirements as AssertPassword;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity as AssertUnique;
-use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Security\Core\User\AdvancedUserInterface;
 use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -24,11 +26,13 @@ use Symfony\Component\Validator\Constraints as Assert;
  * @ApiResource()
  * @AssertUnique(fields={"username"})
  * @AssertUnique(fields={"emailAddress"})
- * @ORM\Entity()
+ * @ORM\Entity(repositoryClass="App\Repository\UserRepository")
  * @ORM\Table(name="users")
  */
-class User implements UserInterface
+class User implements AdvancedUserInterface
 {
+    use SoftDeleteable;
+
     /**
      * @var int
      * @ORM\Id()
@@ -101,6 +105,32 @@ class User implements UserInterface
     protected $confirmationCreatedAt;
 
     /**
+     * @var DateTimeInterface
+     * @ORM\Column(name="password_expires_at", type="datetime", nullable=true)
+     */
+    protected $passwordExpiresAt;
+
+    /**
+     * @var DateTime $createdAt
+     * @Gedmo\Timestampable(on="create")
+     * @ORM\Column(name="created_at", type="datetime")
+     */
+    protected $createdAt;
+
+    /**
+     * @var DateTime $updatedAt
+     * @Gedmo\Timestampable(on="update")
+     * @ORM\Column(name="updated_at", type="datetime")
+     */
+    protected $updatedAt;
+
+    /**
+     * @var DateTime
+     * @ORM\Column(name="deleted_at", type="datetime", nullable=true)
+     */
+    protected $deletedAt;
+
+    /**
      * @var bool
      * @ORM\Column(name="enabled", type="boolean")
      * @Groups({"read", "write"})
@@ -163,6 +193,22 @@ class User implements UserInterface
     public function getId(): int
     {
         return $this->id;
+    }
+
+    /**
+     * @return DateTime
+     */
+    public function getCreatedAt(): DateTime
+    {
+        return $this->createdAt;
+    }
+
+    /**
+     * @return DateTime
+     */
+    public function getUpdatedAt(): DateTime
+    {
+        return $this->updatedAt;
     }
 
     /**
@@ -321,7 +367,7 @@ class User implements UserInterface
     }
 
     /**
-     * @return bool
+     * {@inheritdoc}
      */
     public function isEnabled(): bool
     {
@@ -335,25 +381,6 @@ class User implements UserInterface
     public function setEnabled(bool $boolean): self
     {
         $this->enabled = $boolean;
-
-        return $this;
-    }
-
-    /**
-     * @return bool
-     */
-    public function isLocked(): bool
-    {
-        return $this->locked;
-    }
-
-    /**
-     * @param bool $locked
-     * @return $this
-     */
-    public function setLocked(bool $locked): self
-    {
-        $this->locked = $locked;
 
         return $this;
     }
@@ -493,5 +520,79 @@ class User implements UserInterface
     public function hasUserEvent(UserEvent $event): bool
     {
         return $this->userEvents->contains($event);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function isAccountNonExpired(): bool
+    {
+        return true;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function isAccountNonLocked(): bool
+    {
+        return !$this->isLocked();
+    }
+
+    /**
+     * @return bool
+     */
+    public function isLocked(): bool
+    {
+        return $this->locked;
+    }
+
+    /**
+     * @param bool $locked
+     * @return $this
+     */
+    public function setLocked(bool $locked): self
+    {
+        $this->locked = $locked;
+
+        return $this;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function isCredentialsNonExpired(): bool
+    {
+        return !$this->isPasswordExpired();
+    }
+
+    /**
+     * @return bool
+     */
+    public function isPasswordExpired(): bool
+    {
+        if (!$this->getPasswordExpiresAt()) {
+            return false;
+        }
+
+        return $this->getPasswordExpiresAt() <= new DateTime();
+    }
+
+    /**
+     * @return DateTimeInterface|null
+     */
+    public function getPasswordExpiresAt(): ?DateTimeInterface
+    {
+        return $this->passwordExpiresAt;
+    }
+
+    /**
+     * @param DateTimeInterface|null $passwordExpiresAt
+     * @return $this
+     */
+    public function setPasswordExpiresAt(?DateTimeInterface $passwordExpiresAt): self
+    {
+        $this->passwordExpiresAt = $passwordExpiresAt;
+
+        return $this;
     }
 }

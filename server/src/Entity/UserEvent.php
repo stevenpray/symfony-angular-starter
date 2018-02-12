@@ -5,7 +5,9 @@ namespace App\Entity;
 
 use ApiPlatform\Core\Annotation\ApiResource;
 use ApiPlatform\Core\Annotation\ApiSubresource;
+use DateTime;
 use Doctrine\ORM\Mapping as ORM;
+use Gedmo\Mapping\Annotation as Gedmo;
 use Symfony\Component\EventDispatcher\Event;
 use Symfony\Component\Serializer\Annotation\Groups;
 
@@ -18,14 +20,12 @@ use Symfony\Component\Serializer\Annotation\Groups;
  *     collectionOperations={"get"={"method"="GET"}},
  *     itemOperations={"get"={"method"="GET"}}
  * )
- * @ORM\Entity()
+ * @ORM\Entity(repositoryClass="App\Repository\UserEventRepository")
  * @ORM\Table(name="user_events")
  * @ORM\HasLifecycleCallbacks()
  */
 class UserEvent extends Event
 {
-    public const NAME = 'app.event.user';
-
     /**
      * @var int
      * @ORM\Id()
@@ -34,6 +34,13 @@ class UserEvent extends Event
      * @Groups("read")
      */
     protected $id;
+
+    /**
+     * @var DateTime $createdAt
+     * @Gedmo\Timestampable(on="create")
+     * @ORM\Column(name="created_at", type="datetime")
+     */
+    protected $createdAt;
 
     /**
      * @var string

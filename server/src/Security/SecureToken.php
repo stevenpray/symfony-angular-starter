@@ -33,14 +33,6 @@ class SecureToken
     }
 
     /**
-     * @return string
-     */
-    public function __toString(): string
-    {
-        return $this->value;
-    }
-
-    /**
      * @param int $length
      * @param string $pattern
      * @return string
@@ -56,5 +48,13 @@ class SecureToken
         $token = substr($token, 0, $length);
 
         return $token;
+    }
+
+    /**
+     * @return string
+     */
+    public function __toString(): string
+    {
+        return $this->value;
     }
 }

@@ -40,11 +40,10 @@ class UserProviderTest extends TestCase
 
         $er = $this->getMockBuilder(EntityRepository::class)
                    ->disableOriginalConstructor()
-                   ->setMethods(['find', 'findOneBy'])
+                   ->setMethods(['find', 'findOneByUsername'])
                    ->getMock();
 
-        $er
-           ->method('find')
+        $er->method('find')
            ->with($this->isType('integer'))
            ->will(
                $this->returnCallback(
@@ -54,13 +53,12 @@ class UserProviderTest extends TestCase
                )
            );
 
-        $er
-           ->method('findOneBy')
-           ->with($this->isType('array'))
+        $er->method('findOneByUsername')
+           ->with($this->isType('string'))
            ->will(
                $this->returnCallback(
-                   function ($criteria) {
-                       return $criteria['username'] === $this->user->getUsername() ? $this->user : null;
+                   function ($username) {
+                       return $username === $this->user->getUsername() ? $this->user : null;
                    }
                )
            );

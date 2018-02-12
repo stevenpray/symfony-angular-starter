@@ -22,6 +22,16 @@ class UserSubscriber implements EventSubscriber
     protected $encoder;
 
     /**
+     * UserSubscriber constructor.
+     *
+     * @param UserPasswordEncoderInterface $encoder
+     */
+    public function __construct(UserPasswordEncoderInterface $encoder)
+    {
+        $this->encoder = $encoder;
+    }
+
+    /**
      * {@inheritdoc}
      */
     public function getSubscribedEvents(): array
@@ -30,16 +40,6 @@ class UserSubscriber implements EventSubscriber
             Events::prePersist,
             Events::preUpdate,
         ];
-    }
-
-    /**
-     * UserSubscriber constructor.
-     *
-     * @param UserPasswordEncoderInterface $encoder
-     */
-    public function __construct(UserPasswordEncoderInterface $encoder)
-    {
-        $this->encoder = $encoder;
     }
 
     /**
@@ -58,6 +58,16 @@ class UserSubscriber implements EventSubscriber
     }
 
     /**
+     * @param User $user
+     */
+    protected function encodeUserPassword(User $user): void
+    {
+        $encoded = $this->encoder->encodePassword($user, $user->getPlainPassword());
+        $user->setPassword($encoded);
+        $user->eraseCredentials();
+    }
+
+    /**
      * @param LifecycleEventArgs $args
      */
     public function preUpdate(LifecycleEventArgs $args): void
@@ -70,15 +80,5 @@ class UserSubscriber implements EventSubscriber
         if ($user->getPlainPassword()) {
             $this->encodeUserPassword($user);
         }
-    }
-
-    /**
-     * @param User $user
-     */
-    protected function encodeUserPassword(User $user): void
-    {
-        $encoded = $this->encoder->encodePassword($user, $user->getPlainPassword());
-        $user->setPassword($encoded);
-        $user->eraseCredentials();
     }
 }

@@ -49,7 +49,7 @@ class UserProvider implements UserProviderInterface
      */
     public function loadUserByUsername($username): UserInterface
     {
-        $user = $this->em->getRepository(User::class)->findOneBy(['username' => strtolower($username)]);
+        $user = $this->em->getRepository(User::class)->findOneByUsername($username);
         if (!$user) {
             throw new UsernameNotFoundException('Username not found.');
         }
