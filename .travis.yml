@@ -19,7 +19,7 @@ matrix:
             services:
                 - postgresql
             env:
-                - APP_DEBUG=true
+                - APP_DEBUG=1
                 - APP_ENV=test
                 - APP_SECRET=s$cretf0rt3st
                 - CORS_ALLOW_ORIGIN="^https?://localhost:?[0-9]*$"
