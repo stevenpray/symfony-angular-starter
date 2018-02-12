@@ -11,35 +11,30 @@
 *.sublime-workspace
 *.tmp
 *~
+._*
+.apdisk
 .AppleDB
 .AppleDesktop
 .AppleDouble
-.DocumentRevisions-V100
-.LSOverride
-.Spotlight-V100
-.TemporaryItems
-.Trashes
-.VolumeIcon.icns
-._*
-.apdisk
 .c9
 .classpath
 .docker-sync
+.DocumentRevisions-V100
 .elasticbeanstalk
 .env
 .fseventsd
 .idea
+.LSOverride
 .phpunit
 .project
 .sass-cache
 .settings
+.Spotlight-V100
+.TemporaryItems
+.Trashes
+.VolumeIcon.icns
 .vscode
-/phpunit.xml
-Icon
-Icon
-Network Trash Folder
-Temporary Items
-Thumbs.db
+behat.yml
 client/e2e/*.js
 client/e2e/*.map
 composer.phar
@@ -49,14 +44,19 @@ dist
 dist-server
 docker-compose.yml
 docker-sync*
+Icon
 libpeerconnection.log
+Network Trash Folder
 node_modules
 npm-debug.log*
 out-tsc
+phpunit.xml
 server/public/bundles/
 server/var/
 server/vendor/
+Temporary Items
 testem.log
+Thumbs.db
 tmp
 typings
 yarn-error.log
