@@ -1,12 +1,5 @@
 version: "3"
 
-networks:
-
-    network:
-        ipam:
-            config:
-                - subnet: 172.31.0.0/24
-
 services:
 
     debian:
@@ -16,63 +9,49 @@ services:
         build: ./docker/nginx
         depends_on:
             - debian
+            - node
+            - php
         entrypoint: docker-entrypoint.sh
-        env_file:
-            - .env
         ports:
             - "8000:8000"
             - "8001:8001"
         links:
             - node
             - php
-        networks:
-            - network
         volumes:
-            - ./docker/nginx/docker-entrypoint.sh:/usr/local/bin/docker-entrypoint.sh
-            - ./docker/nginx/etc:/etc/nginx
+            - ./docker/nginx/docker-entrypoint.sh:/usr/local/bin/docker-entrypoint.sh:ro
+            - ./docker/nginx/etc:/etc/nginx:rw
             - ./client:/srv/client:ro
-            - ./server:/srv/server:rw
+            - ./server:/srv/server:ro
 
     node:
         build: ./docker/node
         depends_on:
             - debian
         entrypoint: docker-entrypoint.sh
-        env_file:
-            - .env
-        networks:
-            - network
-        ports:
-            - "4200:4200"
+        environment:
+            - NODE_ENV=development
         volumes:
-            - ./docker/node/docker-entrypoint.sh:/usr/local/bin/docker-entrypoint.sh
+            - ./docker/node/docker-entrypoint.sh:/usr/local/bin/docker-entrypoint.sh:ro
             - ./client:/srv/client:rw
 
     php:
         build: ./docker/php
         depends_on:
             - debian
+            - postgres
         entrypoint: docker-entrypoint.sh
-        env_file:
-            - .env
-        depends_on:
-            - postgres
+        environment:
+            - XDEBUG_CONFIG=idekey= remote_host=
         links:
+            - debian
             - postgres
-        networks:
-            - network
-        ports:
-            - "9000:9000"
         volumes:
-            - ./docker/php/docker-entrypoint.sh:/usr/local/bin/docker-entrypoint.sh
+            - ./docker/php/docker-entrypoint.sh:/usr/local/bin/docker-entrypoint.sh:ro
             - ./docker/php/etc:/etc/php/7.2:rw
             - ./server:/srv/server:cached
 
     postgres:
         image: postgres:9.6.3
-        env_file:
-            - .env
-        networks:
-            - network
         ports:
             - "5432:5432"

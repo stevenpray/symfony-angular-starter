@@ -9,10 +9,12 @@ ln -fs ../sites-available/${APP_ENV} .
 if [ "$APP_ENV" != "prod" ]; then
     ln -fs /dev/stdout /var/log/nginx/access.log
     ln -fs /dev/stderr /var/log/nginx/error.log
-
-    dockerize -wait tcp://node:"${ANGULAR_PORT}" -timeout 600s
 fi
 
-dockerize -wait tcp://php:"${PHP_FPM_PORT}" -timeout 600s
+if [ "$APP_ENV" = "dev" ]; then
+    dockerize -wait tcp://node:4200 -timeout 600s
+fi
+
+dockerize -wait tcp://php:9000 -timeout 600s
 
 nginx
