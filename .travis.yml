@@ -1,12 +1,19 @@
+dist: trusty
 matrix:
     include:
         -
+            language: node_js
+            node_js: 8
+            env:
+                - NODE_ENV=development
+            before_install: cd client
+            install: yarn install
+            script: npm run lint
+        -
             language: php
-            php: 7.2.0
+            php: 7.2
+            env:
+                - APP_ENV=test
             before_install: cd server
             install: composer install
             script: vendor/bin/phpunit
-#        -
-#            language: node_js
-#            node_js: 8.9.4
-
