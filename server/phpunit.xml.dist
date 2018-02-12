@@ -16,7 +16,7 @@
         <!-- ###- symfony/framework-bundle ### -->
 
         <!-- ###+ doctrine/doctrine-bundle ### -->
-        <env name="DATABASE_URL" value="pgsql://postgres@postgres:5432/postgres"/>
+        <env name="DATABASE_URL" value="pgsql://postgres@localhost:5432/postgres"/>
         <!-- ###- doctrine/doctrine-bundle ### -->
 
         <!-- ###+ lexik/jwt-authentication-bundle ### -->

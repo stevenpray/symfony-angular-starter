@@ -11,7 +11,7 @@ use Symfony\Component\HttpFoundation\Request;
 $loader = require __DIR__.'/../vendor/autoload.php';
 
 $env = $_SERVER['APP_ENV'] ?? 'dev';
-if ($env !== 'prod') {
+if ($env === 'dev') {
     $dotenv = new Dotenv();
     $dotenv->load(__DIR__.'/../.env');
 }

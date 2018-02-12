@@ -11,6 +11,7 @@ use PHPUnit\Framework\TestCase;
  * Class UserTest
  *
  * @package App\Tests\Entity
+ * @covers \App\Entity\User
  */
 class UserTest extends TestCase
 {
