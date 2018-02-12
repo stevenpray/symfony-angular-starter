@@ -1,8 +1,9 @@
 #!/usr/bin/env bash
 
 APP_ENV=${APP_ENV:=dev}
+ANGULAR_DIR=${ANGULAR_DIR:=/srv/client}
 
-cd /srv/client
+cd "$ANGULAR_DIR"
 yarn install --ignore-engines
 npm rebuild node-sass
 

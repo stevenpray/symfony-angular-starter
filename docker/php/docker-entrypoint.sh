@@ -1,16 +1,17 @@
 #!/usr/bin/env bash
 
 APP_ENV=${APP_ENV:=dev}
+SYMFONY_DIR=${SYMFONY_DIR:=/srv/server}
 
 if [ "$APP_ENV" = "prod" ]; then
     cd /etc/php/7.2/cli/conf.d && ln -fs ../../mods-available/20-opcache.ini .
     cd /etc/php/7.2/fpm/conf.d && ln -fs ../../mods-available/20-opcache.ini .
-else
+elif [ "$APP_ENV" = "dev" ]; then
     ln -sf /dev/stdout /var/log/php/access.log
     ln -sf /dev/stderr /var/log/php/error.log
 fi
 
-cd /srv/server
+cd "$SYMFONY_DIR"
 mkdir -p var
 chmod -R go+w var/
 
@@ -41,8 +42,6 @@ fi
 
 bin/console cache:warmup
 
-if [ "$APP_ENV" = "test" ]; then
-    vendor/bin/phpunit
-else
+if [ "$APP_ENV" != "test" ]; then
     php-fpm7.2
 fi
