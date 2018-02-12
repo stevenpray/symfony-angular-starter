@@ -4,9 +4,9 @@ declare(strict_types=1);
 namespace App\EventListener;
 
 use App\Entity\User;
+use Doctrine\Common\EventSubscriber;
 use Doctrine\ORM\Event\LifecycleEventArgs;
 use Doctrine\ORM\Events;
-use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 /**
@@ -14,7 +14,7 @@ use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
  *
  * @package App\EventListener
  */
-class UserSubscriber implements EventSubscriberInterface
+class UserSubscriber implements EventSubscriber
 {
     /**
      * @var UserPasswordEncoderInterface
@@ -24,11 +24,11 @@ class UserSubscriber implements EventSubscriberInterface
     /**
      * {@inheritdoc}
      */
-    public static function getSubscribedEvents(): array
+    public function getSubscribedEvents(): array
     {
         return [
-            Events::prePersist => 'onPrePersist',
-            Events::preUpdate  => 'onPreUpdate',
+            Events::prePersist,
+            Events::preUpdate,
         ];
     }
 
@@ -45,7 +45,7 @@ class UserSubscriber implements EventSubscriberInterface
     /**
      * @param LifecycleEventArgs $args
      */
-    public function onPrePersist(LifecycleEventArgs $args): void
+    public function prePersist(LifecycleEventArgs $args): void
     {
         $user = $args->getEntity();
         if (!$user instanceof User) {
@@ -60,7 +60,7 @@ class UserSubscriber implements EventSubscriberInterface
     /**
      * @param LifecycleEventArgs $args
      */
-    public function onPreUpdate(LifecycleEventArgs $args): void
+    public function preUpdate(LifecycleEventArgs $args): void
     {
         /** @var User $user */
         $user = $args->getEntity();
