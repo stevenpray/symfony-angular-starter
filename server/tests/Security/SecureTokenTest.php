@@ -13,7 +13,10 @@ use PHPUnit\Framework\TestCase;
  */
 class SecureTokenTest extends TestCase
 {
-    public function testGenerate()
+    /**
+     * @throws \Exception
+     */
+    public function testGenerate(): void
     {
         $token = SecureToken::generate();
         self::assertNotNull($token);
