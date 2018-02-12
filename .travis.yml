@@ -48,7 +48,7 @@ matrix:
             env:
                 - COMPOSE_FILE=docker-compose.yml.dist
             before_script:
-                - docker-compose build
+                - docker-compose up -d
             script:
                 - docker-compose ps | grep -q symfonyangularstarter_debian
                 - docker-compose ps | grep -q symfonyangularstarter_nginx
