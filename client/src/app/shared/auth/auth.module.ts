@@ -2,7 +2,7 @@ import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
 import {ModuleWithProviders, NgModule} from '@angular/core';
 import {RouterModule} from '@angular/router';
 import {AUTH_CONFIG, AuthConfig} from './auth-config';
-import {AuthInterceptorService} from './auth-interceptor.service';
+import {AuthHttpInterceptor} from './auth-http-interceptor';
 import {AuthTokenService} from './auth-token.service';
 import {AuthService} from './auth.service';
 
@@ -19,7 +19,7 @@ export class AuthModule {
             ngModule: AuthModule,
             providers: [
                 {provide: AUTH_CONFIG, useValue: config},
-                {provide: HTTP_INTERCEPTORS, useClass: AuthInterceptorService, multi: true},
+                {provide: HTTP_INTERCEPTORS, useClass: AuthHttpInterceptor, multi: true},
                 AuthService,
                 AuthTokenService,
             ],

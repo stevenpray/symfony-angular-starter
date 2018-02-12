@@ -15,9 +15,12 @@ import {NotificationService} from '../shared/notification';
 export class SigninComponent implements OnInit, OnDestroy {
 
     private static readonly DEFAULT_URL = '/admin';
+
+    private _error: string;
     private _snackBarConfig = new MatSnackBarConfig();
     private _subscriptions: Subscription[];
     private _url: string;
+
     public form: FormGroup;
     public completed = false;
     public submitted = false;
@@ -36,8 +39,6 @@ export class SigninComponent implements OnInit, OnDestroy {
             password: ['', Validators.required],
         });
     }
-
-    private _error: string;
 
     public get error(): string {
         return this._error;

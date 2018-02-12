@@ -1,4 +1,6 @@
-import {HttpClient, HttpErrorResponse, HttpHeaders, HttpParams, HttpResponse} from '@angular/common/http';
+import {
+    HttpClient, HttpErrorResponse, HttpHeaders, HttpParams, HttpResponse,
+} from '@angular/common/http';
 import {Inject, Injectable} from '@angular/core';
 import {Router, RouterStateSnapshot} from '@angular/router';
 import * as debug from 'debug';
@@ -16,6 +18,8 @@ export class AuthService {
 
     private static readonly TOKEN_REFRESH_MIN_TTL = 600000;
     private static readonly TOKEN_REFRESH_INTERVAL = 10000;
+
+    private _token: AuthToken;
     private _refreshTimerSubscription: Subscription;
     private _tokenSubscription: Subscription;
 
@@ -58,8 +62,6 @@ export class AuthService {
     public get token$(): Observable<AuthToken> {
         return this._tokenService.token$;
     }
-
-    private _token: AuthToken;
 
     private set token(token: AuthToken) {
         if (this._token !== token) {

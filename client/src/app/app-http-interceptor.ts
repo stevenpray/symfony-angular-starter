@@ -8,7 +8,7 @@ import {NotificationService} from './shared/notification';
 import {Observable} from 'rxjs/Observable';
 
 @Injectable()
-export class AppHttpInterceptor implements HttpInterceptor {
+export class AppHttpInterceptorService implements HttpInterceptor {
 
     constructor(private _notification: NotificationService) {
     }
@@ -27,6 +27,7 @@ export class AppHttpInterceptor implements HttpInterceptor {
                         case 4:
                             ActivityService.error = true;
                     }
+                    // tslint:enable no-switch-case-fall-through
                 }
                 return Observable.throw(error);
             });

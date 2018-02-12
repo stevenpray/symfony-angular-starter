@@ -1,3 +1,5 @@
+// stylelint-disable declaration-no-important
+
 @media print {
 
     @page {
@@ -9,10 +11,10 @@
     }
 
     *,
-    *:before,
-    *:after {
+    *::before,
+    *::after {
         background: transparent !important;
-        color: #000000 !important;
+        color: black !important;
         box-shadow: none !important;
         text-shadow: none !important;
     }
@@ -25,14 +27,14 @@
         }
 
         &[href] {
-            &:after {
+            &::after {
                 content: ' (' attr(href) ')';
             }
         }
 
         &[href^='#'],
         &[href^='javascript:'] {
-            &:after {
+            &::after {
                 content: '';
             }
         }
@@ -40,20 +42,19 @@
 
     abbr {
         &[title] {
-            &:after {
+            &::after {
                 content: ' (' attr(title) ')';
             }
         }
     }
 
     pre {
-        //noinspection Stylelint
         white-space: pre-wrap !important;
     }
 
     pre,
     blockquote {
-        border: 1px solid #808080;
+        border: 1px solid gray;
         page-break-inside: avoid;
     }
 

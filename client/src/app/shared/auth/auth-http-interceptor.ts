@@ -8,20 +8,21 @@ import {AuthTokenService} from './auth-token.service';
 const log = debug('app:auth');
 
 @Injectable()
-export class AuthInterceptorService implements HttpInterceptor {
+export class AuthHttpInterceptor implements HttpInterceptor {
 
     public static readonly AUTHORIZATION_HEADER_NAME = 'Authorization';
 
     private _token: AuthToken;
 
     constructor(private _tokenService: AuthTokenService) {
-        this._tokenService.token$.subscribe((token: AuthToken) => this._token = token);
+        this._tokenService.token$.subscribe((token: AuthToken) => this._token =
+            token);
     }
 
     public intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
         if (this._token) {
             const value = 'Bearer ' + this._token.encoded;
-            request = request.clone({headers: request.headers.set(AuthInterceptorService.AUTHORIZATION_HEADER_NAME, value)});
+            request = request.clone({headers: request.headers.set(AuthHttpInterceptor.AUTHORIZATION_HEADER_NAME, value)});
             log('Authorization header appended.');
         }
         return next.handle(request);

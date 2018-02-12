@@ -5,7 +5,7 @@ export interface AuthTokenDecoded {
     iat: number;
     username: string;
     roles: number;
-};
+}
 
 export class AuthToken {
 

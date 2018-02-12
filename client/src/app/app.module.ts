@@ -8,7 +8,14 @@ import {RouterModule} from '@angular/router';
 import {appRoutes} from './app.routes';
 import {DefaultComponent} from './default/default.component';
 import {HomeComponent} from './home/home.component';
-import {MatButtonModule, MatCardModule, MatFormFieldModule, MatInputModule, MatSnackBarModule, MatToolbarModule} from '@angular/material';
+import {
+    MatButtonModule,
+    MatCardModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatSnackBarModule,
+    MatToolbarModule,
+} from '@angular/material';
 import {AuthModule} from './shared/auth';
 import {HTTP_INTERCEPTORS} from '@angular/common/http';
 import {MetaModule} from '@ngx-meta/core';
@@ -16,7 +23,7 @@ import {appMetaProvider} from './app.providers';
 import {RestangularModule} from 'ngx-restangular';
 import {SigninComponent} from './signin/signin.component';
 import {ReactiveFormsModule} from '@angular/forms';
-import {AppHttpInterceptor} from './app-http.interceptor';
+import {AppHttpInterceptorService} from './app-http-interceptor';
 import {ActivityModule} from './shared/activity';
 import {NotificationModule} from './shared/notification';
 import {AdminModule} from './admin/admin.module';
@@ -48,7 +55,7 @@ import {AdminModule} from './admin/admin.module';
         ServiceWorkerModule.register('/ngsw-worker.js', {enabled: environment.production}),
     ],
     providers: [
-        {provide: HTTP_INTERCEPTORS, useClass: AppHttpInterceptor, multi: true},
+        {provide: HTTP_INTERCEPTORS, useClass: AppHttpInterceptorService, multi: true},
     ],
     bootstrap: [AppComponent],
 })

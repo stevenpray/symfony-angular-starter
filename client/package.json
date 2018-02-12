@@ -43,6 +43,7 @@
         "@angular/compiler-cli": "^5.2.0",
         "@angular/language-service": "^5.2.0",
         "@types/debug": "^0.0.30",
+        "@types/howler": "^2.0.5",
         "@types/jasmine": "^2.8.3",
         "@types/jasminewd2": "^2.0.2",
         "@types/lodash": "^4.14.102",

@@ -4,7 +4,7 @@ import {Subscription} from 'rxjs/Subscription';
 import {ActivityService} from './activity.service';
 
 @Component({
-    selector: 'activity',
+    selector: 'app-activity',
     templateUrl: './activity.component.html',
     styleUrls: ['./activity.component.scss'],
 })

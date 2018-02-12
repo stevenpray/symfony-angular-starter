@@ -7,17 +7,27 @@
     //noinspection CssInvalidPropertyValue
     width: device-width;
 }
-
 // stylelint-enable at-rule-no-vendor-prefix
 
-::selection {
-    background-color: $selection-background-color;
-    text-shadow: none;
-}
+//::selection {
+//    background-color: $selection-background-color;
+//    text-shadow: none;
+//}
 
 ::placeholder {
     opacity: 0.25;
     color: inherit;
+}
+
+//noinspection CssInvalidPseudoSelector
+::-webkit-datetime-edit-fields-wrapper {
+    padding: 0;
+}
+
+::-webkit-calendar-picker-indicator {
+    &:hover {
+        background-color: transparent;
+    }
 }
 
 ::-moz-focus-inner,
@@ -29,17 +39,6 @@
 :-moz-focusring {
     color: transparent;
     text-shadow: 0 0 0 $input-color;
-}
-
-::-webkit-calendar-picker-indicator {
-    &:hover {
-        background-color: transparent;
-    }
-}
-
-//noinspection CssInvalidPseudoSelector
-::-webkit-datetime-edit-fields-wrapper {
-    padding: 0;
 }
 
 *,
@@ -360,8 +359,8 @@ textarea {
     padding: $input-padding-size;
     border: $border;
     border-radius: $border-radius;
-    line-height: inherit;
     font: inherit;
+    line-height: inherit;
     color: $input-color;
 
     &:disabled {
@@ -461,7 +460,9 @@ textarea {
     &::-webkit-slider-thumb {
         @include input-range-thumb;
         margin-top: (($input-range-thumb-size - $input-range-track-height) / -2);
+        // stylelint-disable property-no-vendor-prefix
         -webkit-appearance: none;
+        // stylelint-enable property-no-vendor-prefix
     }
 
     &::-moz-range-track {
@@ -519,7 +520,9 @@ textarea {
 
     &::-webkit-search-cancel-button,
     &::-webkit-search-decoration {
+        // stylelint-disable property-no-vendor-prefix
         -webkit-appearance: none;
+        // stylelint-enable property-no-vendor-prefix
     }
 }
 
