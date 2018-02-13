@@ -67,7 +67,7 @@ export class AuthService {
         if (this.token == null) {
             log('Authentication required.');
             if (state) {
-                log('Redirecting to interactive sign-in: "%s"', this._config.urls.redirects.unauthenticated);
+                log('Redirecting to "%s" for interactive authentication.', this._config.urls.redirects.unauthenticated);
                 this._router.navigate([this._config.urls.redirects.unauthenticated, {url: state.url}]);
             }
             return false;

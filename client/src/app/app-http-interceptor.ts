@@ -15,21 +15,21 @@ export class AppHttpInterceptorService implements HttpInterceptor {
 
     public intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
         return next.handle(request)
-            .catch(error => {
-                if (error instanceof HttpErrorResponse) {
-                    const response = <HttpErrorResponse>error;
-                    const status = Math.floor(response.status / 100);
-                    // tslint:disable no-switch-case-fall-through
-                    // noinspection FallThroughInSwitchStatementJS
-                    switch (status) {
-                        case 5:
-                            this._notification.notify('Something went very very wrong.', 'error');
-                        case 4:
-                            ActivityService.error = true;
-                    }
-                    // tslint:enable no-switch-case-fall-through
-                }
-                return Observable.throw(error);
-            });
+                   .catch(error => {
+                       if (error instanceof HttpErrorResponse) {
+                           const response = <HttpErrorResponse>error;
+                           const status = Math.floor(response.status / 100);
+                           // tslint:disable no-switch-case-fall-through
+                           // noinspection FallThroughInSwitchStatementJS
+                           switch (status) {
+                               case 5:
+                                   this._notification.notify('Something went very very wrong.', 'error');
+                               case 4:
+                                   ActivityService.error = true;
+                           }
+                           // tslint:enable no-switch-case-fall-through
+                       }
+                       return Observable.throw(error);
+                   });
     }
 }

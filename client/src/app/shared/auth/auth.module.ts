@@ -15,7 +15,6 @@ export const log = debug('app:auth');
     ],
 })
 export class AuthModule {
-
     public static forRoot(config: AuthConfig): ModuleWithProviders {
         return {
             ngModule: AuthModule,
