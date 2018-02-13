@@ -1,13 +1,16 @@
 import {APP_BASE_HREF} from '@angular/common';
 import {async, TestBed} from '@angular/core/testing';
-import {AppComponent} from './app.component';
-import {AppModule} from './app.module';
+import {RouterModule} from '@angular/router';
+import {AdminComponent} from './admin.component';
+import {AdminModule} from './admin.module';
+import {adminRoutes} from './admin.routes';
 
-describe('AppComponent', () => {
+describe('AdminComponent', () => {
     beforeEach(async(() => {
         TestBed.configureTestingModule({
             imports: [
-                AppModule,
+                AdminModule,
+                RouterModule.forRoot(adminRoutes),
             ],
             providers: [
                 {provide: APP_BASE_HREF, useValue: '/'},
@@ -16,7 +19,7 @@ describe('AppComponent', () => {
     }));
 
     it('should create the component', async(() => {
-        const fixture = TestBed.createComponent(AppComponent);
+        const fixture = TestBed.createComponent(AdminComponent);
         const component = fixture.debugElement.componentInstance;
         expect(component).toBeTruthy();
     }));
