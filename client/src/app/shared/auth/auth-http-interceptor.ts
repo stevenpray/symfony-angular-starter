@@ -1,11 +1,9 @@
 import {HttpEvent, HttpHandler, HttpInterceptor, HttpRequest} from '@angular/common/http';
 import {Injectable} from '@angular/core';
-import * as debug from 'debug';
 import {Observable} from 'rxjs/Rx';
 import {AuthToken} from './auth-token';
-import {AuthTokenService} from './auth-token.service';
-
-const log = debug('app:auth');
+import {log} from './auth.module';
+import {AuthService} from './auth.service';
 
 @Injectable()
 export class AuthHttpInterceptor implements HttpInterceptor {
@@ -14,9 +12,8 @@ export class AuthHttpInterceptor implements HttpInterceptor {
 
     private _token: AuthToken;
 
-    constructor(private _tokenService: AuthTokenService) {
-        this._tokenService.token$.subscribe((token: AuthToken) => this._token =
-            token);
+    constructor(private _service: AuthService) {
+        this._service.token$.subscribe((token: AuthToken) => this._token = token);
     }
 
     public intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {

@@ -40,7 +40,7 @@ export class AppComponent implements OnInit, OnDestroy {
 
     public ngOnInit(): void {
         this._subscriptions = [
-            this._auth.token$.subscribe(token => this.authenticated = token && !token.expired),
+            this._auth.token$.subscribe(token => this.authenticated = this._auth.isAuthenticated),
         ];
     }
 

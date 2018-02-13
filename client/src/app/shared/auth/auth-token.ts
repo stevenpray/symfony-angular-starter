@@ -1,4 +1,11 @@
-import {AuthUser} from './auth-user';
+import {log} from './auth.module';
+
+export enum AuthRole {
+    USER              = 1,
+    ADMIN             = 1 << 1 | USER,
+    ALLOWED_TO_SWITCH = 1 << 2 | USER,
+    SUPER_ADMIN       = USER | ADMIN | ALLOWED_TO_SWITCH,
+}
 
 export interface AuthTokenDecoded {
     exp: number;
@@ -11,16 +18,12 @@ export class AuthToken {
 
     private _decoded: AuthTokenDecoded;
     private _encoded: string;
-    private _user: AuthUser;
 
-    /**
-     * @param {string} encoded
-     */
     constructor(encoded: string) {
         try {
-            this._decoded = JSON.parse(atob(encoded.split('.')[1].replace('-', '+').replace('_', '/')));
             this._encoded = encoded;
-            this._user = new AuthUser(this._decoded.username, this._decoded.roles);
+            this._decoded = JSON.parse(atob(encoded.split('.')[1].replace('-', '+').replace('_', '/')));
+            log('Access token has roles.', AuthToken._getRoles(this._decoded.roles));
         } catch (error) {
             throw Error('Token is malformed.');
         }
@@ -30,38 +33,44 @@ export class AuthToken {
         return this._decoded;
     }
 
-    /**
-     * @returns {string}
-     */
     public get encoded(): string {
         return this._encoded;
     }
 
-    /**
-     * @returns {Date}
-     */
-    public get expiration(): Date {
-        return new Date(this._decoded.exp * 1000);
-    }
-
-    /**
-     * @returns {boolean}
-     */
-    public get expired(): boolean {
-        return this.expiration <= new Date();
-    }
-
-    /**
-     * @returns {number}
-     */
     public get ttl(): number {
         return this._decoded.exp - this._decoded.iat;
     }
 
-    /**
-     * @returns {AuthUser}
-     */
-    public get user(): AuthUser {
-        return this._user;
+    public get username(): string {
+        return this._decoded.username;
+    }
+
+    public get expiration(): Date {
+        return new Date(this._decoded.exp * 1000);
+    }
+
+    public get isExpired(): boolean {
+        return this.expiration <= new Date();
+    }
+
+    public hasRole(role: AuthRole): boolean {
+        return (this._decoded.roles & role) === role;
+    }
+
+    private static _getRoles(role: AuthRole): { [name: string]: number } {
+        const roles: { [name: string]: number } = {};
+        Object.keys(AuthRole).forEach(key => {
+            if (isNaN(Number(key))) {
+                const value: number = AuthRole[key];
+                if (role) {
+                    if ((role & value) === value) {
+                        roles[key] = value;
+                    }
+                } else {
+                    roles[key] = value;
+                }
+            }
+        });
+        return roles;
     }
 }

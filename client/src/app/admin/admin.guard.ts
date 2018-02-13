@@ -9,6 +9,6 @@ export class AdminGuard implements CanActivate {
     }
 
     public canActivate(next: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
-        return this._auth.authorize(AuthRole.ADMIN, state);
+        return this._auth.isAuthorized(AuthRole.ADMIN, state);
     }
 }

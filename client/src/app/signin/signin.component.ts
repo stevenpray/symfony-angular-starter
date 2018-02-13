@@ -66,7 +66,7 @@ export class SigninComponent implements OnInit, OnDestroy {
         this._auth.login(this.form.value.username, this.form.value.password)
             .finally(() => this.submitted = false)
             .subscribe(
-                (response: HttpResponse<any>) => this._router.navigateByUrl(this._url),
+                (authenticated) => this._router.navigateByUrl(this._url),
                 (response: HttpErrorResponse) => {
                     if (response.status === 401) {
                         this.error = response.error.message;
