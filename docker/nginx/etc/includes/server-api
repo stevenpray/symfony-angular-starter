@@ -6,17 +6,6 @@ set_real_ip_from 172.31.0.0/16;
 
 sendfile off;
 
-# add_header Access-Control-Allow-Headers "Authorization, Accept, Cache-Control, Content-Type, Origin, X-Request-ID, X-Request-URL" always;
-# add_header Access-Control-Allow-Methods "DELETE, GET, OPTIONS, POST, PUT" always;
-# add_header Access-Control-Allow-Origin "*" always;
-# add_header Access-Control-Expose-Headers "Location" always;
-# add_header Access-Control-Max-Age 600 always;
-add_header Cache-Control "no-transform";
-
-if ($request_method = "OPTIONS") {
-    return 204;
-}
-
 fastcgi_buffers 16 16k;
 fastcgi_buffer_size 32k;
 

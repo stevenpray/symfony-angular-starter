@@ -14,7 +14,8 @@ nelmio_cors:
             - '%env(CORS_ALLOW_ORIGIN)%'
         expose_headers:
             - Link
-        max_age: 3600
+            - Location
+        max_age: 600
         origin_regex: true
     paths:
         ^/: ~
