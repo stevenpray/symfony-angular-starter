@@ -16,6 +16,7 @@ matrix:
             script:
                 - npm run lint
                 - npm run build
+                - npm run test
         -
             language: php
             php: 7.2
