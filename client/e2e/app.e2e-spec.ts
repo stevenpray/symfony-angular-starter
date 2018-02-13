@@ -1,14 +1,8 @@
-import {AppPage} from './app.po';
+import {browser, by, element} from 'protractor';
 
-describe('client App', () => {
-    let page: AppPage;
-
-    beforeEach(() => {
-        page = new AppPage();
-    });
-
+describe('client', () => {
     it('should display welcome message', () => {
-        page.navigateTo();
-        expect(page.getParagraphText()).toEqual('Welcome to app!');
+        browser.get('/');
+        expect(element(by.css('a[rel="home"]')).getText()).toEqual('Symfony-Angular Starter');
     });
 });

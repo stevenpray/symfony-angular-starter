@@ -8,7 +8,8 @@
         "ng": "ng",
         "start": "ng serve",
         "build": "ng build --prod",
-        "test": "ng test",
+        "test": "jest",
+        "test:watch": "jest --watch",
         "lint": "ng lint --type-check",
         "e2e": "ng e2e"
     },
@@ -44,18 +45,13 @@
         "@angular/language-service": "^5.2.0",
         "@types/debug": "^0.0.30",
         "@types/howler": "^2.0.5",
-        "@types/jasmine": "^2.8.3",
-        "@types/jasminewd2": "^2.0.2",
+        "@types/jest": "^22.1.2",
         "@types/lodash": "^4.14.102",
         "@types/node": "^9.4.1",
         "codelyzer": "^4.1.0",
-        "jasmine-core": "^2.8.0",
         "jasmine-spec-reporter": "^4.2.1",
-        "karma": "^2.0.0",
-        "karma-chrome-launcher": "^2.2.0",
-        "karma-coverage-istanbul-reporter": "^1.2.1",
-        "karma-jasmine": "^1.1.0",
-        "karma-jasmine-html-reporter": "^0.2.2",
+        "jest": "^22.2.2",
+        "jest-preset-angular": "^5.0.0",
         "protractor": "^5.1.2",
         "stylelint": "^8.4.0",
         "stylelint-config-recommended-scss": "^3.0.0",
@@ -63,5 +59,9 @@
         "ts-node": "^4.1.0",
         "tslint": "^5.9.1",
         "typescript": "^2.6.2"
+    },
+    "jest": {
+        "preset": "jest-preset-angular",
+        "setupTestFrameworkScriptFile": "./jest-setup.ts"
     }
 }
