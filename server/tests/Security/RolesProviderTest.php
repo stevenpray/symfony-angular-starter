@@ -29,7 +29,7 @@ class RolesProviderTest extends TestCase
     /**
      * {@inheritdoc}
      */
-    protected function setUp()
+    public function setUp()
     {
         $hierarchy = [
             'ROLE_ADMIN'       => [

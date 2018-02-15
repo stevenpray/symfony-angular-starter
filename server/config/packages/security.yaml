@@ -17,8 +17,8 @@ security:
                 username_parameter: username
                 password_parameter: password
                 check_path: /login_check
-                success_handler: lexik_jwt_authentication.handler.authentication_success
-                failure_handler: lexik_jwt_authentication.handler.authentication_failure
+                success_handler: App\Security\AuthenticationHandler
+                failure_handler: App\Security\AuthenticationHandler
                 require_previous_session: false
         docs:
             pattern: ^/docs

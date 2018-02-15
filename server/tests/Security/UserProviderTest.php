@@ -8,6 +8,7 @@ use App\Security\UserProvider;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\EntityRepository;
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\Security\Core\Exception\UnsupportedUserException;
 use Symfony\Component\Security\Core\Exception\UsernameNotFoundException;
@@ -33,46 +34,18 @@ class UserProviderTest extends TestCase
     /**
      * {@inheritdoc}
      */
-    protected function setUp()
+    public function setUp()
     {
         $this->user = new User();
         $this->user->setUsername('user');
 
-        $er = $this->getMockBuilder(EntityRepository::class)
-                   ->disableOriginalConstructor()
-                   ->setMethods(['find', 'findOneByUsername'])
-                   ->getMock();
+        /**
+         * @var EntityManagerInterface $em
+         * @var EntityRepository $er
+         */
+        $er = $this->buildEntityRepository();
+        $em = $this->buildEntityManager($er);
 
-        $er->method('find')
-           ->with($this->isType('integer'))
-           ->will(
-               $this->returnCallback(
-                   function ($id) {
-                       return $id === 1 ? $this->user : null;
-                   }
-               )
-           );
-
-        $er->method('findOneByUsername')
-           ->with($this->isType('string'))
-           ->will(
-               $this->returnCallback(
-                   function ($username) {
-                       return $username === $this->user->getUsername() ? $this->user : null;
-                   }
-               )
-           );
-
-        $em = $this->getMockBuilder(EntityManager::class)
-                   ->disableOriginalConstructor()
-                   ->setMethods(['getRepository'])
-                   ->getMock();
-
-        $em->method('getRepository')
-           ->with(User::class)
-           ->willReturn($er);
-
-        /** @var EntityManagerInterface $em */
         $this->provider = new UserProvider($em);
     }
 
@@ -143,5 +116,48 @@ class UserProviderTest extends TestCase
             ['user', true],
             ['not_a_user', false],
         ];
+    }
+
+    /**
+     * @return MockObject
+     */
+    public function buildEntityRepository(): MockObject
+    {
+        $mock = $this->getMockBuilder(EntityRepository::class)
+                     ->disableOriginalConstructor()
+                     ->setMethods(['find', 'findOneByUsername'])
+                     ->getMock();
+
+        $mock->method('find')
+             ->with($this->isType('integer'))
+             ->will($this->returnCallback(function ($id) {
+                 return $id === 1 ? $this->user : null;
+             }));
+
+        $mock->method('findOneByUsername')
+             ->with($this->isType('string'))
+             ->will($this->returnCallback(function ($username) {
+                 return $username === $this->user->getUsername() ? $this->user : null;
+             }));
+
+        return $mock;
+    }
+
+    /**
+     * @param EntityRepository $er
+     * @return MockObject
+     */
+    public function buildEntityManager(EntityRepository $er): MockObject
+    {
+        $mock = $this->getMockBuilder(EntityManager::class)
+                     ->disableOriginalConstructor()
+                     ->setMethods(['getRepository'])
+                     ->getMock();
+
+        $mock->method('getRepository')
+             ->with(User::class)
+             ->willReturn($er);
+
+        return $mock;
     }
 }

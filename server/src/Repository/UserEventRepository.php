@@ -5,6 +5,7 @@ namespace App\Repository;
 
 use App\DBAL\Types\UserEventType;
 use App\Entity\User;
+use App\Entity\UserEvent;
 use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\NonUniqueResultException;
 
@@ -17,10 +18,10 @@ class UserEventRepository extends EntityRepository
 {
     /**
      * @param User $user
-     * @return mixed
+     * @return UserEvent[]
      * @throws NonUniqueResultException
      */
-    public function findConsecutiveLoginFailureCountByUser(User $user): int
+    public function findConsecutiveLoginFailuresByUser(User $user): array
     {
         $types = [UserEventType::INTERACTIVE_LOGIN_SUCCESS, UserEventType::PASSWORD_RESET_SUCCESS];
         $success = $this->createQueryBuilder('user_event')
@@ -35,7 +36,7 @@ class UserEventRepository extends EntityRepository
                         ->getOneOrNullResult();
 
         $qb = $this->createQueryBuilder('user_event')
-                   ->select('count(user_event)')
+                   ->select('user_event')
                    ->where('user_event.type = :type')
                    ->setParameter('type', UserEventType::INTERACTIVE_LOGIN_FAILURE);
         if ($success) {
@@ -43,6 +44,6 @@ class UserEventRepository extends EntityRepository
                ->setParameter('createdAt', $success->getCreatedAt());
         }
 
-        return $qb->getQuery()->getSingleScalarResult();
+        return $qb->getQuery()->getResult();
     }
 }

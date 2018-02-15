@@ -21,25 +21,23 @@ class UserRepositoryTest extends KernelTestCase
     protected $em;
 
     /**
-     * @return array[]
+     * {@inheritdoc}
      */
-    public function provideUsernames(): array
-    {
-        return [
-            ['super', true],
-            ['admin', true],
-            ['user', true],
-            ['non_existing_username', false],
-        ];
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    protected function setUp()
+    public function setUp()
     {
         $kernel = self::bootKernel();
         $this->em = $kernel->getContainer()->get('doctrine')->getManager();
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function tearDown()
+    {
+        parent::tearDown();
+
+        $this->em->close();
+        $this->em = null;
     }
 
     /**
@@ -57,13 +55,15 @@ class UserRepositoryTest extends KernelTestCase
     }
 
     /**
-     * {@inheritDoc}
+     * @return array[]
      */
-    protected function tearDown()
+    public function provideUsernames(): array
     {
-        parent::tearDown();
-
-        $this->em->close();
-        $this->em = null;
+        return [
+            ['super', true],
+            ['admin', true],
+            ['user', true],
+            ['non_existing_username', false],
+        ];
     }
 }

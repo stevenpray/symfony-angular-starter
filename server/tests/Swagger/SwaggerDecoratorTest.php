@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace App\Tests\Swagger;
 
 use App\Swagger\SwaggerDecorator;
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
@@ -25,29 +26,17 @@ class SwaggerDecoratorTest extends TestCase
     /**
      * {@inheritdoc}
      */
-    protected function setUp()
+    public function setUp()
     {
-        $decorated = $this->getMockBuilder(NormalizerInterface::class)
-                          ->setMethods(['supportsNormalization', 'normalize'])
-                          ->getMock();
-        $decorated->method('supportsNormalization')->willReturn(true);
-
-        $request = $this->getMockBuilder(Request::class)
-                        ->setMethods(['getHttpHost', 'getScheme'])
-                        ->getMock();
-        $request->method('getHttpHost')->willReturn('localhost:8001');
-        $request->method('getScheme')->willReturn('http');
-
-        $requestStack = $this->getMockBuilder(RequestStack::class)
-                             ->setMethods(['getMasterRequest'])
-                             ->getMock();
-        $requestStack->method('getMasterRequest')->willReturn($request);
-
         /**
-         * @var NormalizerInterface $decorated
+         * @var NormalizerInterface $normalizer
+         * @var Request $request
          * @var RequestStack $requestStack
          */
-        $this->decorator = new SwaggerDecorator($decorated, $requestStack);
+        $normalizer = $this->buildNormalizerInterface();
+        $request = $this->buildRequest();
+        $requestStack = $this->buildRequestStack($request);
+        $this->decorator = new SwaggerDecorator($normalizer, $requestStack);
     }
 
     public function testSupportsNormalization(): void
@@ -67,5 +56,50 @@ class SwaggerDecoratorTest extends TestCase
         $this->assertSame('localhost:8001', $result['host']);
         $this->assertCount(1, $result['schemes']);
         $this->assertContains('http', $result['schemes']);
+    }
+
+    /**
+     * @return MockObject
+     */
+    public function buildNormalizerInterface(): MockObject
+    {
+        $mock = $this->getMockBuilder(NormalizerInterface::class)
+                     ->setMethods(['supportsNormalization', 'normalize'])
+                     ->getMock();
+        $mock->method('supportsNormalization')
+             ->willReturn(true);
+
+        return $mock;
+    }
+
+    /**
+     * @return MockObject
+     */
+    public function buildRequest(): MockObject
+    {
+        $mock = $this->getMockBuilder(Request::class)
+                     ->setMethods(['getHttpHost', 'getScheme'])
+                     ->getMock();
+        $mock->method('getHttpHost')
+             ->willReturn('localhost:8001');
+        $mock->method('getScheme')
+             ->willReturn('http');
+
+        return $mock;
+    }
+
+    /**
+     * @param Request $request
+     * @return MockObject
+     */
+    public function buildRequestStack(Request $request): MockObject
+    {
+        $mock = $this->getMockBuilder(RequestStack::class)
+                     ->setMethods(['getMasterRequest'])
+                     ->getMock();
+        $mock->method('getMasterRequest')
+             ->willReturn($request);
+
+        return $mock;
     }
 }
