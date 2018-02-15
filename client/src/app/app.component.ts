@@ -1,46 +1,39 @@
-import {animate, query, style, transition, trigger} from '@angular/animations';
-import {Component, OnDestroy, OnInit} from '@angular/core';
-import {RouterOutlet} from '@angular/router';
+import {transition, trigger, useAnimation} from '@angular/animations';
+import {Component, HostBinding, OnDestroy, OnInit} from '@angular/core';
 import {Subscription} from 'rxjs/Subscription';
 import {environment} from '../environments/environment';
-import {AuthService} from './shared/auth';
+import {fade, routeTransition} from './app.animations';
+import {AuthRole, AuthService} from './shared/auth';
 
 @Component({
     selector: 'app-root',
     templateUrl: './app.component.html',
     styleUrls: ['./app.component.scss'],
     animations: [
-        trigger('routerTransition', [
-            transition('* <=> *', [
-                query(':enter', [
-                    style({'opacity': 0}),
-                    animate('300ms cubic-bezier(0.77, 0, 0.175, 1)', style('*')),
-                ], {optional: true}),
-            ])
-        ]),
-        trigger('header', [
-            transition(':enter', [
-                style({opacity: 0}),
-                animate('300ms cubic-bezier(0.77, 0, 0.175, 1)', style({opacity: 1}))
-            ]),
-        ])
-
+        trigger('component', [transition(':enter', useAnimation(fade))]),
+        trigger('routeTransition', [routeTransition]),
     ],
 })
 export class AppComponent implements OnInit, OnDestroy {
 
     private _subscriptions: Subscription[];
 
-    public authenticated = false;
+    public isAdmin = false;
+    public isAuthenticated = false;
     public environment = environment;
     public title = 'Symfony-Angular Starter';
+
+    @HostBinding('@component') public animate = true;
 
     constructor(private _auth: AuthService) {
     }
 
     public ngOnInit(): void {
         this._subscriptions = [
-            this._auth.token$.subscribe(token => this.authenticated = this._auth.isAuthenticated),
+            this._auth.token$.subscribe(token => {
+                this.isAuthenticated = token && !token.isExpired;
+                this.isAdmin = this.isAuthenticated && token.hasRole(AuthRole.ADMIN);
+            }),
         ];
     }
 
@@ -50,9 +43,5 @@ export class AppComponent implements OnInit, OnDestroy {
 
     public logout(event?: Event): void {
         this._auth.logout();
-    }
-
-    public getRouterTransitionState(outlet: RouterOutlet): string {
-        return outlet.isActivated ? outlet.activatedRoute.snapshot.routeConfig.path : null;
     }
 }

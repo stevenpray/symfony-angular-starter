@@ -1,16 +1,23 @@
-<header class="app-header" [@header]>
+<header class="app-header">
     <mat-toolbar>
         <a mat-button routerLink="/" rel="home">{{ title }}</a>
         <span class="mat-toolbar-spacer"></span>
-        <a mat-button href="{{ environment.urls.api }}/docs">Swagger Doc</a>
         <nav>
-            <a mat-button routerLink="/admin">Admin</a>
-            <a *ngIf="authenticated" mat-button (click)="logout()" class="link">Sign Out</a>
+            <a mat-button routerLink="/account">Account</a>
+            <ng-container *ngIf="isAuthenticated">
+                <a *ngIf="isAdmin" mat-button routerLink="/admin">Admin</a>
+                <a mat-button (click)="logout()" class="link">Sign Out</a>
+            </ng-container>
         </nav>
     </mat-toolbar>
 </header>
-<main [@routerTransition]="getRouterTransitionState(o)">
+<main [@routeTransition]="o.isActivated ? o.activatedRoute.snapshot.routeConfig.path : null">
     <router-outlet #o="outlet"></router-outlet>
 </main>
+<footer>
+    <a href="{{ environment.urls.api }}/docs" target="_blank">
+        <small>Swagger Doc</small>
+    </a>
+</footer>
 <app-activity></app-activity>
 <app-notification></app-notification>

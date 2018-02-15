@@ -1,1 +1,6 @@
-<router-outlet #outlet="outlet"></router-outlet>
+<header>
+    <h1>Admin</h1>
+</header>
+<div [@routeTransition]="o.isActivated ? o.activatedRoute.snapshot.routeConfig.path : null">
+    <router-outlet #o="outlet"></router-outlet>
+</div>
