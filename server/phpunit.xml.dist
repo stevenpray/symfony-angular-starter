@@ -43,4 +43,7 @@
         <listener class="Symfony\Bridge\PhpUnit\CoverageListener" />
         <listener class="Symfony\Bridge\PhpUnit\SymfonyTestsListener"/>
     </listeners>
+    <logging>
+        <log type="coverage-clover" target="clover.xml"/>
+    </logging>
 </phpunit>

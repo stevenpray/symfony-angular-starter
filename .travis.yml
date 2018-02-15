@@ -33,6 +33,9 @@ matrix:
                 - JWT_PASSPHRASE=6caf469adc8be6001f92c944681cc48c
             before_install:
                 - cd server
+                - curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
+                - chmod +x ./cc-test-reporter
+                - ./cc-test-reporter before-build
             install:
                 - composer install
             before_script:
@@ -41,6 +44,8 @@ matrix:
                 - bin/console cache:warmup
             script:
                 - vendor/bin/phpunit
+            after_script:
+                - ./cc-test-reporter after-build --coverage-input-type clover --id $CC_TEST_REPORTER_ID --exit-code $TRAVIS_TEST_RESULT
 
         -
             language: generic
