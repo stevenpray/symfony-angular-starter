@@ -3,8 +3,8 @@ import {animate, animation, query, style, transition, useAnimation} from '@angul
 export const animations = {
     fade: animation([
         style({opacity: '{{ start }}'}),
-        animate('{{ time }} ease', style({opacity: '{{ end }}'})),
-    ], {params: {time: '300ms', start: 0, end: 1}}),
+        animate('{{ duration }} ease', style({opacity: '{{ end }}'})),
+    ], {params: {duration: '500ms', start: 0, end: 1}}),
 };
 
 export const routeTransition = transition('* => *', [
