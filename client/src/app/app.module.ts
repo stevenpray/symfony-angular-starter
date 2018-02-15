@@ -9,6 +9,7 @@ import {ServiceWorkerModule} from '@angular/service-worker';
 import {MetaModule} from '@ngx-meta/core';
 import {RestangularModule} from 'ngx-restangular';
 import {environment} from '../environments/environment';
+import {AccountModule} from './account/account.module';
 import {AdminModule} from './admin/admin.module';
 import {AppHttpInterceptorService} from './app-http-interceptor';
 import {AppComponent} from './app.component';
@@ -30,6 +31,7 @@ import {SigninComponent} from './signin/signin.component';
     ],
     imports: [
         ActivityModule,
+        AccountModule,
         AdminModule,
         AuthModule.forRoot(authConfig),
         BrowserAnimationsModule,
