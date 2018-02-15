@@ -16,7 +16,7 @@ export class NotificationComponent implements OnInit, OnDestroy {
     private _subscriptions: Subscription[];
 
     @Input() public duration = 3000;
-    @Input() public sounds: { [key: string]: Howl } = {};
+    @Input() public sounds: {[key: string]: Howl} = {};
 
     constructor(private _service: NotificationService, private _snackBar: MatSnackBar) {
     }

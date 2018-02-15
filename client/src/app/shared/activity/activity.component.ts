@@ -11,12 +11,12 @@ import {ActivityService} from './activity.service';
 export class ActivityComponent implements OnInit, OnDestroy {
 
     private _active = false;
-    private _mode: 'determinate' | 'indeterminate' | 'buffer' | 'query' = 'indeterminate';
+    private _mode: 'determinate'|'indeterminate'|'buffer'|'query' = 'indeterminate';
     private _subscriptions: Subscription[];
     private _timer = Observable.timer(1000, 0);
     private _timerSubscription: Subscription;
 
-    @Input() public color: 'primary' | 'warn' = 'primary';
+    @Input() public color: 'primary'|'warn' = 'primary';
 
     public get mode(): string {
         return this._mode;

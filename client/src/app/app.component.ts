@@ -1,8 +1,8 @@
-import {transition, trigger, useAnimation} from '@angular/animations';
+import {trigger} from '@angular/animations';
 import {Component, HostBinding, OnDestroy, OnInit} from '@angular/core';
 import {Subscription} from 'rxjs/Subscription';
 import {environment} from '../environments/environment';
-import {fade, routeTransition} from './app.animations';
+import {routeTransition} from './app.animations';
 import {AuthRole, AuthService} from './shared/auth';
 
 @Component({
@@ -10,7 +10,7 @@ import {AuthRole, AuthService} from './shared/auth';
     templateUrl: './app.component.html',
     styleUrls: ['./app.component.scss'],
     animations: [
-        trigger('component', [transition(':enter', useAnimation(fade))]),
+        trigger('app', [routeTransition]),
         trigger('routeTransition', [routeTransition]),
     ],
 })
@@ -23,7 +23,7 @@ export class AppComponent implements OnInit, OnDestroy {
     public environment = environment;
     public title = 'Symfony-Angular Starter';
 
-    @HostBinding('@component') public animate = true;
+    @HostBinding('@app') public animate = true;
 
     constructor(private _auth: AuthService) {
     }

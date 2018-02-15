@@ -1,4 +1,3 @@
-import {HTTP_INTERCEPTORS} from '@angular/common/http';
 import {NgModule} from '@angular/core';
 import {ReactiveFormsModule} from '@angular/forms';
 import {MatButtonModule, MatCardModule, MatFormFieldModule, MatInputModule, MatSnackBarModule, MatToolbarModule} from '@angular/material';
@@ -11,7 +10,6 @@ import {RestangularModule} from 'ngx-restangular';
 import {environment} from '../environments/environment';
 import {AccountModule} from './account/account.module';
 import {AdminModule} from './admin/admin.module';
-import {AppHttpInterceptorService} from './app-http-interceptor';
 import {AppComponent} from './app.component';
 import {authConfig, metaConfig, restangularConfig} from './app.providers';
 import {appRoutes} from './app.routes';
@@ -49,9 +47,7 @@ import {SigninComponent} from './signin/signin.component';
         RouterModule.forRoot(appRoutes),
         ServiceWorkerModule.register('/ngsw-worker.js', {enabled: environment.production}),
     ],
-    providers: [
-        {provide: HTTP_INTERCEPTORS, useClass: AppHttpInterceptorService, multi: true},
-    ],
+    providers: [],
     bootstrap: [AppComponent],
 })
 export class AppModule {

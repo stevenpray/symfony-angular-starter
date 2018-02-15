@@ -1,3 +1,3 @@
 export interface Account {
-    username: string,
+    username: string;
 }

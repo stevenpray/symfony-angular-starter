@@ -31,6 +31,10 @@ export class AuthService {
         }
     }
 
+    public get token(): AuthToken {
+        return this._token;
+    }
+
     public set token(token: AuthToken) {
         if (token !== this._token) {
             log('Access token updated.');
@@ -48,10 +52,6 @@ export class AuthService {
             this._token = token;
             this._token$.next(this._token);
         }
-    }
-
-    public get token(): AuthToken {
-        return this._token;
     }
 
     public get token$(): Observable<AuthToken> {

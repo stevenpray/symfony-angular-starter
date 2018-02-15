@@ -1,10 +1,10 @@
 import {log} from './auth.module';
 
 export enum AuthRole {
-    USER              = 1,
-    ADMIN             = 1 << 1 | USER,
+    USER = 1,
+    ADMIN = 1 << 1 | USER,
     ALLOWED_TO_SWITCH = 1 << 2 | USER,
-    SUPER_ADMIN       = USER | ADMIN | ALLOWED_TO_SWITCH,
+    SUPER_ADMIN = USER | ADMIN | ALLOWED_TO_SWITCH,
 }
 
 export interface AuthTokenDecoded {
@@ -57,8 +57,8 @@ export class AuthToken {
         return (this._decoded.roles & role) === role;
     }
 
-    private static _getRoles(role: AuthRole): { [name: string]: number } {
-        const roles: { [name: string]: number } = {};
+    private static _getRoles(role: AuthRole): {[name: string]: number} {
+        const roles: {[name: string]: number} = {};
         Object.keys(AuthRole).forEach(key => {
             if (isNaN(Number(key))) {
                 const value: number = AuthRole[key];
