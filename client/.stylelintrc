@@ -26,7 +26,7 @@
         "no-duplicate-selectors": true,
         "number-leading-zero": "always",
         "property-no-vendor-prefix": true,
-        "property-no-unknown": [true, {"except": ["text-decoration-skip-ink"]}],
+        "property-no-unknown": [true, {"ignoreProperties": ["text-decoration-skip-ink"]}],
         "rule-empty-line-before": ["always", {"except": ["after-single-line-comment", "first-nested"]}],
         "selector-attribute-brackets-space-inside": "never",
         "selector-attribute-operator-space-after": "never",
