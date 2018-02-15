@@ -17,8 +17,8 @@ security:
                 username_parameter: username
                 password_parameter: password
                 check_path: /login_check
-                success_handler: App\Security\AuthenticationHandler
-                failure_handler: App\Security\AuthenticationHandler
+                success_handler: App\Security\AuthenticationResultHandler
+                failure_handler: App\Security\AuthenticationResultHandler
                 require_previous_session: false
         docs:
             pattern: ^/docs
