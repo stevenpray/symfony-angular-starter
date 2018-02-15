@@ -1,22 +1,20 @@
 import {log} from './auth.module';
 
 export enum AuthRole {
-    USER = 1,
-    ADMIN = 1 << 1 | USER,
+    USER              = 1,
+    ADMIN             = 1 << 1 | USER,
     ALLOWED_TO_SWITCH = 1 << 2 | USER,
-    SUPER_ADMIN = USER | ADMIN | ALLOWED_TO_SWITCH,
-}
-
-export interface AuthTokenDecoded {
-    exp: number;
-    iat: number;
-    username: string;
-    roles: number;
+    SUPER_ADMIN       = USER | ADMIN | ALLOWED_TO_SWITCH,
 }
 
 export class AuthToken {
 
-    private _decoded: AuthTokenDecoded;
+    private _decoded: {
+        exp: number;
+        iat: number;
+        roles: number;
+        username: string;
+    };
     private _encoded: string;
 
     constructor(encoded: string) {
@@ -27,10 +25,6 @@ export class AuthToken {
         } catch (error) {
             throw Error('Token is malformed.');
         }
-    }
-
-    public get decoded(): AuthTokenDecoded {
-        return this._decoded;
     }
 
     public get encoded(): string {

@@ -1,4 +1,4 @@
-import {HttpClient, HttpHeaders, HttpParams, HttpResponse} from '@angular/common/http';
+import {HttpClient, HttpEvent, HttpHandler, HttpHeaders, HttpInterceptor, HttpParams, HttpRequest, HttpResponse} from '@angular/common/http';
 import {Inject, Injectable} from '@angular/core';
 import {Router, RouterStateSnapshot} from '@angular/router';
 import {Observable} from 'rxjs/Observable';
@@ -8,7 +8,7 @@ import {AuthRole, AuthToken} from './auth-token';
 import {log} from './auth.module';
 
 @Injectable()
-export class AuthService {
+export class AuthService implements HttpInterceptor {
 
     private static readonly TOKEN_NAME = 'access_token';
 
@@ -110,5 +110,14 @@ export class AuthService {
                 {url: this._router.routerState.snapshot.url},
             ]);
         }
+    }
+
+    public intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
+        if (this.isAuthenticated) {
+            const value = 'Bearer ' + this._token.encoded;
+            request = request.clone({headers: request.headers.set('Authorization', value)});
+            log('Authorization header appended.');
+        }
+        return next.handle(request);
     }
 }
