@@ -3,6 +3,7 @@ import {RouterModule} from '@angular/router';
 import {AdminComponent} from './admin.component';
 import {AdminGuard} from './admin.guard';
 import {adminRoutes} from './admin.routes';
+import {AdminService} from './admin.service';
 import {IndexComponent} from './index/index.component';
 
 @NgModule({
@@ -16,6 +17,7 @@ import {IndexComponent} from './index/index.component';
     ],
     providers: [
         AdminGuard,
+        AdminService,
     ],
 })
 export class AdminModule {
