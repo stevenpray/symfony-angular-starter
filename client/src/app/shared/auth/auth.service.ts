@@ -85,7 +85,7 @@ export class AuthService implements HttpInterceptor {
 
     public login(username: string, password: string): Observable<boolean> {
         log('Authenticating user.');
-        return this._http.request<any>('POST', this._config.urls.endpoint + '/login_check', {
+        return this._http.request<any>('POST', this._config.urls.endpoint + '/login', {
                        body: new HttpParams().set('username', username).set('password', password).toString(),
                        headers: new HttpHeaders().set('Content-Type', 'application/x-www-form-urlencoded'),
                        observe: 'response',
