@@ -39,25 +39,6 @@ class SwaggerDecoratorTest extends TestCase
         $this->decorator = new SwaggerDecorator($normalizer, $requestStack);
     }
 
-    public function testSupportsNormalization(): void
-    {
-        $data = null;
-        $result = $this->decorator->supportsNormalization($data);
-        $this->assertTrue($result);
-    }
-
-    public function testNormalize(): void
-    {
-        $object = null;
-        $result = $this->decorator->normalize($object);
-        $this->assertInternalType('array', $result);
-        $this->assertArrayHasKey('host', $result);
-        $this->assertArrayHasKey('schemes', $result);
-        $this->assertSame('localhost:8001', $result['host']);
-        $this->assertCount(1, $result['schemes']);
-        $this->assertContains('http', $result['schemes']);
-    }
-
     /**
      * @return MockObject
      */
@@ -101,5 +82,24 @@ class SwaggerDecoratorTest extends TestCase
              ->willReturn($request);
 
         return $mock;
+    }
+
+    public function testSupportsNormalization(): void
+    {
+        $data = null;
+        $result = $this->decorator->supportsNormalization($data);
+        $this->assertTrue($result);
+    }
+
+    public function testNormalize(): void
+    {
+        $object = null;
+        $result = $this->decorator->normalize($object);
+        $this->assertInternalType('array', $result);
+        $this->assertArrayHasKey('host', $result);
+        $this->assertArrayHasKey('schemes', $result);
+        $this->assertSame('localhost:8001', $result['host']);
+        $this->assertCount(1, $result['schemes']);
+        $this->assertContains('http', $result['schemes']);
     }
 }

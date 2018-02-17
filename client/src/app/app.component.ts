@@ -18,9 +18,9 @@ export class AppComponent implements OnInit, OnDestroy {
 
     private _subscriptions: Subscription[];
 
+    public environment = environment;
     public isAdmin = false;
     public isAuthenticated = false;
-    public environment = environment;
     public title = 'Symfony-Angular Starter';
 
     @HostBinding('@app') public animate = true;

@@ -5,6 +5,7 @@ namespace App\Repository;
 
 use App\Entity\User;
 use Doctrine\ORM\EntityRepository;
+use function strtolower;
 
 /**
  * Class UserRepository
@@ -15,7 +16,7 @@ class UserRepository extends EntityRepository
 {
     /**
      * @param string $username
-     * @return null|User
+     * @return User|null
      */
     public function findOneByUsername(string $username): ?User
     {

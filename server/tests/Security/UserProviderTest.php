@@ -12,6 +12,7 @@ use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\Security\Core\Exception\UnsupportedUserException;
 use Symfony\Component\Security\Core\Exception\UsernameNotFoundException;
+use function get_class;
 
 /**
  * Class UserProviderTest
@@ -47,75 +48,6 @@ class UserProviderTest extends TestCase
         $em = $this->buildEntityManager($er);
 
         $this->provider = new UserProvider($em);
-    }
-
-    /**
-     * @dataProvider provideUserIds
-     * @param int $id
-     * @param bool $expected
-     */
-    public function testLoadUserById(int $id, bool $expected): void
-    {
-        if (!$expected) {
-            $this->expectException(UsernameNotFoundException::class);
-        }
-        $result = $this->provider->loadUserById($id);
-        if ($expected) {
-            $this->assertSame(User::class, \get_class($result));
-        }
-    }
-
-    /**
-     * @dataProvider provideUsernames
-     * @param string $username
-     * @param bool $expected
-     */
-    public function testLoadUserByUsername(string $username, bool $expected): void
-    {
-        if (!$expected) {
-            $this->expectException(UsernameNotFoundException::class);
-        }
-        $result = $this->provider->loadUserByUsername($username);
-        if ($expected) {
-            $this->assertSame(User::class, \get_class($result));
-        }
-    }
-
-    public function testRefreshUser(): void
-    {
-        $this->expectException(UnsupportedUserException::class);
-        $this->provider->refreshUser($this->user);
-    }
-
-    public function testSupportsClass(): void
-    {
-        $result = $this->provider->supportsClass(User::class);
-        $this->assertTrue($result);
-
-        $result = $this->provider->supportsClass('ShouldReturnFalse');
-        $this->assertFalse($result);
-    }
-
-    /**
-     * @return array[]
-     */
-    public function provideUserIds(): array
-    {
-        return [
-            [0, false],
-            [1, true],
-        ];
-    }
-
-    /**
-     * @return array[]
-     */
-    public function provideUsernames(): array
-    {
-        return [
-            ['user', true],
-            ['not_a_user', false],
-        ];
     }
 
     /**
@@ -159,5 +91,74 @@ class UserProviderTest extends TestCase
              ->willReturn($er);
 
         return $mock;
+    }
+
+    /**
+     * @dataProvider provideUserIds
+     * @param int $id
+     * @param bool $expected
+     */
+    public function testLoadUserById(int $id, bool $expected): void
+    {
+        if (!$expected) {
+            $this->expectException(UsernameNotFoundException::class);
+        }
+        $result = $this->provider->loadUserById($id);
+        if ($expected) {
+            $this->assertSame(User::class, get_class($result));
+        }
+    }
+
+    /**
+     * @dataProvider provideUsernames
+     * @param string $username
+     * @param bool $expected
+     */
+    public function testLoadUserByUsername(string $username, bool $expected): void
+    {
+        if (!$expected) {
+            $this->expectException(UsernameNotFoundException::class);
+        }
+        $result = $this->provider->loadUserByUsername($username);
+        if ($expected) {
+            $this->assertSame(User::class, get_class($result));
+        }
+    }
+
+    public function testRefreshUser(): void
+    {
+        $this->expectException(UnsupportedUserException::class);
+        $this->provider->refreshUser($this->user);
+    }
+
+    public function testSupportsClass(): void
+    {
+        $result = $this->provider->supportsClass(User::class);
+        $this->assertTrue($result);
+
+        $result = $this->provider->supportsClass('ShouldReturnFalse');
+        $this->assertFalse($result);
+    }
+
+    /**
+     * @return array[]
+     */
+    public function provideUserIds(): array
+    {
+        return [
+            [0, false],
+            [1, true],
+        ];
+    }
+
+    /**
+     * @return array[]
+     */
+    public function provideUsernames(): array
+    {
+        return [
+            ['user', true],
+            ['not_a_user', false],
+        ];
     }
 }

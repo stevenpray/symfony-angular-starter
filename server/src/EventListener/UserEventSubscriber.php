@@ -10,6 +10,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\NonUniqueResultException;
 use Gedmo\Timestampable\Traits\Timestampable;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
+use function count;
 
 /**
  * Class UserEventSubscriber
@@ -62,7 +63,7 @@ class UserEventSubscriber implements EventSubscriberInterface
         $user = $event->getUser();
         if ($user->isLocked() === false) {
             $failures = $this->em->getRepository(UserEvent::class)->findConsecutiveLoginFailuresByUser($user);
-            if (\count($failures) >= $this->maxAttempts) {
+            if (count($failures) >= $this->maxAttempts) {
                 $user->setLocked(true);
             }
         }

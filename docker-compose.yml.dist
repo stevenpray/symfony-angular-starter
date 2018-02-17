@@ -44,7 +44,6 @@ services:
         environment:
             - XDEBUG_CONFIG=idekey= remote_host=
         links:
-            - debian
             - postgres
         volumes:
             - ./docker/php/docker-entrypoint.sh:/usr/local/bin/docker-entrypoint.sh:ro

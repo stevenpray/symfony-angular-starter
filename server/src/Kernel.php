@@ -3,6 +3,9 @@ declare(strict_types=1);
 
 namespace App;
 
+use Exception;
+use Generator;
+use Iterator;
 use Symfony\Bundle\FrameworkBundle\Kernel\MicroKernelTrait;
 use Symfony\Component\Config\Exception\FileLoaderLoadException;
 use Symfony\Component\Config\Loader\LoaderInterface;
@@ -39,12 +42,12 @@ class Kernel extends BaseKernel
     }
 
     /**
-     * @return \Generator|BundleInterface[]
+     * @return Generator|BundleInterface[]
      */
-    public function registerBundles()
+    public function registerBundles(): Iterator
     {
-        /** @var array[] $contents */
         /** @noinspection PhpIncludeInspection */
+        /** @var array[] $contents */
         $contents = require $this->getProjectDir().'/config/bundles.php';
         foreach ($contents as $class => $envs) {
             if (isset($envs['all']) || isset($envs[$this->environment])) {
@@ -56,7 +59,7 @@ class Kernel extends BaseKernel
     /**
      * @param ContainerBuilder $container
      * @param LoaderInterface $loader
-     * @throws \Exception
+     * @throws Exception
      */
     protected function configureContainer(ContainerBuilder $container, LoaderInterface $loader): void
     {

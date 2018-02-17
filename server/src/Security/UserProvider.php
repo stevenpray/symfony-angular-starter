@@ -23,6 +23,8 @@ class UserProvider implements UserProviderInterface
     protected $em;
 
     /**
+     * UserProvider constructor.
+     *
      * @param EntityManagerInterface $em
      */
     public function __construct(EntityManagerInterface $em)

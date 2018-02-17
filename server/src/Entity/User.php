@@ -11,13 +11,22 @@ use DateTime;
 use DateTimeInterface;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
+use Exception;
 use Gedmo\Mapping\Annotation as Gedmo;
 use Gedmo\SoftDeleteable\Traits\SoftDeleteable;
 use Rollerworks\Component\PasswordStrength\Validator\Constraints\PasswordRequirements as AssertPassword;
+use RuntimeException;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity as AssertUnique;
 use Symfony\Component\Security\Core\User\AdvancedUserInterface;
 use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
+use function array_filter;
+use function array_search;
+use function array_values;
+use function implode;
+use function in_array;
+use function strtolower;
+use function strtoupper;
 
 /**
  * Class User
@@ -175,12 +184,9 @@ class User implements AdvancedUserInterface
 
     /**
      * User constructor.
-     *
-     * @throws \Exception
      */
     public function __construct()
     {
-        $this->salt = SecureToken::generate();
         $this->enabled = true;
         $this->locked = false;
         $this->roles = ['ROLE_USER'];
@@ -231,7 +237,7 @@ class User implements AdvancedUserInterface
     }
 
     /**
-     * @return null|string
+     * @return string|null
      */
     public function getPassword(): ?string
     {
@@ -239,7 +245,7 @@ class User implements AdvancedUserInterface
     }
 
     /**
-     * @param null|string $password
+     * @param string|null $password
      * @return $this
      */
     public function setPassword(?string $password): self
@@ -290,7 +296,7 @@ class User implements AdvancedUserInterface
      */
     public function hasRole(string $role): bool
     {
-        return \in_array(strtoupper($role), $this->getRoles(), true);
+        return in_array(strtoupper($role), $this->getRoles(), true);
     }
 
     /**
@@ -298,12 +304,113 @@ class User implements AdvancedUserInterface
      */
     public function getSalt(): string
     {
+        if ($this->salt === null) {
+            try {
+                $this->salt = SecureToken::generate();
+            } catch (Exception $exception) {
+                throw new RuntimeException('Unable to generate user salt', 0, $exception);
+            }
+        }
+
         return $this->salt;
     }
 
     public function eraseCredentials(): void
     {
         $this->plainPassword = null;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function isEnabled(): bool
+    {
+        return $this->enabled;
+    }
+
+    /**
+     * @param bool $enabled
+     * @return $this
+     */
+    public function setEnabled(bool $enabled): self
+    {
+        $this->enabled = $enabled;
+
+        return $this;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function isAccountNonExpired(): bool
+    {
+        return true;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function isAccountNonLocked(): bool
+    {
+        return !$this->isLocked();
+    }
+
+    /**
+     * @return bool
+     */
+    public function isLocked(): bool
+    {
+        return $this->locked;
+    }
+
+    /**
+     * @param bool $locked
+     * @return $this
+     */
+    public function setLocked(bool $locked): self
+    {
+        $this->locked = $locked;
+
+        return $this;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function isCredentialsNonExpired(): bool
+    {
+        return !$this->isPasswordExpired();
+    }
+
+    /**
+     * @return bool
+     */
+    public function isPasswordExpired(): bool
+    {
+        if (!$this->getPasswordExpiresAt()) {
+            return false;
+        }
+
+        return $this->getPasswordExpiresAt() <= new DateTime();
+    }
+
+    /**
+     * @return DateTimeInterface|null
+     */
+    public function getPasswordExpiresAt(): ?DateTimeInterface
+    {
+        return $this->passwordExpiresAt;
+    }
+
+    /**
+     * @param DateTimeInterface|null $passwordExpiresAt
+     * @return $this
+     */
+    public function setPasswordExpiresAt(?DateTimeInterface $passwordExpiresAt): self
+    {
+        $this->passwordExpiresAt = $passwordExpiresAt;
+
+        return $this;
     }
 
     /**
@@ -321,7 +428,7 @@ class User implements AdvancedUserInterface
     }
 
     /**
-     * @return null|string
+     * @return string|null
      */
     public function getPlainPassword(): ?string
     {
@@ -341,7 +448,7 @@ class User implements AdvancedUserInterface
     }
 
     /**
-     * @return null|string
+     * @return string|null
      */
     public function getConfirmationToken(): ?string
     {
@@ -349,7 +456,7 @@ class User implements AdvancedUserInterface
     }
 
     /**
-     * @param null|string $confirmationToken
+     * @param string|null $confirmationToken
      * @return $this
      */
     public function setConfirmationToken(?string $confirmationToken): self
@@ -362,25 +469,6 @@ class User implements AdvancedUserInterface
             }
         }
         $this->confirmationToken = $confirmationToken;
-
-        return $this;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function isEnabled(): bool
-    {
-        return $this->enabled;
-    }
-
-    /**
-     * @param bool $boolean
-     * @return $this
-     */
-    public function setEnabled(bool $boolean): self
-    {
-        $this->enabled = $boolean;
 
         return $this;
     }
@@ -418,9 +506,6 @@ class User implements AdvancedUserInterface
      */
     public function setEmailAddress(string $emailAddress): self
     {
-        if ($emailAddress) {
-            $emailAddress = strtolower($emailAddress);
-        }
         $this->emailAddress = strtolower($emailAddress);
 
         return $this;
@@ -520,79 +605,5 @@ class User implements AdvancedUserInterface
     public function hasUserEvent(UserEvent $event): bool
     {
         return $this->userEvents->contains($event);
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function isAccountNonExpired(): bool
-    {
-        return true;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function isAccountNonLocked(): bool
-    {
-        return !$this->isLocked();
-    }
-
-    /**
-     * @return bool
-     */
-    public function isLocked(): bool
-    {
-        return $this->locked;
-    }
-
-    /**
-     * @param bool $locked
-     * @return $this
-     */
-    public function setLocked(bool $locked): self
-    {
-        $this->locked = $locked;
-
-        return $this;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function isCredentialsNonExpired(): bool
-    {
-        return !$this->isPasswordExpired();
-    }
-
-    /**
-     * @return bool
-     */
-    public function isPasswordExpired(): bool
-    {
-        if (!$this->getPasswordExpiresAt()) {
-            return false;
-        }
-
-        return $this->getPasswordExpiresAt() <= new DateTime();
-    }
-
-    /**
-     * @return DateTimeInterface|null
-     */
-    public function getPasswordExpiresAt(): ?DateTimeInterface
-    {
-        return $this->passwordExpiresAt;
-    }
-
-    /**
-     * @param DateTimeInterface|null $passwordExpiresAt
-     * @return $this
-     */
-    public function setPasswordExpiresAt(?DateTimeInterface $passwordExpiresAt): self
-    {
-        $this->passwordExpiresAt = $passwordExpiresAt;
-
-        return $this;
     }
 }

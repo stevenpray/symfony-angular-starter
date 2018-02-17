@@ -16,9 +16,9 @@ use Symfony\Component\Serializer\Annotation\Groups;
  *
  * @package App\Entity
  * @ApiResource(
- *     attributes={"access_control"="is_granted('ROLE_USER')"},
- *     collectionOperations={"get"={"method"="GET"}},
- *     itemOperations={"get"={"method"="GET"}}
+ *  attributes={"access_control"="is_granted('ROLE_USER')"},
+ *  collectionOperations={"get"={"method"="GET"}},
+ *  itemOperations={"get"={"method"="GET"}}
  * )
  * @ORM\Entity(repositoryClass="App\Repository\UserEventRepository")
  * @ORM\Table(name="user_events")
@@ -78,7 +78,7 @@ class UserEvent extends Event
     /**
      * @return DateTime
      */
-    public function getCreatedAt():? DateTime
+    public function getCreatedAt(): ?DateTime
     {
         return $this->createdAt;
     }

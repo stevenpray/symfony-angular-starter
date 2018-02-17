@@ -42,9 +42,10 @@ class UserRepositoryTest extends KernelTestCase
 
     /**
      * @dataProvider provideUsernames
-     * @param null|string $username
+     * @param string|null $username
+     * @param bool $expected
      */
-    public function testFindOneByUsername(?string $username, $expected): void
+    public function testFindOneByUsername(?string $username, bool $expected): void
     {
         $user = $this->em->getRepository(User::class)->findOneByUsername($username);
         if ($expected) {

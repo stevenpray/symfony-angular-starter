@@ -4,7 +4,9 @@ declare(strict_types=1);
 namespace App\Tests\Entity;
 
 use App\Entity\User;
+use App\Entity\UserEvent;
 use DateTime;
+use Exception;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -15,9 +17,16 @@ use PHPUnit\Framework\TestCase;
  */
 class UserTest extends TestCase
 {
-    /**
-     * @throws \Exception
-     */
+
+    public function testAddUserEvent(): void
+    {
+        $event = new UserEvent();
+        $user = new User();
+        $user->addUserEvent($event);
+        $this->assertTrue($user->hasUserEvent($event));
+        $this->assertSame($user, $event->getUser());
+    }
+
     public function testIsAccountNonExpired(): void
     {
         $user = new User();
@@ -46,11 +55,12 @@ class UserTest extends TestCase
 
     /**
      * @return array[]
-     * @throws \Exception
+     * @throws Exception
      */
     public function provideLockableUsers(): array
     {
         $user = new User();
+
         return [
             [clone $user, true],
             [clone $user->setLocked(true), false],
@@ -60,11 +70,12 @@ class UserTest extends TestCase
 
     /**
      * @return array[]
-     * @throws \Exception
+     * @throws Exception
      */
     public function provideExpirableCredentialsUsers(): array
     {
         $user = new User();
+
         return [
             [clone $user, true],
             [clone $user->setPasswordExpiresAt(new DateTime('yesterday')), false],

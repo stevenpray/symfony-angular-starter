@@ -8,6 +8,10 @@ use ReflectionException;
 use Symfony\Component\Security\Core\Role\Role;
 use Symfony\Component\Security\Core\Role\RoleHierarchyInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
+use function array_map;
+use function array_unique;
+use function array_values;
+use function in_array;
 
 /**
  * Class RolesProvider
@@ -68,7 +72,7 @@ class RolesProvider
         );
         $roles = $this->hierarchy->getReachableRoles($roles);
         /** @var string[] $roles */
-        $roles = array_map(
+        $roles = \array_map(
             function (Role $role) {
                 return $role->getRole();
             },
@@ -86,6 +90,6 @@ class RolesProvider
      */
     public function userHasRole(UserInterface $user, string $role): bool
     {
-        return \in_array($role, $this->getReachableRoles($user), true);
+        return in_array($role, $this->getReachableRoles($user), true);
     }
 }

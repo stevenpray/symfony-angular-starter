@@ -13,27 +13,30 @@ use Symfony\Component\HttpFoundation\Request;
  */
 class LoginControllerTest extends WebTestCase
 {
-
     /**
      * @dataProvider provideCredentials
-     * @param null|string $username
-     * @param null|string $password
+     * @param string|null $username
+     * @param string|null $password
      * @param bool $expected
      */
-    public function testLoginCheck(?string $username, ?string $password, bool $expected): void
+    public function testLogin(?string $username, ?string $password, bool $expected): void
     {
         $params = [
             'username' => $username,
             'password' => $password,
         ];
         $client = static::createClient();
-        $client->request(Request::METHOD_POST, '/login_check', $params);
+        $client->request(Request::METHOD_POST, '/login', $params);
         $response = $client->getResponse();
 
-        if ($expected) {
-            $this->assertEquals(200, $response->getStatusCode());
+        if ($username === null || $password === null) {
+            $this->assertEquals(400, $response->getStatusCode());
         } else {
-            $this->assertEquals(401, $response->getStatusCode());
+            if ($expected) {
+                $this->assertEquals(200, $response->getStatusCode());
+            } else {
+                $this->assertEquals(401, $response->getStatusCode());
+            }
         }
     }
 
@@ -45,6 +48,8 @@ class LoginControllerTest extends WebTestCase
         return [
             ['user', 'user', true],
             ['user', null, false],
+            [null, null, false],
+            [null, 'user', false],
             ['admin', 'admin', true],
             ['admin', 'wrong_password', false],
             ['super', 'super', true],

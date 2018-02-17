@@ -6,6 +6,7 @@ namespace App\Tests\Security;
 use App\Entity\User;
 use App\Security\RolesProvider;
 use PHPUnit\Framework\TestCase;
+use ReflectionException;
 use Symfony\Component\Security\Core\Role\RoleHierarchy;
 
 /**
@@ -46,7 +47,7 @@ class RolesProviderTest extends TestCase
     }
 
     /**
-     * @throws \ReflectionException
+     * @throws ReflectionException
      */
     public function testGetReachableRolesBitmask(): void
     {
@@ -73,7 +74,7 @@ class RolesProviderTest extends TestCase
     /**
      * @dataProvider provideUserRoles
      * @param string $role
-     * @param boolean $expected
+     * @param bool $expected
      */
     public function testUserHasRole(string $role, bool $expected): void
     {
