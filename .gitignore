@@ -26,6 +26,7 @@
 .idea
 .LSOverride
 .phpunit
+.php_cs.cache
 .project
 .sass-cache
 .settings
@@ -35,6 +36,7 @@
 .VolumeIcon.icns
 .vscode
 behat.yml
+clover.xml
 client/e2e/*.js
 client/e2e/*.map
 composer.phar
