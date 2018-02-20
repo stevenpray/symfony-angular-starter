@@ -23,7 +23,7 @@ class UserRepositoryTest extends KernelTestCase
     /**
      * {@inheritdoc}
      */
-    public function setUp()
+    protected function setUp()
     {
         $kernel = self::bootKernel();
         $this->em = $kernel->getContainer()->get('doctrine')->getManager();
@@ -32,7 +32,7 @@ class UserRepositoryTest extends KernelTestCase
     /**
      * {@inheritdoc}
      */
-    public function tearDown()
+    protected function tearDown()
     {
         parent::tearDown();
 

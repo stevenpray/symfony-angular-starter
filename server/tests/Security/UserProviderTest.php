@@ -8,6 +8,7 @@ use App\Security\UserProvider;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\EntityRepository;
+use PHPUnit\Framework\Constraint\IsType;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\Security\Core\Exception\UnsupportedUserException;
@@ -35,7 +36,7 @@ class UserProviderTest extends TestCase
     /**
      * {@inheritdoc}
      */
-    public function setUp()
+    protected function setUp()
     {
         $this->user = new User();
         $this->user->setUsername('user');
@@ -61,13 +62,13 @@ class UserProviderTest extends TestCase
                      ->getMock();
 
         $mock->method('find')
-             ->with($this->isType('integer'))
+             ->with($this->isType(IsType::TYPE_INT))
              ->will($this->returnCallback(function ($id) {
                  return $id === 1 ? $this->user : null;
              }));
 
         $mock->method('findOneByUsername')
-             ->with($this->isType('string'))
+             ->with($this->isType(IsType::TYPE_STRING))
              ->will($this->returnCallback(function ($username) {
                  return $username === $this->user->getUsername() ? $this->user : null;
              }));

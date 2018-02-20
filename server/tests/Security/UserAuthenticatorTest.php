@@ -12,6 +12,7 @@ use Doctrine\ORM\EntityRepository;
 use Lexik\Bundle\JWTAuthenticationBundle\Security\Authentication\Token\JWTUserToken;
 use Lexik\Bundle\JWTAuthenticationBundle\Services\JWTManager;
 use Lexik\Bundle\JWTAuthenticationBundle\Services\JWTTokenManagerInterface;
+use PHPUnit\Framework\Constraint\IsType;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\EventDispatcher\Event;
@@ -51,7 +52,7 @@ class UserAuthenticatorTest extends TestCase
      */
     protected $em;
 
-    public function setUp()
+    protected function setUp()
     {
         /**
          * @var EventDispatcherInterface $dispatcher
@@ -79,7 +80,7 @@ class UserAuthenticatorTest extends TestCase
                      ->disableOriginalConstructor()
                      ->getMock();
         $mock->method('dispatch')
-             ->with($this->isType('string'),
+             ->with($this->isType(IsType::TYPE_STRING),
                     $this->isInstanceOf(Event::class));
 
         return $mock;
@@ -115,7 +116,7 @@ class UserAuthenticatorTest extends TestCase
                      ->getMock();
 
         $mock->method('findOneByUsername')
-             ->with($this->isType('string'))
+             ->with($this->isType(IsType::TYPE_STRING))
              ->will($this->returnCallback(function ($username) {
                  return in_array($username, static::VALID_USERNAMES, true) ? new User() : null;
              }));

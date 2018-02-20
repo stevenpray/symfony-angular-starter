@@ -26,7 +26,7 @@ class SwaggerDecoratorTest extends TestCase
     /**
      * {@inheritdoc}
      */
-    public function setUp()
+    protected function setUp()
     {
         /**
          * @var NormalizerInterface $normalizer

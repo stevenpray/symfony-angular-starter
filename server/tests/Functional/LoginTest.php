@@ -1,17 +1,17 @@
 <?php
 declare(strict_types=1);
 
-namespace App\Tests\Controller;
+namespace App\Tests\Functional;
 
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\HttpFoundation\Request;
 
 /**
- * Class LoginControllerTest
+ * Class LoginTest
  *
- * @package App\Tests\Controller
+ * @package App\Tests\Functional
  */
-class LoginControllerTest extends WebTestCase
+class LoginTest extends WebTestCase
 {
     /**
      * @dataProvider provideCredentials

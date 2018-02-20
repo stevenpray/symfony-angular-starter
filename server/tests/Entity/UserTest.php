@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace App\Tests\Entity;
 
+use App\DBAL\Types\UserEventType;
 use App\Entity\User;
 use App\Entity\UserEvent;
 use DateTime;
@@ -20,8 +21,8 @@ class UserTest extends TestCase
 
     public function testAddUserEvent(): void
     {
-        $event = new UserEvent();
         $user = new User();
+        $event = new UserEvent(UserEventType::USERNAME_REQUEST, $user);
         $user->addUserEvent($event);
         $this->assertTrue($user->hasUserEvent($event));
         $this->assertSame($user, $event->getUser());
