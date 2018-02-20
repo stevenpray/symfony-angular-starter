@@ -31,11 +31,11 @@ if [ "$APP_ENV" != "prod" ]; then
     bin/console doctrine:schema:create -vv --no-interaction 2> /dev/null
     if [ $? -eq 0 ]; then
         echo "Loading fixtures..."
-        bin/console hautelook:fixtures:load -vv --no-interaction
+        bin/console hautelook:fixtures:load --no-interaction
     else
-        bin/console doctrine:schema:validate -vv --no-interaction
+        bin/console doctrine:schema:validate --no-interaction
         if [ $? -ne 0 ]; then
-            bin/console doctrine:schema:update --force -vv --no-interaction
+            bin/console doctrine:schema:update --force --no-interaction
         fi
     fi
 fi
