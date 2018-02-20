@@ -110,6 +110,12 @@
     "gedmo/doctrine-extensions": {
         "version": "v2.4.33"
     },
+    "giggsey/libphonenumber-for-php": {
+        "version": "8.8.11"
+    },
+    "giggsey/locale": {
+        "version": "1.4"
+    },
     "hautelook/alice-bundle": {
         "version": "1.4",
         "recipe": {
@@ -130,6 +136,9 @@
             "version": "2.3",
             "ref": "751ee6748c1026fa4350c155d1b3a77b7ddca69c"
         }
+    },
+    "misd/phone-number-bundle": {
+        "version": "v1.3.2"
     },
     "monolog/monolog": {
         "version": "1.23.0"

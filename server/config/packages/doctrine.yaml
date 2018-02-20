@@ -12,6 +12,7 @@ doctrine:
         charset: UTF8
         url: '%env(DATABASE_URL)%'
         types:
+            phone_number: Misd\PhoneNumberBundle\Doctrine\DBAL\Types\PhoneNumberType
             user_event_type: App\DBAL\Types\UserEventType
     orm:
         auto_generate_proxy_classes: '%kernel.debug%'
