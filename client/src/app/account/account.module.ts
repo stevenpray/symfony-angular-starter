@@ -1,6 +1,5 @@
 import {CommonModule} from '@angular/common';
 import {NgModule} from '@angular/core';
-import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {RouterModule} from '@angular/router';
 import {AccountComponent} from './account.component';
 import {AccountGuard} from './account.guard';
@@ -15,7 +14,6 @@ import {IndexComponent} from './index/index.component';
     ],
     exports: [],
     imports: [
-        BrowserAnimationsModule,
         CommonModule,
         RouterModule.forChild(accountRoutes),
     ],

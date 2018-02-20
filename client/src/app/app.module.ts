@@ -8,8 +8,6 @@ import {ServiceWorkerModule} from '@angular/service-worker';
 import {MetaModule} from '@ngx-meta/core';
 import {RestangularModule} from 'ngx-restangular';
 import {environment} from '../environments/environment';
-import {AccountModule} from './account/account.module';
-import {AdminModule} from './admin/admin.module';
 import {AppComponent} from './app.component';
 import {authConfig, metaConfig, restangularConfig} from './app.providers';
 import {appRoutes} from './app.routes';
@@ -29,17 +27,33 @@ import {SigninComponent} from './signin/signin.component';
     ],
     imports: [
         ActivityModule,
-        AccountModule,
-        AdminModule,
         AuthModule.forRoot(authConfig),
         BrowserAnimationsModule,
         BrowserModule,
+        // MatAutocompleteModule,
         MatButtonModule,
+        // MatButtonToggleModule,
         MatCardModule,
+        // MatDatepickerModule,
+        // MatDialogModule,
         MatFormFieldModule,
+        // MatGridListModule,
+        // MatIconModule,
         MatInputModule,
+        // MatListModule,
+        // MatMenuModule,
+        // MatNativeDateModule,
+        // MatProgressSpinnerModule,
+        // MatRadioModule,
+        // MatRippleModule,
+        // MatSelectModule,
+        // MatSidenavModule,
+        // MatSliderModule,
+        // MatSlideToggleModule,
         MatSnackBarModule,
+        // MatTabsModule,
         MatToolbarModule,
+        // MatTooltipModule,
         MetaModule.forRoot(metaConfig),
         NotificationModule,
         ReactiveFormsModule,
@@ -48,7 +62,9 @@ import {SigninComponent} from './signin/signin.component';
         ServiceWorkerModule.register('/ngsw-worker.js', {enabled: environment.production}),
     ],
     providers: [],
-    bootstrap: [AppComponent],
+    bootstrap: [
+        AppComponent,
+    ],
 })
 export class AppModule {
 }

@@ -5,7 +5,7 @@ import {IndexComponent} from './index/index.component';
 
 export const adminRoutes: Routes = [
     {
-        path: 'admin',
+        path: '',
         component: AdminComponent,
         canActivate: [
             AdminGuard,
@@ -14,6 +14,11 @@ export const adminRoutes: Routes = [
             {
                 path: '',
                 component: IndexComponent,
+                data: {
+                    meta: {
+                        title: 'Admin',
+                    },
+                },
             },
         ],
     },

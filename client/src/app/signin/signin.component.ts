@@ -14,7 +14,7 @@ import {NotificationService} from '../shared/notification';
 })
 export class SigninComponent implements OnInit, OnDestroy {
 
-    private static readonly DEFAULT_URL = '/admin';
+    private static readonly DEFAULT_URL = '/account';
 
     private _error: string;
     private _snackBarConfig = new MatSnackBarConfig();
@@ -23,7 +23,7 @@ export class SigninComponent implements OnInit, OnDestroy {
 
     public form: FormGroup;
     public completed = false;
-    public submitted = false;
+    public submitting = false;
 
     constructor(private _auth: AuthService,
                 private _router: Router,
@@ -62,16 +62,14 @@ export class SigninComponent implements OnInit, OnDestroy {
     }
 
     public submit(event?: Event): void {
-        this.submitted = true;
+        this.submitting = true;
         this._auth.login(this.form.value.username, this.form.value.password)
-            .finally(() => this.submitted = false)
+            .finally(() => this.submitting = false)
             .subscribe(
                 (authenticated) => this._router.navigateByUrl(this._url),
                 (response: HttpErrorResponse) => {
                     if (response.status === 401) {
                         this.error = response.error.message;
-                        this.form.setErrors({invalid: true});
-                        // this.form.controls['password'].setErrors({invalid: true});
                     } else {
                         this.error = 'Oops.';
                         console.error(response);

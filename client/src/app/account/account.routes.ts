@@ -5,7 +5,7 @@ import {IndexComponent} from './index/index.component';
 
 export const accountRoutes: Routes = [
     {
-        path: 'account',
+        path: '',
         component: AccountComponent,
         canActivate: [
             AccountGuard,
@@ -14,6 +14,11 @@ export const accountRoutes: Routes = [
             {
                 path: '',
                 component: IndexComponent,
+                data: {
+                    meta: {
+                        title: 'Account',
+                    },
+                },
             },
         ],
     },
