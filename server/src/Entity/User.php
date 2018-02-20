@@ -4,8 +4,8 @@ declare(strict_types=1);
 namespace App\Entity;
 
 use ApiPlatform\Core\Annotation\ApiResource;
-use ApiPlatform\Core\Annotation\ApiSubresource;
 use App\Security\SecureToken;
+use App\Validator\Constraints\Roles as AssertRoles;
 use Closure;
 use DateTime;
 use DateTimeInterface;
@@ -18,7 +18,7 @@ use Rollerworks\Component\PasswordStrength\Validator\Constraints\PasswordRequire
 use RuntimeException;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity as AssertUnique;
 use Symfony\Component\Security\Core\User\AdvancedUserInterface;
-use Symfony\Component\Serializer\Annotation\Groups;
+use Symfony\Component\Serializer\Annotation as Serializer;
 use Symfony\Component\Validator\Constraints as Assert;
 use function array_filter;
 use function array_search;
@@ -32,7 +32,13 @@ use function strtoupper;
  * Class User
  *
  * @package App\Entity
- * @ApiResource()
+ * @ApiResource(
+ *  attributes={
+ *     "access_control"="is_granted('ROLE_ADMIN')",
+ *     "normalization_context"={"groups"={"read"}},
+ *     "denormalization_context"={"groups"={"write"}}
+ *  }
+ * )
  * @AssertUnique(fields={"username"})
  * @AssertUnique(fields={"emailAddress"})
  * @ORM\Entity(repositoryClass="App\Repository\UserRepository")
@@ -47,7 +53,7 @@ class User implements AdvancedUserInterface
      * @ORM\Id()
      * @ORM\GeneratedValue(strategy="AUTO")
      * @ORM\Column(name="id", type="integer")
-     * @Groups("read")
+     * @Serializer\Groups({"read"})
      */
     protected $id;
 
@@ -55,7 +61,7 @@ class User implements AdvancedUserInterface
      * @var string
      * @Assert\NotNull()
      * @ORM\Column(name="firstname", type="string", nullable=true)
-     * @Groups({"read", "write"})
+     * @Serializer\Groups({"read", "write"})
      */
     protected $firstname;
 
@@ -63,7 +69,7 @@ class User implements AdvancedUserInterface
      * @var string
      * @Assert\NotNull()
      * @ORM\Column(name="lastname", type="string", nullable=true)
-     * @Groups({"read", "write"})
+     * @Serializer\Groups({"read", "write"})
      */
     protected $lastname;
 
@@ -76,7 +82,7 @@ class User implements AdvancedUserInterface
      *  message="This value contains invalid characters.",
      * )
      * @ORM\Column(name="username", type="string", unique=true)
-     * @Groups({"read", "write"})
+     * @Serializer\Groups({"read", "write"})
      */
     protected $username;
 
@@ -85,7 +91,7 @@ class User implements AdvancedUserInterface
      * @Assert\NotNull()
      * @Assert\Email(strict=true, checkHost=true, checkMX=true)
      * @ORM\Column(name="email_address", type="string", unique=true)
-     * @Groups({"read", "write"})
+     * @Serializer\Groups({"read", "write"})
      */
     protected $emailAddress;
 
@@ -116,6 +122,7 @@ class User implements AdvancedUserInterface
     /**
      * @var DateTimeInterface
      * @ORM\Column(name="password_expires_at", type="datetime", nullable=true)
+     * @Serializer\Groups({"read", "write"})
      */
     protected $passwordExpiresAt;
 
@@ -123,6 +130,7 @@ class User implements AdvancedUserInterface
      * @var DateTime $createdAt
      * @Gedmo\Timestampable(on="create")
      * @ORM\Column(name="created_at", type="datetime")
+     * @Serializer\Groups({"read"})
      */
     protected $createdAt;
 
@@ -130,33 +138,36 @@ class User implements AdvancedUserInterface
      * @var DateTime $updatedAt
      * @Gedmo\Timestampable(on="update")
      * @ORM\Column(name="updated_at", type="datetime")
+     * @Serializer\Groups({"read"})
      */
     protected $updatedAt;
 
     /**
      * @var DateTime
      * @ORM\Column(name="deleted_at", type="datetime", nullable=true)
+     * @Serializer\Groups({"read", "write"})
      */
     protected $deletedAt;
 
     /**
      * @var bool
      * @ORM\Column(name="enabled", type="boolean")
-     * @Groups({"read", "write"})
+     * @Serializer\Groups({"read", "write"})
      */
     protected $enabled;
 
     /**
      * @var bool
      * @ORM\Column(name="locked", type="boolean")
-     * @Groups({"read"})
+     * @Serializer\Groups({"read"})
      */
     protected $locked;
 
     /**
      * @var string[]
+     * @AssertRoles()
      * @ORM\Column(name="roles", type="array")
-     * @Groups({"read", "write"})
+     * @Serializer\Groups({"read", "write"})
      */
     protected $roles;
 
@@ -170,15 +181,14 @@ class User implements AdvancedUserInterface
      *  requireNumbers=true,
      *  requireSpecialCharacter=true
      * )
-     * @Groups("write")
+     * @Serializer\Groups("write")
      */
     protected $plainPassword;
 
     /**
      * @var ArrayCollection
-     * @ApiSubresource()
      * @ORM\OneToMany(targetEntity="UserEvent", mappedBy="user", cascade={"persist", "remove"})
-     * @Groups("read")
+     * @Serializer\Groups({"read"})
      */
     protected $userEvents;
 
@@ -591,9 +601,6 @@ class User implements AdvancedUserInterface
     public function addUserEvent(UserEvent $event): self
     {
         $this->userEvents->add($event);
-        if ($event->getUser() !== $this) {
-            $event->setUser($this);
-        }
 
         return $this;
     }

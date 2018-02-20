@@ -3,6 +3,8 @@ declare(strict_types=1);
 
 namespace App\Security;
 
+use RecursiveArrayIterator;
+use RecursiveIteratorIterator;
 use ReflectionClass;
 use ReflectionException;
 use Symfony\Component\Security\Core\Role\Role;
@@ -12,6 +14,7 @@ use function array_map;
 use function array_unique;
 use function array_values;
 use function in_array;
+use function is_string;
 
 /**
  * Class RolesProvider
@@ -72,7 +75,7 @@ class RolesProvider
         );
         $roles = $this->hierarchy->getReachableRoles($roles);
         /** @var string[] $roles */
-        $roles = \array_map(
+        $roles = array_map(
             function (Role $role) {
                 return $role->getRole();
             },
@@ -91,5 +94,30 @@ class RolesProvider
     public function userHasRole(UserInterface $user, string $role): bool
     {
         return in_array($role, $this->getReachableRoles($user), true);
+    }
+
+    /**
+     * @return string[]
+     * @throws ReflectionException
+     */
+    public function getRoles(): array
+    {
+        $reflection = new ReflectionClass($this->hierarchy);
+        $property = $reflection->getProperty('hierarchy');
+        $property->setAccessible(true);
+        $hierarchy = $property->getValue($this->hierarchy);
+        $roles = [];
+        $aIterator = new RecursiveArrayIterator($hierarchy);
+        $iIterator = new RecursiveIteratorIterator($aIterator, RecursiveIteratorIterator::SELF_FIRST);
+        foreach ($iIterator as $key => $value) {
+            if (is_string($key)) {
+                $roles[] = $key;
+            }
+            if (is_string($value)) {
+                $roles[] = $value;
+            }
+        }
+
+        return array_unique($roles);
     }
 }

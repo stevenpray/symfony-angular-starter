@@ -5,6 +5,7 @@ namespace App\Tests\Security;
 
 use App\Entity\User;
 use App\Security\RolesProvider;
+use PHPUnit\Framework\Constraint\IsType;
 use PHPUnit\Framework\TestCase;
 use ReflectionException;
 use Symfony\Component\Security\Core\Role\RoleHierarchy;
@@ -30,7 +31,7 @@ class RolesProviderTest extends TestCase
     /**
      * {@inheritdoc}
      */
-    public function setUp()
+    protected function setUp()
     {
         $hierarchy = [
             'ROLE_ADMIN'       => [
@@ -93,5 +94,15 @@ class RolesProviderTest extends TestCase
             ['ROLE_ALLOWED_TO_SWITCH', false],
             ['ROLE_NON_EXISTENT_ROLE', false],
         ];
+    }
+
+    /**
+     * @throws ReflectionException
+     */
+    public function testGetRoles(): void
+    {
+        $roles = $this->rolesProvider->getRoles();
+        $this->assertInternalType(IsType::TYPE_ARRAY, $roles);
+        $this->assertCount(4, $roles);
     }
 }
