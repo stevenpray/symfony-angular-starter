@@ -8,7 +8,7 @@ export class AccountGuard implements CanActivate {
     constructor(private _auth: AuthService) {
     }
 
-    public canActivate(next: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
+    public canActivate(next: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean {
         return this._auth.isAuthorized(AuthRole.USER, state);
     }
 }

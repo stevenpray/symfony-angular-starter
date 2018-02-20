@@ -26,7 +26,7 @@ export const authConfig = {
     },
 };
 
-export function restangularConfig(provider) {
+export function restangularConfig(provider): void {
     provider.setBaseUrl(environment.urls.api);
 }
 
