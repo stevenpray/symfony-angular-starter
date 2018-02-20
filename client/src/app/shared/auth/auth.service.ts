@@ -64,7 +64,7 @@ export class AuthService implements HttpInterceptor {
 
     public isAuthorized(role: AuthRole, state?: RouterStateSnapshot): boolean {
         log('Authorization required. Role "%s" required to access "%s".', AuthRole[role], state.url);
-        if (this.token == null) {
+        if (!this.isAuthenticated) {
             log('Authentication required.');
             if (state) {
                 log('Redirecting to "%s" for interactive authentication.', this._config.urls.redirects.unauthenticated);
@@ -77,7 +77,9 @@ export class AuthService implements HttpInterceptor {
             log('Authorization success.');
         } else {
             log('Authorization failure.');
-            this._router.navigateByUrl(this._config.urls.redirects.unauthorized);
+            if (state) {
+                this._router.navigateByUrl(this._config.urls.redirects.unauthorized);
+            }
         }
 
         return authorized;
