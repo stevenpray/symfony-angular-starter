@@ -4,11 +4,11 @@ declare(strict_types=1);
 namespace App\EventListener;
 
 use App\DBAL\Types\UserEventType;
-use App\Entity\User;
 use App\Entity\UserEvent;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\NonUniqueResultException;
 use Gedmo\Timestampable\Traits\Timestampable;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use function count;
 
@@ -29,17 +29,25 @@ class UserEventSubscriber implements EventSubscriberInterface
     /**
      * @var int
      */
-    protected $maxAttempts;
+    protected $maxLoginAttempts;
+
+    /**
+     * @var EventDispatcherInterface
+     */
+    protected $dispatcher;
 
     /**
      * UserEventListener constructor.
      *
+     * @param EventDispatcherInterface $dispatcher
      * @param EntityManagerInterface $em
+     * @param int $maxLoginAttempts
      */
-    public function __construct(EntityManagerInterface $em)
+    public function __construct(EventDispatcherInterface $dispatcher, EntityManagerInterface $em, int $maxLoginAttempts)
     {
+        $this->dispatcher = $dispatcher;
         $this->em = $em;
-        $this->maxAttempts = 7;
+        $this->maxLoginAttempts = $maxLoginAttempts;
     }
 
     /**
@@ -50,6 +58,7 @@ class UserEventSubscriber implements EventSubscriberInterface
         return [
             UserEventType::INTERACTIVE_LOGIN_FAILURE => 'onInteractiveLoginFailure',
             UserEventType::INTERACTIVE_LOGIN_SUCCESS => 'onInteractiveLoginSuccess',
+            UserEventType::PASSWORD_RESET_SUCCESS    => 'onPasswordResetSuccess',
         ];
     }
 
@@ -59,12 +68,13 @@ class UserEventSubscriber implements EventSubscriberInterface
      */
     public function onInteractiveLoginFailure(UserEvent $event): void
     {
-        /** @var User $user */
         $user = $event->getUser();
-        if ($user->isLocked() === false) {
+        if (!$user->isLocked()) {
             $failures = $this->em->getRepository(UserEvent::class)->findConsecutiveLoginFailuresByUser($user);
-            if (count($failures) >= $this->maxAttempts) {
+            if (count($failures) > $this->maxLoginAttempts) {
                 $user->setLocked(true);
+                $lockedEvent = new UserEvent(UserEventType::LOCKED, $user);
+                $this->dispatcher->dispatch($lockedEvent->getType(), $lockedEvent);
             }
         }
         $this->em->persist($event);
@@ -76,6 +86,17 @@ class UserEventSubscriber implements EventSubscriberInterface
      */
     public function onInteractiveLoginSuccess(UserEvent $event): void
     {
+        $this->em->persist($event);
+        $this->em->flush();
+    }
+
+    /**
+     * @param UserEvent $event
+     */
+    public function onPasswordResetSuccess(UserEvent $event): void
+    {
+        $user = $event->getUser();
+        $user->setLocked(false);
         $this->em->persist($event);
         $this->em->flush();
     }

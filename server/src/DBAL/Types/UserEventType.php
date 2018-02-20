@@ -12,10 +12,8 @@ use Fresh\DoctrineEnumBundle\DBAL\Types\AbstractEnumType;
  */
 class UserEventType extends AbstractEnumType
 {
-    public const CREATE                    = 'create_user';
-    public const DELETE                    = 'delete_user';
-    public const DISABLE                   = 'disable';
-    public const LOCK                      = 'lock';
+    public const DISABLED                  = 'disabled';
+    public const LOCKED                    = 'locked';
     public const USERNAME_REQUEST          = 'username_request';
     public const PASSWORD_RESET_REQUEST    = 'password_reset_request';
     public const PASSWORD_RESET_SUCCESS    = 'password_reset_success';
@@ -26,10 +24,8 @@ class UserEventType extends AbstractEnumType
      * {@inheritdoc}
      */
     protected static $choices = [
-        self::CREATE                    => 'Create User',
-        self::DELETE                    => 'Delete User',
-        self::DISABLE                   => 'User Disabled',
-        self::LOCK                      => 'User Locked',
+        self::DISABLED                  => 'Disabled',
+        self::LOCKED                    => 'Locked',
         self::USERNAME_REQUEST          => 'Username Request',
         self::PASSWORD_RESET_REQUEST    => 'Password Reset Request',
         self::PASSWORD_RESET_SUCCESS    => 'Password Reset Success',

@@ -87,15 +87,13 @@ class UserAuthenticator extends AbstractGuardAuthenticator
     public function checkCredentials($credentials, UserInterface $user): bool
     {
         /** @var User $user */
-        $event = new UserEvent();
-        $event->setUser($user);
         if ($this->encoder->isPasswordValid($user, $credentials['password'])) {
-            $event->setType(UserEventType::INTERACTIVE_LOGIN_SUCCESS);
+            $event = new UserEvent(UserEventType::INTERACTIVE_LOGIN_SUCCESS, $user);
             $this->dispatcher->dispatch($event->getType(), $event);
 
             return true;
         }
-        $event->setType(UserEventType::INTERACTIVE_LOGIN_FAILURE);
+        $event = new UserEvent(UserEventType::INTERACTIVE_LOGIN_FAILURE, $user);
         $this->dispatcher->dispatch($event->getType(), $event);
         throw new BadCredentialsException('Invalid credentials.');
     }

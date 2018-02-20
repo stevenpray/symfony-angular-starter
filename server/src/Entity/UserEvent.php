@@ -9,14 +9,18 @@ use DateTime;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 use Symfony\Component\EventDispatcher\Event;
-use Symfony\Component\Serializer\Annotation\Groups;
+use Symfony\Component\Serializer\Annotation as Serializer;
 
 /**
  * Class UserEvent
  *
  * @package App\Entity
  * @ApiResource(
- *  attributes={"access_control"="is_granted('ROLE_USER')"},
+ *  attributes={
+ *     "access_control"="is_granted('ROLE_ADMIN')",
+ *     "normalization_context"={"groups"={"read"}},
+ *     "denormalization_context"={"groups"={"write"}}
+ *  },
  *  collectionOperations={"get"={"method"="GET"}},
  *  itemOperations={"get"={"method"="GET"}}
  * )
@@ -31,7 +35,7 @@ class UserEvent extends Event
      * @ORM\Id()
      * @ORM\GeneratedValue(strategy="AUTO")
      * @ORM\Column(name="id", type="integer")
-     * @Groups("read")
+     * @Serializer\Groups("read")
      */
     protected $id;
 
@@ -39,13 +43,14 @@ class UserEvent extends Event
      * @var DateTime $createdAt
      * @Gedmo\Timestampable(on="create")
      * @ORM\Column(name="created_at", type="datetime")
+     * @Serializer\Groups({"read"})
      */
     protected $createdAt;
 
     /**
      * @var string
      * @ORM\Column(name="type", type="user_event_type")
-     * @Groups("read")
+     * @Serializer\Groups({"read"})
      */
     protected $type;
 
@@ -53,7 +58,8 @@ class UserEvent extends Event
      * @var User
      * @ApiSubresource()
      * @ORM\ManyToOne(targetEntity="User", inversedBy="userEvents", cascade={"persist", "remove"})
-     * @ORM\JoinColumn(name="user_id")
+     * @ORM\JoinColumn(name="user_id", onDelete="cascade")
+     * @Serializer\Groups({"read"})
      */
     protected $user;
 
@@ -61,10 +67,13 @@ class UserEvent extends Event
      * UserEvent constructor.
      *
      * @param string $type
+     * @param User $user
      */
-    public function __construct($type = null)
+    public function __construct(string $type, User $user)
     {
-        $this->type = $type;
+        $this->createdAt = new DateTime();
+        $this->setType($type);
+        $this->setUser($user);
     }
 
     /**
@@ -78,7 +87,7 @@ class UserEvent extends Event
     /**
      * @return DateTime
      */
-    public function getCreatedAt(): ?DateTime
+    public function getCreatedAt(): DateTime
     {
         return $this->createdAt;
     }
@@ -86,7 +95,7 @@ class UserEvent extends Event
     /**
      * @return string
      */
-    public function getType(): ?string
+    public function getType(): string
     {
         return $this->type;
     }
@@ -95,7 +104,7 @@ class UserEvent extends Event
      * @param string $type
      * @return $this
      */
-    public function setType($type): self
+    protected function setType($type): self
     {
         $this->type = $type;
 
@@ -105,7 +114,7 @@ class UserEvent extends Event
     /**
      * @return User
      */
-    public function getUser(): ?User
+    public function getUser(): User
     {
         return $this->user;
     }
@@ -114,7 +123,7 @@ class UserEvent extends Event
      * @param User $user
      * @return $this
      */
-    public function setUser(User $user): self
+    protected function setUser(User $user): self
     {
         $this->user = $user;
         if ($user->hasUserEvent($this) === false) {
