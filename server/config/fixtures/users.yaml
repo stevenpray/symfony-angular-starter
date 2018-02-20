@@ -45,7 +45,7 @@ App\Entity\User:
         lastname: '<lastName()>'
         emailAddress (unique): '<email()>'
         username (unique): '<username()>'
-        plainPassword: 'Passw0rd!'
+        plainPassword: 'P@ssw0rd'
         enabled: true
         roles:
             - 'ROLE_USER'
