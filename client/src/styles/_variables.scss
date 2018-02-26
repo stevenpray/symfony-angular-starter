@@ -1,14 +1,14 @@
+@import 'colors';
 @import 'functions';
 
 $base-font-size: 16px !default;
 $spacer: spacer() !default;
 
-$a-color: #2196f3 !default;
+$a-color: map-get($app-blue, 500) !default;
 $a-active-color: inherit !default;
 $a-hover-color: $a-color !default;
 $a-visited-color: $a-color !default;
-$body-background-color: white !default;
-$border-radius: 0;
+$border-radius: 0 !default;
 $border-width: px-to-rem(2px) !default;
 $font-family-default: -apple-system, BlinkMacSystemFont, Roboto, 'Segoe UI', Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol' !default;
 $font-family-compact: 'SF Compact Text', $font-family-default;
@@ -20,17 +20,17 @@ $font-size-sm: 0.75rem !default;
 $font-size-md: 1rem !default;
 $font-size-lg: 1.25rem !default;
 $font-size-xl: 1.5rem !default;
-$font-weight-bold: 500 !default;
-$font-weight-normal: 300 !default;
+$font-weight-bold: 700 !default;
+$font-weight-normal: 400 !default;
 $hr-height: $border-width !default;
-$html-background-color: white !default;
-$html-color: transparentize(black, 0.25) !default;
+$html-background-color: $light-primary-text !default;
+$html-color: $dark-primary-text !default;
 $html-font-size: 16px !default;
 $html-tap-highlight-color: transparentize($a-color, 0.5) !default;
 $input-color: $html-color !default;
 $input-range-thumb-size: 1rem !default;
 $input-range-track-height: ($border-width * 2) !default;
-$invalid-color: transparentize(red, 0.5) !default;
+$invalid-color: map-get($app-red, 500) !default;
 $mark-background-color: transparentize(gold, 0.5) !default;
 $outline-color: transparentize($a-color, 0.75) !default;
 $outline-offset: ($border-width / 2) !default;
@@ -38,13 +38,13 @@ $outline-width: ($border-width * 2) !default;
 $selection-background-color: $outline-color !default;
 $transition-duration: 200ms !default;
 $transition-timing: cubic-bezier(0.77, 0, 0.175, 1) !default;
-$border-color: transparentize($html-color, 0.5) !default;
+$border-color: $dark-dividers !default;
 
 // Computed.
 $border: $border-width solid $border-color;
 $line-height: ($spacer / 1rem);
 $indent-size: ($spacer * 2);
-$input-background-color: transparentize(white, 0.125);
+$input-background-color: $light-secondary-text;
 $input-padding-size: (($spacer / 4) - $border-width);
 $input-height: ($line-height * $font-size-md) + (2 * ($border-width + $input-padding-size));
 $outline: ($border-width * 2) solid $outline-color;

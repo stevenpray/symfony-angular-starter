@@ -75,7 +75,6 @@ body {
     min-height: 100vh;
     margin: 0;
     font-size: $font-size-md;
-    background-color: $body-background-color;
 }
 
 a,
@@ -145,6 +144,12 @@ h1 {
     margin: 0.67em 0;
 }
 
+h1,
+h2,
+h3 {
+    font-family: $font-family-display;
+}
+
 a {
     cursor: pointer;
     color: $a-color;
@@ -157,14 +162,14 @@ a {
         color: $a-visited-color;
     }
 
-    &:active,
-    &.active {
-        color: $a-active-color;
-    }
-
     &:hover,
     &:focus {
         color: $a-hover-color;
+    }
+
+    &:active,
+    &.active {
+        color: $a-active-color;
     }
 
     &:disabled {
@@ -247,6 +252,11 @@ pre,
 samp {
     font-family: $font-family-monospace, monospace;
     font-size: 0.9em;
+}
+
+code,
+kbd,
+samp {
     line-height: ($line-height / 0.9);
 }
 
@@ -326,15 +336,28 @@ progress {
     vertical-align: baseline;
 }
 
+.table-container {
+    display: block;
+    overflow: auto;
+}
+
 table {
     border-spacing: 0;
     border: ($border-width / 2) solid $border-color;
+}
+
+caption {
+    max-width: 100%;
+    text-align: start;
+    margin-top: spacer(1/4);
+    margin-bottom: spacer(1/4);
 }
 
 th,
 td {
     padding: $input-padding-size + ($border-width / 2);
     border: ($border-width / 2) solid $border-color;
+    white-space: nowrap;
 }
 
 fieldset {

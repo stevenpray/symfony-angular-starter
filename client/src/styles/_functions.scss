@@ -1,5 +1,4 @@
 $base-font-size: 16px !default;
-$colors: () !default;
 $font-sizes: () !default;
 $scale-ratio: 1.5 !default;
 $transition-duration: 300ms !default;
@@ -35,15 +34,6 @@ $transition-timing: linear !default;
         $spacer: px-to-rem(round(rem-to-px($spacer)));
     }
     @return $spacer;
-}
-
-$colors: () !default;
-@function color($color) {
-    @if map-has-key($colors, $color) {
-        @return map-get($colors, $color);
-    } @else {
-        @error 'Specified color '#{$color}' does not exist in '$colors'.';
-    }
 }
 
 $font-sizes: () !default;

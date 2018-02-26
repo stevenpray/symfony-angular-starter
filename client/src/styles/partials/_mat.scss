@@ -3,9 +3,9 @@
 
 @include mat-core();
 
-$mat-theme-primary: mat-palette($mat-blue);
-$mat-theme-accent: mat-palette($mat-pink, A200, A100, A400);
-$mat-theme-warn: mat-palette($mat-red);
+$mat-theme-primary: mat-palette($app-blue);
+$mat-theme-accent: mat-palette($app-orange, A200, A100, A400);
+$mat-theme-warn: mat-palette($app-red);
 $mat-theme: mat-light-theme($mat-theme-primary, $mat-theme-accent, $mat-theme-warn);
 @include angular-material-theme($mat-theme);
 
@@ -55,6 +55,7 @@ $mat-typography: mat-typography-config(
 .mat-button,
 .mat-raised-button {
     font-weight: $font-weight-normal;
+    font-variant: all-small-caps;
 
     &:hover {
         text-decoration: none;
@@ -75,6 +76,12 @@ $mat-typography: mat-typography-config(
     .mat-toolbar-spacer {
         flex: 1 1 auto;
     }
+}
+
+.mat-toolbar-row,
+.mat-toolbar-single-row {
+    height: spacer(3) !important;
+    padding: 0 spacer(4/3) !important;
 }
 
 .mat-snack-bar-container {
