@@ -64,5 +64,6 @@ $spacer: spacer() !default;
 td {
     &.numeric {
         text-align: right;
+        font-feature-settings: 'tnum';
     }
 }
