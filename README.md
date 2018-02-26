@@ -1,6 +1,6 @@
-[![Build Status](https://travis-ci.org/stevenpray/symfony-angular-starter.svg?branch=master)](https://travis-ci.org/stevenpray/symfony-angular-starter)
-[![Maintainability](https://api.codeclimate.com/v1/badges/1c9ef90324f12c0604ab/maintainability)](https://codeclimate.com/github/stevenpray/symfony-angular-starter/maintainability)
-[![Test Coverage](https://api.codeclimate.com/v1/badges/1c9ef90324f12c0604ab/test_coverage)](https://codeclimate.com/github/stevenpray/symfony-angular-starter/test_coverage)
+[![Build Status](https://img.shields.io/travis/stevenpray/symfony-angular-starter/master.svg?style=flat-square)](https://travis-ci.org/stevenpray/symfony-angular-starter)
+[![Maintainability](https://img.shields.io/codeclimate/maintainability/stevenpray/symfony-angular-starter.svg?style=flat-square)](https://codeclimate.com/github/stevenpray/symfony-angular-starter/maintainability)
+[![Test Coverage](https://img.shields.io/codeclimate/c/stevenpray/symfony-angular-starter.svg?style=flat-square)](https://codeclimate.com/github/stevenpray/symfony-angular-starter/test_coverage)
 
 # Symfony-Angular Starter
 
@@ -31,3 +31,6 @@ docker-compose up
 
 Obtain a token for API access:  
 `curl -X POST http://localhost:8001/login -d username=admin -d password=admin`
+
+Swagger API Docs  
+[http://localhost:8001/api/docs.json](http://localhost:8001/api/docs.json)
