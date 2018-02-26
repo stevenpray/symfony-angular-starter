@@ -22,3 +22,11 @@ Object.defineProperty(window, 'getComputedStyle', {
 Object.defineProperty(window, 'CSS', {
     value: () => undefined,
 });
+Object.defineProperty(document.body.style, 'transform', {
+    value: () => {
+        return {
+            enumerable: true,
+            configurable: true,
+        };
+    },
+});
