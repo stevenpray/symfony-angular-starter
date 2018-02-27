@@ -2,7 +2,7 @@ import {trigger} from '@angular/animations';
 import {Component, HostBinding, OnDestroy, OnInit} from '@angular/core';
 import {Subscription} from 'rxjs/Subscription';
 import {environment} from '../environments/environment';
-import {routeTransition} from './app.animations';
+import {routeTransition} from './shared/animations';
 import {AuthRole, AuthService} from './shared/auth';
 
 @Component({
@@ -21,8 +21,6 @@ export class AppComponent implements OnInit, OnDestroy {
     public environment = environment;
     public isAdmin = false;
     public isAuthenticated = false;
-    public title = 'Symfony-Angular Starter';
-
     @HostBinding('@app') public animate = true;
 
     constructor(private _auth: AuthService) {

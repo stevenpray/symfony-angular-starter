@@ -1,9 +1,9 @@
 security:
 
     access_control:
-        - { path: ^/docs,   roles: IS_AUTHENTICATED_ANONYMOUSLY }
-        - { path: ^/login,  roles: IS_AUTHENTICATED_ANONYMOUSLY }
-        - { path: ^/,       roles: IS_AUTHENTICATED_FULLY }
+        - { path: ^/,         roles: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/api/docs, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/api,      roles: IS_AUTHENTICATED_FULLY }
 
     encoders:
         App\Entity\User: bcrypt
@@ -15,13 +15,12 @@ security:
             guard:
                 authenticators:
                     - App\Security\UserAuthenticator
-        docs:
-            pattern: ^/docs
+        api_docs:
+            pattern: ^/api/docs
             stateless: true
             anonymous: true
-
         api:
-            pattern: ^/
+            pattern: ^/api
             stateless: true
             guard:
                 authenticators:

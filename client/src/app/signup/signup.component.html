@@ -1,0 +1,15 @@
+<header>
+    <h1><a routerLink="." routerLinkActive="active">Sign Up</a></h1>
+</header>
+<ng-container *ngIf="token; else signup">
+    <p>You&apos;re currently signed-in as <strong>{{ token.username }}</strong>.
+        <a class="link" (click)="logout($event)">Sign-out</a>.
+    </p>
+</ng-container>
+<ng-template #signup>
+    <div [@routeTransition]="o.isActivated ? o.activatedRoute.snapshot : null">
+        <router-outlet #o="outlet"></router-outlet>
+    </div>
+    <p>Already have an account? <a routerLink="/signin">Sign-in</a>.</p>
+</ng-template>
+

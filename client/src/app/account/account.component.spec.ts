@@ -1,16 +1,15 @@
 import {APP_BASE_HREF} from '@angular/common';
 import {async, TestBed} from '@angular/core/testing';
-import {RouterModule} from '@angular/router';
+import {AppModule} from '../app.module';
 import {AccountComponent} from './account.component';
 import {AccountModule} from './account.module';
-import {accountRoutes} from './account.routes';
 
 describe('AccountComponent', () => {
     beforeEach(async(() => {
         TestBed.configureTestingModule({
             imports: [
                 AccountModule,
-                RouterModule.forRoot(accountRoutes),
+                AppModule,
             ],
             providers: [
                 {provide: APP_BASE_HREF, useValue: '/'},
@@ -18,7 +17,7 @@ describe('AccountComponent', () => {
         }).compileComponents();
     }));
 
-    it('should create the component', async(() => {
+    it('should create', async(() => {
         const fixture = TestBed.createComponent(AccountComponent);
         const component = fixture.debugElement.componentInstance;
         expect(component).toBeTruthy();

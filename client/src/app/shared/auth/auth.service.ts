@@ -63,12 +63,13 @@ export class AuthService implements HttpInterceptor {
     }
 
     public isAuthorized(role: AuthRole, state?: RouterStateSnapshot): boolean {
-        log('Authorization required. Role "%s" required to access "%s".', AuthRole[role], state.url);
+        log('Authorization required. Role "%s" required to access "%s".', AuthRole[role], state ? state.url : null);
         if (!this.isAuthenticated) {
             log('Authentication required.');
             if (state) {
-                log('Redirecting to "%s" for interactive authentication.', this._config.urls.redirects.unauthenticated);
-                this._router.navigate([this._config.urls.redirects.unauthenticated, {url: state.url}]);
+                const url = this._config.urls.redirects.unauthenticated;
+                log('Redirecting to "%s" for interactive authentication.', url);
+                this._router.navigate([url, {url: state.url}]);
             }
             return false;
         }
@@ -78,7 +79,9 @@ export class AuthService implements HttpInterceptor {
         } else {
             log('Authorization failure.');
             if (state) {
-                this._router.navigateByUrl(this._config.urls.redirects.unauthorized);
+                const url = this._config.urls.redirects.unauthorized;
+                log('Redirecting to "%s".', url);
+                this._router.navigate([url, {url: state.url}]);
             }
         }
 
@@ -92,7 +95,7 @@ export class AuthService implements HttpInterceptor {
                        headers: new HttpHeaders().set('Content-Type', 'application/x-www-form-urlencoded'),
                        observe: 'response',
                    })
-                   .catch(error => {
+                   .catch((error: any, caught: Observable<HttpResponse<any>>) => {
                        log('Authentication failure.');
                        throw error;
                    })

@@ -47,7 +47,10 @@ abstract class ApiTestCase extends WebTestCase
     protected function authenticate(string $username, string $password = null): void
     {
         $this->client->request(Request::METHOD_POST, '/login', ['username' => $username, 'password' => $password]);
-        $data = json_decode($this->client->getResponse()->getContent(), true);
-        $this->client->setServerParameter('HTTP_AUTHORIZATION', 'Bearer '.$data['token']);
+        $response = $this->client->getResponse();
+        if ($response->isSuccessful()) {
+            $data = json_decode($response->getContent(), true);
+            $this->client->setServerParameter('HTTP_AUTHORIZATION', 'Bearer '.$data['token']);
+        }
     }
 }

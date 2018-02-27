@@ -1,8 +1,7 @@
 import {Routes} from '@angular/router';
 import {MetaGuard} from '@ngx-meta/core';
 import {DefaultComponent} from './default/default.component';
-import {HomeComponent} from './home/home.component';
-import {SigninComponent} from './signin/signin.component';
+import {IndexComponent} from './index/index.component';
 
 export const appRoutes: Routes = [
     {
@@ -10,11 +9,19 @@ export const appRoutes: Routes = [
         children: [
             {
                 path: '',
-                component: HomeComponent,
+                component: IndexComponent,
+            },
+            {
+                path: 'confirm/:token',
+                loadChildren: './confirm/confirm.module#ConfirmModule',
             },
             {
                 path: 'signin',
-                component: SigninComponent,
+                loadChildren: './signin/signin.module#SigninModule',
+            },
+            {
+                path: 'signup',
+                loadChildren: './signup/signup.module#SignupModule',
             },
             {
                 path: 'account',

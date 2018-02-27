@@ -40,7 +40,7 @@ use function strtoupper;
  *  }
  * )
  * @AssertUnique(fields={"username"})
- * @AssertUnique(fields={"emailAddress"})
+ * @AssertUnique(fields={"email"})
  * @ORM\Entity(repositoryClass="App\Repository\UserRepository")
  * @ORM\Table(name="users")
  */
@@ -90,10 +90,10 @@ class User implements AdvancedUserInterface
      * @var string
      * @Assert\NotNull()
      * @Assert\Email(strict=true, checkHost=true, checkMX=true)
-     * @ORM\Column(name="email_address", type="string", unique=true)
+     * @ORM\Column(name="email", type="string", unique=true)
      * @Serializer\Groups({"read", "write"})
      */
-    protected $emailAddress;
+    protected $email;
 
     /**
      * @var string
@@ -505,18 +505,18 @@ class User implements AdvancedUserInterface
     /**
      * @return string
      */
-    public function getEmailAddress(): ?string
+    public function getEmail(): ?string
     {
-        return $this->emailAddress;
+        return $this->email;
     }
 
     /**
-     * @param string $emailAddress
+     * @param string $email
      * @return $this
      */
-    public function setEmailAddress(string $emailAddress): self
+    public function setEmail(string $email): self
     {
-        $this->emailAddress = strtolower($emailAddress);
+        $this->email = strtolower($email);
 
         return $this;
     }

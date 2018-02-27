@@ -26,26 +26,26 @@ class UsersTest extends ApiTestCase
         $this->authenticate($username, $password);
         $data = [
             'username'      => 'test',
-            'emailAddress'  => 'test1@gmail.com',
+            'email'  => 'test1@gmail.com',
             'firstname'     => 'test',
             'lastname'      => 'test',
-            'plainPassword' => 'P@ssw0rd!',
+            'plainPassword' => 'P@ssw0rd',
         ];
-        $this->client->request(Request::METHOD_POST, '/users', [], [], [], json_encode($data));
+        $this->client->request(Request::METHOD_POST, '/api/users', [], [], [], json_encode($data));
         $response = $this->client->getResponse();
         $this->assertEquals($expected, $response->isSuccessful());
         $data = json_decode($response->getContent(), true);
         $this->assertArrayHasKey('id', $data);
 
-        $url = '/users/'.$data['id'];
+        $url = '/api/users/'.$data['id'];
 
-        $data = ['emailAddress' => 'test2@gmail.com'];
+        $data = ['email' => 'test2@gmail.com'];
         $this->client->request(Request::METHOD_PUT, $url, [], [], [], json_encode($data));
         $response = $this->client->getResponse();
         $this->assertEquals($expected, $response->isSuccessful());
         $data = json_decode($response->getContent(), true);
-        $this->assertArrayHasKey('emailAddress', $data);
-        $this->assertEquals('test2@gmail.com', $data['emailAddress']);
+        $this->assertArrayHasKey('email', $data);
+        $this->assertEquals('test2@gmail.com', $data['email']);
 
         $this->client->request(Request::METHOD_GET, $url);
         $response = $this->client->getResponse();
@@ -53,7 +53,7 @@ class UsersTest extends ApiTestCase
         $data = json_decode($response->getContent(), true);
         $this->assertArrayHasKey('id', $data);
 
-        $this->client->request(Request::METHOD_DELETE, '/users/'.$data['id']);
+        $this->client->request(Request::METHOD_DELETE, '/api/users/'.$data['id']);
         $response = $this->client->getResponse();
         $this->assertEquals($expected, $response->isSuccessful());
     }

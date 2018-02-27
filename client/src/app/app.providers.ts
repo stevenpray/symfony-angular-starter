@@ -7,7 +7,8 @@ export function appMetaProviderFactory(): MetaLoader {
         pageTitleSeparator: ' — ',
         applicationName: 'Symfony-Angular Starter',
         defaults: {
-            'og:type': 'website', 'og:locale': 'en_US',
+            'og:locale': 'en_US',
+            'og:type': 'website',
         },
     };
     return new MetaStaticLoader(settings);

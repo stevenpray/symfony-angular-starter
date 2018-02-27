@@ -3,7 +3,7 @@ App\Entity\User:
     user_super:
         firstname: '<firstName()>'
         lastname: '<lastName()>'
-        emailAddress (unique): '<email()>'
+        email: 'super@symfonyangularstarter'
         username: 'super'
         plainPassword: 'super'
         enabled: true
@@ -13,7 +13,7 @@ App\Entity\User:
     user_admin:
         firstname: '<firstName()>'
         lastname: '<lastName()>'
-        emailAddress (unique): '<email()>'
+        email: 'admin@symfonyangularstarter'
         username: 'admin'
         plainPassword: 'admin'
         enabled: true
@@ -23,7 +23,7 @@ App\Entity\User:
     user_user:
         firstname: '<firstName()>'
         lastname: '<lastName()>'
-        emailAddress (unique): '<email()>'
+        email: 'user@symfonyangularstarter'
         username: 'user'
         plainPassword: 'user'
         enabled: true
@@ -33,7 +33,7 @@ App\Entity\User:
     user_bighead:
         firstname: 'Nelson'
         lastname: 'Bighetti'
-        emailAddress: 'nelson.bighetti@hooli.xyz'
+        email: 'nelson.bighetti@hooli.xyz'
         username: 'password'
         plainPassword: 'password'
         enabled: true
@@ -43,7 +43,7 @@ App\Entity\User:
     user_{1..10}:
         firstname: '<firstName()>'
         lastname: '<lastName()>'
-        emailAddress (unique): '<email()>'
+        email (unique): '<email()>'
         username (unique): '<username()>'
         plainPassword: 'P@ssw0rd'
         enabled: true

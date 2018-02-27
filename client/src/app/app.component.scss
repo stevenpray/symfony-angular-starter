@@ -7,9 +7,21 @@
     min-height: 100vh;
 }
 
+header {
+    z-index: 4;
+    top: 0;
+    background-color: white;
+    border-bottom: $border;
+
+    @media screen and (min-height: 560px) {
+        position: sticky;
+    }
+}
+
 main {
     position: relative;
     flex: 1;
+    padding: spacer() spacer(2);
 }
 
 app-activity {

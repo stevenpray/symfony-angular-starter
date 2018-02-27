@@ -71,7 +71,7 @@ class UserEventSubscriber implements EventSubscriberInterface
         $user = $event->getUser();
         if (!$user->isLocked()) {
             $failures = $this->em->getRepository(UserEvent::class)->findConsecutiveLoginFailuresByUser($user);
-            if (count($failures) > $this->maxLoginAttempts) {
+            if (count($failures) >= $this->maxLoginAttempts) {
                 $user->setLocked(true);
                 $lockedEvent = new UserEvent(UserEventType::LOCKED, $user);
                 $this->dispatcher->dispatch($lockedEvent->getType(), $lockedEvent);

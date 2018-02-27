@@ -15,7 +15,7 @@ describe('DefaultComponent', () => {
         }).compileComponents();
     }));
 
-    it('should create the component', async(() => {
+    it('should create', async(() => {
         const fixture = TestBed.createComponent(DefaultComponent);
         const component = fixture.debugElement.componentInstance;
         expect(component).toBeTruthy();

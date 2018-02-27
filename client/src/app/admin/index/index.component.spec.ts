@@ -15,7 +15,7 @@ describe('IndexComponent', () => {
         }).compileComponents();
     }));
 
-    it('should create the component', async(() => {
+    it('should create', async(() => {
         const fixture = TestBed.createComponent(IndexComponent);
         const component = fixture.debugElement.componentInstance;
         expect(component).toBeTruthy();

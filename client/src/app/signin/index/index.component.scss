@@ -1,0 +1,39 @@
+@import '../../../styles/variables';
+@import '../../../styles/functions';
+
+:host {
+    display: block;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.alert {
+    margin-bottom: spacer();
+
+    .mat-error {
+        font-variant: all-small-caps;
+    }
+}
+
+fieldset {
+    display: flex;
+    flex-direction: column;
+
+    @media screen and (min-width: 600px) {
+        flex-direction: row;
+        align-items: center;
+    }
+}
+
+.mat-form-field,
+.mat-raised-button {
+    margin: 0 0 spacer() 0;
+
+    @media screen and (min-width: 600px) {
+        margin: 0 spacer(1/2);
+    }
+}

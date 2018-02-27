@@ -1,0 +1,33 @@
+<ng-container *ngIf="!token; else showForm">
+    <div class="alert">
+        <mat-error>Invalid or expired confirmation token</mat-error>
+    </div>
+    <button mat-raised-button
+            color="primary"
+            routerLink="/signin/help/password">Request a new confirmation link
+    </button>
+</ng-container>
+
+<ng-template #showForm>
+    <form *ngIf="!completed" [formGroup]="form" (submit)="submit($event)">
+        <fieldset [disabled]="submitting">
+            <mat-form-field>
+                <input matInput formControlName="password" placeholder="Password" type="password">
+                <mat-error *ngIf="form.controls['password'].hasError('required')">Password is required</mat-error>
+                <mat-error *ngIf="form.controls['password'].hasError('maxlength')">Password is too long</mat-error>
+                <mat-error *ngIf="form.controls['password'].hasError('minlength')">Password is too short</mat-error>
+                <mat-error *ngIf="form.controls['password'].hasError('password')">Password is too weak</mat-error>
+            </mat-form-field>
+            <mat-form-field>
+                <input matInput formControlName="passwordConfirm" placeholder="Confirm Password" type="password">
+                <mat-error *ngIf="form.controls['passwordConfirm'].hasError('required')">Password confirmation is required</mat-error>
+                <mat-error *ngIf="form.controls['passwordConfirm'].hasError('match')">Password confirmation does not match</mat-error>
+            </mat-form-field>
+            <button mat-raised-button
+                    color="primary"
+                    type="submit"
+                    [disabled]="!form.valid || submitting">Save Password
+            </button>
+        </fieldset>
+    </form>
+</ng-template>

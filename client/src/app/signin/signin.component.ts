@@ -1,16 +1,21 @@
+import {trigger} from '@angular/animations';
 import {HttpErrorResponse} from '@angular/common/http';
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {MatSnackBarConfig} from '@angular/material';
 import {ActivatedRoute, Params as RouteParams, Router} from '@angular/router';
 import {Subscription} from 'rxjs/Subscription';
-import {AuthService} from '../shared/auth';
+import {routeTransition} from '../shared/animations';
+import {AuthService, AuthToken} from '../shared/auth';
 import {NotificationService} from '../shared/notification';
 
 @Component({
     selector: 'app-signin',
-    styleUrls: ['./signin.component.scss'],
     templateUrl: './signin.component.html',
+    styleUrls: ['./signin.component.scss'],
+    animations: [
+        trigger('routeTransition', [routeTransition]),
+    ],
 })
 export class SigninComponent implements OnInit, OnDestroy {
 
@@ -24,6 +29,7 @@ export class SigninComponent implements OnInit, OnDestroy {
     public form: FormGroup;
     public completed = false;
     public submitting = false;
+    public token: AuthToken;
 
     constructor(private _auth: AuthService,
                 private _router: Router,
@@ -53,12 +59,17 @@ export class SigninComponent implements OnInit, OnDestroy {
 
     public ngOnInit(): void {
         this._subscriptions = [
+            this._auth.token$.subscribe(token => this.token = token),
             this._route.params.subscribe((params: RouteParams) => this._url = params.url ? params.url : SigninComponent.DEFAULT_URL),
         ];
     }
 
     public ngOnDestroy(): void {
         this._subscriptions.forEach(subscription => subscription.unsubscribe());
+    }
+
+    public logout(event?: Event): void {
+        this._auth.logout(false);
     }
 
     public submit(event?: Event): void {

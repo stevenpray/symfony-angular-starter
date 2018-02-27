@@ -19,7 +19,7 @@ describe('AppComponent', () => {
         }).compileComponents();
     }));
 
-    it('should create the component the component', async(() => {
+    it('should create', async(() => {
         fixture = TestBed.createComponent(AppComponent);
         component = fixture.debugElement.componentInstance;
         expect(component).toBeTruthy();

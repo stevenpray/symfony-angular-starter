@@ -1,18 +1,18 @@
 <header class="app-header">
     <mat-toolbar>
-        <a mat-button routerLink="/" rel="home">{{ title }}</a>
+        <a rel="home" mat-button routerLink="/" routerLinkActive="active">Symfony-Angular Starter</a>
         <span class="mat-toolbar-spacer"></span>
         <nav>
-            <a mat-button href="{{ environment.urls.api }}/docs.json" target="_blank">docs.json</a>
-            <a mat-button routerLink="/account">Account</a>
-            <a *ngIf="isAdmin" mat-button routerLink="/admin">Admin</a>
+            <a mat-button routerLink="/account" routerLinkActive="active">Account</a>
+            <a *ngIf="isAdmin" mat-button routerLink="/admin" routerLinkActive="active">Admin</a>
             <a *ngIf="isAuthenticated" mat-button (click)="logout()" class="link">Sign Out</a>
-            <a *ngIf="!isAuthenticated" mat-button routerLink="/signup" class="link">Sign Up</a>
+            <a *ngIf="!isAuthenticated" mat-button routerLink="/signup" routerLinkActive="active">Sign Up</a>
         </nav>
     </mat-toolbar>
 </header>
 <main [@routeTransition]="o.isActivated ? o.activatedRoute.snapshot : null">
     <router-outlet #o="outlet"></router-outlet>
 </main>
+<footer></footer>
 <app-activity></app-activity>
 <app-notification></app-notification>

@@ -6,7 +6,8 @@ namespace App\Repository;
 use App\DBAL\Types\UserEventType;
 use App\Entity\User;
 use App\Entity\UserEvent;
-use Doctrine\ORM\EntityRepository;
+use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\Common\Persistence\ManagerRegistry;
 use Doctrine\ORM\NonUniqueResultException;
 
 /**
@@ -14,8 +15,18 @@ use Doctrine\ORM\NonUniqueResultException;
  *
  * @package App\Repository
  */
-class UserEventRepository extends EntityRepository
+class UserEventRepository extends ServiceEntityRepository
 {
+    /**
+     * UserEventRepository constructor.
+     *
+     * @param ManagerRegistry $registry
+     */
+    public function __construct(ManagerRegistry $registry)
+    {
+        parent::__construct($registry, UserEvent::class);
+    }
+
     /**
      * @param User $user
      * @return UserEvent[]
@@ -30,7 +41,7 @@ class UserEventRepository extends EntityRepository
                         ->andWhere('user_event.type IN (:types)')
                         ->setParameter('types', $types)
                         ->setParameter('user', $user)
-                        ->orderBy('user_event.createdAt')
+                        ->orderBy('user_event.createdAt', 'DESC')
                         ->setMaxResults(1)
                         ->getQuery()
                         ->getOneOrNullResult();

@@ -1,5 +1,5 @@
 <header>
-    <h1>Account</h1>
+    <h1><a routerLink="." routerLinkActive="active">Account</a></h1>
 </header>
 <div [@routeTransition]="o.isActivated ? o.activatedRoute.snapshot : null">
     <router-outlet #o="outlet"></router-outlet>

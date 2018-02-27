@@ -1,6 +1,6 @@
 api_login:
     path: /login
 
-#controllers:
-#    resource: ../../src/Controller/
-#    type: annotation
+controllers:
+    resource: ../../src/Controller/
+    type: annotation

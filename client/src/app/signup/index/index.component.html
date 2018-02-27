@@ -1,0 +1,33 @@
+<ng-container *ngIf="completed; else showForm">
+    <p>Instructions to complete sign-up have been sent to your email address.</p>
+</ng-container>
+
+<ng-template #showForm>
+    <form [formGroup]="form" (submit)="submit($event)">
+        <fieldset [disabled]="submitting">
+            <mat-form-field>
+                <input matInput formControlName="firstname" placeholder="First Name" spellcheck="false">
+                <mat-error *ngIf="form.controls['firstname'].hasError('required')">First name is required</mat-error>
+            </mat-form-field>
+            <mat-form-field>
+                <input matInput formControlName="lastname" placeholder="Last Name" spellcheck="false">
+                <mat-error *ngIf="form.controls['lastname'].hasError('required')">Last name is required</mat-error>
+            </mat-form-field>
+            <mat-form-field>
+                <input matInput formControlName="email" placeholder="Email" type="email">
+                <mat-error *ngIf="form.controls['email'].hasError('required')">Email is required</mat-error>
+                <mat-error *ngIf="form.controls['email'].hasError('email')">Email is not valid</mat-error>
+                <mat-error *ngIf="form.controls['email'].hasError('exists')">Email is already in use</mat-error>
+            </mat-form-field>
+            <mat-form-field>
+                <input matInput formControlName="username" placeholder="Username" spellcheck="false">
+                <mat-error *ngIf="form.controls['username'].hasError('required')">Username is required</mat-error>
+                <mat-error *ngIf="form.controls['username'].hasError('exists')">Username is not available</mat-error>
+            </mat-form-field>
+            <button mat-raised-button
+                    color="primary"
+                    type="submit"
+                    [disabled]="!form.valid || submitting">Sign Up</button>
+        </fieldset>
+    </form>
+</ng-template>

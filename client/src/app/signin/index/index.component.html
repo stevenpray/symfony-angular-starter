@@ -1,0 +1,17 @@
+<form *ngIf="!completed" [formGroup]="form" (submit)="submit($event)">
+    <div class="alert">
+        <mat-error *ngIf="form.hasError('signin')">Wrong username and/or password</mat-error>
+    </div>
+    <fieldset [disabled]="submitting">
+        <mat-form-field>
+            <input matInput placeholder="Username" formControlName="username" id="username" required spellcheck="false">
+            <mat-hint><a routerLink="./help/username">Forgot username?</a></mat-hint>
+        </mat-form-field>
+        <mat-form-field>
+            <input matInput placeholder="Password" formControlName="password" id="password" type="password" required>
+            <mat-hint><a routerLink="./help/password">Forgot password?</a></mat-hint>
+        </mat-form-field>
+        <button mat-raised-button color="primary" type="submit" [disabled]="!form.valid || submitting">Sign In</button>
+    </fieldset>
+</form>
+

@@ -1,11 +1,15 @@
-<form *ngIf="!completed" [formGroup]="form" (submit)="submit()">
-    <fieldset [disabled]="submitting">
-        <mat-form-field>
-            <input matInput placeholder="Username" formControlName="username" id="username" required spellcheck="false">
-        </mat-form-field>
-        <mat-form-field>
-            <input matInput placeholder="Password" formControlName="password" id="password" type="password" required>
-        </mat-form-field>
-        <button mat-raised-button color="primary" type="submit" [disabled]="!form.valid || submitting">Sign In</button>
-    </fieldset>
-</form>
+<header>
+    <h1><a routerLink="." routerLinkActive="active">Sign In</a></h1>
+</header>
+<ng-container *ngIf="token; else signin">
+    <p>You&apos;re currently signed-in as <strong>{{ token.username }}</strong>.
+        <a class="link" (click)="logout($event)">Sign-out</a>.
+    </p>
+</ng-container>
+<ng-template #signin>
+    <div [@routeTransition]="o.isActivated ? o.activatedRoute.snapshot : null">
+        <router-outlet #o="outlet"></router-outlet>
+    </div>
+    <p>Don&apos;t have an account? <a routerLink="/signup">Sign-up</a>.</p>
+</ng-template>
+

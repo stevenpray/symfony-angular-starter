@@ -1,0 +1,19 @@
+<ng-container *ngIf="completed; else showForm">
+    <p>Instructions to recover your username have been sent to your email address.</p>
+</ng-container>
+
+<ng-template #showForm>
+    <form [formGroup]="form" (submit)="submit($event)">
+        <fieldset [disabled]="submitting">
+            <mat-form-field>
+                <input matInput formControlName="email" placeholder="Email Address" type="email">
+                <mat-error *ngIf="form.controls['email'].hasError('email')">Email address is not valid</mat-error>
+            </mat-form-field>
+            <button mat-raised-button
+                    color="primary"
+                    type="submit"
+                    [disabled]="!form.valid || submitting">Recover Username</button>
+        </fieldset>
+    </form>
+</ng-template>
+

@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace App\Tests\Functional;
 
+use Doctrine\ORM\EntityManager;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\HttpFoundation\Request;
 
@@ -13,6 +14,39 @@ use Symfony\Component\HttpFoundation\Request;
  */
 class LoginTest extends WebTestCase
 {
+    /**
+     * @var EntityManager
+     */
+    protected $em;
+
+    /**
+     * @var int
+     */
+    protected $maxLoginAttempts;
+
+    /**
+     * {@inheritdoc}
+     */
+    protected function setUp()
+    {
+        parent::setUp();
+
+        $kernel = static::bootKernel();
+        $container = $kernel->getContainer();
+        $this->em = $container->get('doctrine')->getEntityManager();
+        $this->maxLoginAttempts = $container->getParameter('max_login_attempts');
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    protected function tearDown()
+    {
+        parent::tearDown();
+
+        $this->em = null;
+    }
+
     /**
      * @dataProvider provideCredentials
      * @param string|null $username

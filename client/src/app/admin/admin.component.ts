@@ -1,6 +1,6 @@
 import {trigger} from '@angular/animations';
 import {Component} from '@angular/core';
-import {routeTransition} from '../app.animations';
+import {routeTransition} from '../shared/animations';
 
 @Component({
     selector: 'app-admin',
