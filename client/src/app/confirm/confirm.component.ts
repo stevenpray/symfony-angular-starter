@@ -21,10 +21,10 @@ export class ConfirmComponent implements OnInit, OnDestroy {
 
     constructor(private _route: ActivatedRoute, private _service: ConfirmService, fb: FormBuilder) {
         this.form = fb.group({}, {updateOn: 'change'});
-        const passwordControl = new FormControl('', [Validators.required, ConfirmComponent._validatePassword]);
+        const passwordControl = new FormControl('', [Validators.required, this._validatePassword]);
         const passwordConfirmControl = new FormControl({value: '', disabled: true}, [
             Validators.required,
-            ConfirmComponent._validateMatches,
+            this._validateMatches,
         ]);
         this.form.addControl('password', passwordControl);
         this.form.addControl('passwordConfirm', passwordConfirmControl);
@@ -64,7 +64,7 @@ export class ConfirmComponent implements OnInit, OnDestroy {
         console.log(data);
     }
 
-    private static _validateMatches(control: AbstractControl): ValidationErrors|null {
+    private _validateMatches(control: AbstractControl): ValidationErrors|null {
         const passwordConfirmValue: string = control.value;
         if (passwordConfirmValue.length) {
             const passwordValue = control.parent.get('password').value;
@@ -76,7 +76,7 @@ export class ConfirmComponent implements OnInit, OnDestroy {
         return null;
     }
 
-    public static _validatePassword(control: AbstractControl): ValidationErrors|null {
+    private _validatePassword(control: AbstractControl): ValidationErrors|null {
         const password: string = control.value;
         if (password.length) {
             const maxLength = 4096;
